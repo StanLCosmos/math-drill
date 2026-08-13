@@ -1,0 +1,1643 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stanのドリル — 中学受験レベルの算数 15問</title>
+<meta name="description" content="Stanのドリル：日本の小学1〜6年生むけ算数ドリル。学年をえらぶと難関私立中の入試レベルの問題を15問、毎回ランダムに出題します。自動採点とタイム計測つき。日本語／中文／English。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stanのドリル — 中学受験レベルの算数 15問">
+<meta property="og:description" content="学年をえらぶだけ。毎回ちがう15問、自動採点とスピード判定つき。日本語／中文／English。">
+<meta name="theme-color" content="#27467C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%90%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --paper:#EFF2F7;
+  --card:#FFFFFF;
+  --card-2:#F7F9FC;
+  --ink:#161E29;
+  --ink-soft:#57637A;
+  --ink-faint:#8A94A6;
+  --rule:#D4DAE5;
+  --ai:#27467C;
+  --ai-2:#5C8AC4;
+  --ai-wash:#E3EAF5;
+  --shu:#C3402B;
+  --shu-wash:#F7E3DF;
+  --matcha:#3D7551;
+  --matcha-wash:#E1EFE5;
+  --shadow:0 1px 2px rgba(22,30,41,.06),0 8px 24px -12px rgba(22,30,41,.18);
+  --disp:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Songti SC","Noto Serif JP",serif;
+  --body:"Hiragino Sans","Yu Gothic",YuGothic,"PingFang SC","Noto Sans JP",system-ui,sans-serif;
+  --data:ui-monospace,"SF Mono",Menlo,"Roboto Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#111721;--card:#19202B;--card-2:#1F2734;--ink:#E8EDF5;--ink-soft:#98A4B8;
+    --ink-faint:#6E7A8D;--rule:#2B3543;--ai:#8FB2E6;--ai-2:#6C93CC;--ai-wash:#1E2A3D;
+    --shu:#E97961;--shu-wash:#3A2220;--matcha:#77C08E;--matcha-wash:#1D2E24;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111721;--card:#19202B;--card-2:#1F2734;--ink:#E8EDF5;--ink-soft:#98A4B8;
+  --ink-faint:#6E7A8D;--rule:#2B3543;--ai:#8FB2E6;--ai-2:#6C93CC;--ai-wash:#1E2A3D;
+  --shu:#E97961;--shu-wash:#3A2220;--matcha:#77C08E;--matcha-wash:#1D2E24;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}
+:root[data-theme="light"]{
+  --paper:#EFF2F7;--card:#FFFFFF;--card-2:#F7F9FC;--ink:#161E29;--ink-soft:#57637A;
+  --ink-faint:#8A94A6;--rule:#D4DAE5;--ai:#27467C;--ai-2:#5C8AC4;--ai-wash:#E3EAF5;
+  --shu:#C3402B;--shu-wash:#F7E3DF;--matcha:#3D7551;--matcha-wash:#E1EFE5;
+  --shadow:0 1px 2px rgba(22,30,41,.06),0 8px 24px -12px rgba(22,30,41,.18);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  -webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:24px 20px 80px}
+.topbar{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:26px}
+.brand{font-family:var(--disp);font-size:22px;font-weight:600;letter-spacing:.04em}
+.brand .en{font-family:var(--data);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint);margin-left:10px}
+.spacer{flex:1}
+.ghost{appearance:none;background:none;border:1px solid var(--rule);color:var(--ink-soft);
+  font-family:var(--data);font-size:11px;letter-spacing:.1em;padding:5px 10px;border-radius:2px;cursor:pointer}
+.ghost:hover{border-color:var(--ai);color:var(--ai)}
+.ghost:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--ai-2);outline-offset:2px}
+
+/* ---- 言語スイッチ ---- */
+.langs{display:inline-flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.lg{appearance:none;background:none;border:none;border-left:1px solid var(--rule);cursor:pointer;
+  font-family:var(--data);font-size:11px;letter-spacing:.08em;padding:5px 9px;color:var(--ink-faint);
+  transition:.13s}
+.lg:first-child{border-left:none}
+.lg:hover{color:var(--ai)}
+.lg[aria-pressed="true"]{background:var(--ai);color:var(--paper)}
+.lg:focus-visible{outline:2px solid var(--ai-2);outline-offset:-2px}
+
+/* ---- 欢迎载入页 ---- */
+.splash{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;place-items:center;
+  padding:28px;text-align:center;transition:opacity .55s ease,visibility .55s}
+.splash.out{opacity:0;visibility:hidden;pointer-events:none}
+.splash-in{max-width:30rem;display:flex;flex-direction:column;align-items:center}
+.seal{width:44px;height:44px;display:grid;place-items:center;border:2px solid var(--shu);
+  border-radius:3px;color:var(--shu);font-family:var(--disp);font-size:24px;font-weight:600;
+  transform:rotate(-6deg);margin-bottom:22px;animation:rise .7s cubic-bezier(.2,.7,.3,1) both}
+.brandmark{font-family:var(--disp);font-weight:600;font-size:clamp(32px,7.5vw,52px);letter-spacing:.09em;
+  line-height:1.2;animation:rise .7s cubic-bezier(.2,.7,.3,1) .1s both}
+.brandrule{width:56px;height:1px;background:var(--rule);margin:20px 0;
+  animation:rise .7s cubic-bezier(.2,.7,.3,1) .22s both}
+.splash-msg{margin:0;font-size:14.5px;line-height:1.75;color:var(--ink-soft);max-width:26rem;
+  text-wrap:balance;animation:rise .7s cubic-bezier(.2,.7,.3,1) .3s both}
+.splash-msg + .splash-msg{margin-top:12px;animation-delay:.42s}
+.splash-bar{width:150px;height:2px;background:var(--rule);margin-top:32px;overflow:hidden;border-radius:2px}
+.splash-bar i{display:block;height:100%;width:0;background:var(--ai);animation:fill 3.8s linear forwards}
+.splash-skip{margin-top:16px;appearance:none;background:none;border:none;cursor:pointer;
+  font-family:var(--data);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+.splash-skip:hover{color:var(--ai)}
+.splash .langs{margin-top:26px}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@keyframes fill{from{width:0}to{width:100%}}
+
+/* ---- フッター ---- */
+.foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);font-size:12.5px;
+  color:var(--ink-faint);line-height:1.7}
+.foot b{font-family:var(--disp);color:var(--ink-soft);font-weight:600}
+
+.lede{font-family:var(--disp);font-size:clamp(28px,5vw,40px);line-height:1.3;margin:0 0 10px;
+  text-wrap:balance;letter-spacing:.02em}
+.sub{color:var(--ink-soft);font-size:14.5px;margin:0 0 30px;max-width:56ch}
+
+.eyebrow{font-family:var(--data);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint);margin:0 0 12px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.tile{position:relative;text-align:left;background:var(--card);border:1px solid var(--rule);
+  border-radius:3px;padding:16px 16px 14px;cursor:pointer;font-family:var(--body);color:var(--ink);
+  transition:border-color .15s,transform .15s,box-shadow .15s;display:flex;gap:14px;align-items:flex-start}
+.tile:hover{border-color:var(--ai-2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.tile[aria-pressed="true"]{border-color:var(--ai);box-shadow:inset 0 0 0 1px var(--ai)}
+.tile[aria-pressed="true"] .num{background:var(--ai);color:var(--card);border-color:var(--ai)}
+.num{flex:none;width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--rule);
+  border-radius:2px;font-family:var(--disp);font-size:19px;background:var(--card-2);transition:.15s}
+.tname{display:block;font-family:var(--disp);font-size:16px;font-weight:600;letter-spacing:.03em}
+.tdesc{display:block;font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:3px}
+
+.cta{margin-top:26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.btn{appearance:none;border:none;background:var(--ai);color:var(--paper);font-family:var(--body);
+  font-weight:600;font-size:15px;letter-spacing:.06em;padding:13px 30px;border-radius:2px;cursor:pointer;
+  transition:filter .15s,opacity .15s}
+.btn:hover{filter:brightness(1.12)}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.btn.quiet{background:transparent;color:var(--ai);box-shadow:inset 0 0 0 1px var(--rule)}
+.hint{font-size:12.5px;color:var(--ink-faint)}
+
+.log{margin-top:34px;border-top:1px solid var(--rule);padding-top:16px}
+.log table{width:100%;border-collapse:collapse;font-size:13px}
+.log td{padding:6px 0;border-bottom:1px solid var(--rule);color:var(--ink-soft)}
+.log td:first-child{font-family:var(--disp);color:var(--ink)}
+.log td.n{font-family:var(--data);text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---- 答案用紙 rail ---- */
+.sheet{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+.rail{display:flex;gap:3px;flex:1;min-width:230px}
+.cell{flex:1;height:26px;border:1px solid var(--rule);border-radius:1px;background:var(--card);
+  display:grid;place-items:center;font-family:var(--data);font-size:10px;color:var(--ink-faint);
+  position:relative;transition:.2s}
+.cell.done{background:var(--ai-wash);border-color:var(--ai-2);color:var(--ai)}
+.cell.now{border-color:var(--ai);box-shadow:inset 0 0 0 1.5px var(--ai);color:var(--ai)}
+.cell.sec{margin-left:11px;position:relative}
+.cell.sec::before{content:"";position:absolute;left:-7px;top:2px;bottom:2px;
+  border-left:1px solid var(--shu);opacity:.5}
+.clock{font-family:var(--data);font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:.02em;
+  color:var(--ink);min-width:76px;text-align:right}
+.clock.warn{color:var(--shu)}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:26px 26px 24px;
+  box-shadow:var(--shadow)}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.qno{font-family:var(--data);font-size:12px;color:var(--ink-faint);letter-spacing:.1em}
+.tag{font-size:11px;letter-spacing:.08em;color:var(--ai);background:var(--ai-wash);
+  border-radius:2px;padding:3px 8px}
+.tag.hard{color:var(--shu);background:var(--shu-wash)}
+.qtext{font-family:var(--disp);font-size:clamp(18px,2.6vw,21px);line-height:1.85;margin:0;
+  white-space:pre-wrap;letter-spacing:.02em}
+.qtext b{color:var(--ai);font-weight:600}
+.fig{font-family:var(--data);font-size:13px;line-height:1.75;color:var(--ink-soft);
+  background:var(--card-2);border-left:2px solid var(--ai-2);padding:10px 14px;margin:16px 0 0;
+  white-space:pre;overflow-x:auto;border-radius:0 2px 2px 0}
+
+.answer{margin-top:22px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;background:var(--card-2);
+  border:1px solid var(--rule);border-radius:2px;padding:12px 14px;cursor:pointer;
+  font-family:var(--body);font-size:15px;color:var(--ink);transition:.13s}
+.opt:hover{border-color:var(--ai-2)}
+.opt[aria-pressed="true"]{border-color:var(--ai);background:var(--ai-wash);box-shadow:inset 0 0 0 1px var(--ai)}
+.opt .key{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;
+  border:1px solid var(--rule);font-family:var(--data);font-size:11px;color:var(--ink-faint)}
+.opt[aria-pressed="true"] .key{background:var(--ai);border-color:var(--ai);color:var(--card)}
+.fill{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fill input{font-family:var(--data);font-size:24px;padding:10px 14px;width:190px;
+  background:var(--card-2);border:1px solid var(--rule);border-bottom:2px solid var(--ai);
+  border-radius:2px 2px 0 0;color:var(--ink)}
+.unit{font-family:var(--disp);font-size:17px;color:var(--ink-soft)}
+.note{font-size:12.5px;color:var(--ink-faint);margin-top:10px}
+.qfoot{display:flex;align-items:center;gap:14px;margin-top:24px;flex-wrap:wrap}
+
+/* ---- result ---- */
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 8px}
+@media(max-width:520px){.scores{grid-template-columns:1fr}}
+.score{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:20px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden}
+.score .lab{font-family:var(--data);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.score .big{font-family:var(--data);font-size:44px;font-variant-numeric:tabular-nums;line-height:1.15;
+  margin-top:6px;letter-spacing:-.01em}
+.score .big small{font-size:17px;color:var(--ink-soft)}
+.score .meta{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
+.rank{position:absolute;top:14px;right:16px;width:52px;height:52px;display:grid;place-items:center;
+  font-family:var(--disp);font-size:27px;font-weight:600;border-radius:50%;
+  border:2.5px solid var(--shu);color:var(--shu);transform:rotate(-7deg)}
+.rank.d{border-color:var(--ink-faint);color:var(--ink-faint)}
+.bar{height:5px;background:var(--card-2);border-radius:3px;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:var(--ai)}
+.review{margin-top:30px;display:grid;gap:10px}
+.rv{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--matcha);
+  border-radius:2px;padding:14px 16px;display:flex;gap:14px}
+.rv.bad{border-left-color:var(--shu)}
+.mark{flex:none;font-family:var(--disp);font-size:22px;color:var(--matcha);width:24px;text-align:center;
+  line-height:1.3}
+.rv.bad .mark{color:var(--shu)}
+.rv .body{flex:1;min-width:0}
+.rv .q{font-family:var(--disp);font-size:15px;line-height:1.7;white-space:pre-wrap}
+.rv .ans{font-size:13px;margin-top:7px;color:var(--ink-soft);font-family:var(--data);
+  display:flex;gap:16px;flex-wrap:wrap}
+.rv .ans b{color:var(--matcha);font-weight:600}
+.rv.bad .ans b{color:var(--shu)}
+.rv .rvtag{display:inline-block;margin-bottom:7px}
+.rv .rvfig{font-size:12px;margin:8px 0 0;padding:8px 12px}
+.rv .exp{font-size:13px;color:var(--ink-soft);margin-top:7px;line-height:1.7;
+  border-top:1px dashed var(--rule);padding-top:7px}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="splash" id="splash">
+  <div class="splash-in">
+    <div class="seal">算</div>
+    <div class="brandmark">Stanのドリル</div>
+    <div class="brandrule"></div>
+    <p class="splash-msg" id="spMsg1"></p>
+    <p class="splash-msg" id="spMsg2"></p>
+    <div class="splash-bar"><i></i></div>
+    <button class="splash-skip" id="spSkip" type="button"></button>
+    <span class="langs" id="langsSplash"></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">Stanのドリル<span class="en" id="brandEn">15 questions</span></span>
+    <span class="spacer"></span>
+    <span class="langs" id="langsTop"></span>
+  </div>
+
+  <!-- ===== START ===== -->
+  <section id="scStart">
+    <h1 class="lede" id="sTitle"></h1>
+    <p class="sub" id="sSub"></p>
+    <p class="eyebrow" id="sPick"></p>
+    <div class="grid" id="grades"></div>
+    <div class="cta">
+      <button class="btn" id="startBtn" type="button" disabled></button>
+      <span class="hint" id="sHint"></span>
+    </div>
+    <div class="log hidden" id="logBox">
+      <p class="eyebrow" id="sLog"></p>
+      <table><tbody id="logRows"></tbody></table>
+    </div>
+    <p class="foot" id="sFoot"></p>
+  </section>
+
+  <!-- ===== QUIZ ===== -->
+  <section id="scQuiz" class="hidden">
+    <div class="sheet">
+      <div class="rail" id="rail"></div>
+      <div class="clock" id="clock">0:00</div>
+    </div>
+    <div class="card">
+      <div class="qhead"><span class="qno" id="qno"></span><span class="tag" id="qtag"></span></div>
+      <p class="qtext" id="qtext"></p>
+      <div id="qfig"></div>
+      <div class="answer" id="qans"></div>
+      <div class="qfoot">
+        <button class="btn" id="nextBtn" type="button"></button>
+        <span class="hint" id="qhint"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section id="scResult" class="hidden">
+    <h1 class="lede" id="rTitle"></h1>
+    <div class="scores">
+      <div class="score">
+        <div class="lab" id="rL1"></div>
+        <div class="big" id="rAcc"></div>
+        <div class="meta" id="rAccM"></div>
+        <div class="bar"><i id="rBar"></i></div>
+      </div>
+      <div class="score">
+        <div class="lab" id="rL2"></div>
+        <div class="big" id="rTime"></div>
+        <div class="meta" id="rTimeM"></div>
+        <div class="rank" id="rRank"></div>
+      </div>
+    </div>
+    <p class="hint" id="rScale"></p>
+    <div class="review" id="review"></div>
+    <div class="cta">
+      <button class="btn" id="againBtn" type="button"></button>
+      <button class="btn quiet" id="homeBtn" type="button"></button>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ============================ i18n ============================ */
+const LANGS = [['ja','日本語'],['zh','中文'],['en','EN']];
+let LANG = localStorage.getItem('md_lang') || 'ja';
+if(!LANGS.some(l => l[0] === LANG)) LANG = 'ja';
+const G = (ja, zh, en) => ({ja, zh, en: en ?? ja});
+const L = o => (o && typeof o === 'object' && 'ja' in o) ? (o[LANG] ?? o.ja) : o;
+const UI = {
+  title:  G('中学受験レベルの算数ドリル','面向名校入学考试的数学练习','Entrance-exam level math drills'),
+  sub:    G('学年をえらぶと、その学年までに習う内容から15問を自動で作ります。計算・数の性質・文章題・図形・場合の数まで、難易度は難関私立中の入試レベル。4〜6年は入試と同じように、後半に何段階も考える応用問題が3〜5問 入ります。時間もはかります。',
+            '选择年级后，系统会从该年级已学范围内自动生成 15 道题。涵盖计算、数的性质、应用题、几何、计数，难度对标顶级私立中学入学考试。4〜6 年级会像真实入学考试一样，在后半段混入 3〜5 道需要多步推理的综合题。全程计时。',
+            'Pick a grade and the app writes 15 fresh questions drawn from everything taught up to that year — arithmetic, number theory, word problems, geometry, counting — pitched at the entrance exams of Japan’s selective private middle schools. Grades 4 to 6 end with 3 to 5 multi-step applied problems, just like the real papers. The clock runs throughout.'),
+  pick:   G('学年をえらぶ','选择年级','Choose a grade'),
+  start:  G('はじめる','开始','Start'),
+  hint:   G('15問・自動採点・タイム計測','15 题 · 自动评分 · 计时','15 questions · auto-graded · timed'),
+  logT:   G('これまでの記録','历史记录','Past attempts'),
+  next:   G('つぎへ','下一题','Next'),
+  last:   G('採点する','提交并评分','Finish and grade'),
+  qhint:  G('Enter でつぎへ','按 Enter 进入下一题','Press Enter for the next question'),
+  qhintC: G('数字キー 1〜4 でもえらべます','也可用数字键 1〜4 选择','You can also press 1–4 to choose'),
+  answerU:G('答え','答案','Answer'),
+  fracN:  G('分数は 3/4 のように、帯分数は 1 1/2 のように入力','分数请写成 3/4，带分数写成 1 1/2','Write fractions as 3/4 and mixed numbers as 1 1/2'),
+  rTitle: G('採点けっか','本次成绩','Your results'),
+  L1:     G('正答率','正确率','Score'),
+  L2:     G('タイム','用时','Time'),
+  target: G('目標タイム','目标用时','Target'),
+  scale:  G('スピード判定 ── A：目標タイム以内／B：120%以内／C：150%以内／D：それ以上。目標タイムは今回の15問の分量から計算しています。',
+            '速度评级 ── A：目标用时以内／B：120% 以内／C：150% 以内／D：超出。目标用时按本次 15 题的题量估算。',
+            'Speed grade — A: within the target / B: within 120% / C: within 150% / D: beyond. The target is calculated from the workload of this particular set of 15.'),
+  again:  G('もう一度（同じ学年）','再来一次（同年级）','Again, same grade'),
+  home:   G('学年をえらび直す','换个年级','Pick another grade'),
+  your:   G('きみの答え','你的答案','You answered'),
+  correct:G('正しい答え','正确答案','Correct answer'),
+  blank:  G('（むかいとう）','（未作答）','(left blank)'),
+  msg1:   G('通勤 0分、集中は 100%。今日の在宅ワークも、ごきげんに はかどりますように。',
+            '通勤零分钟，专注百分之百——祝今天的居家办公，愉快又高效。',
+            'Zero-minute commute, focus dialled to eleven — here’s to a home-office day that actually works.'),
+  msg2:   G('ようこそ。使ってみて気になったところ、「こんな機能がほしい」は、遠慮なく Stan まで。',
+            '欢迎使用。哪里别扭、想加什么功能，尽管跟 Stan 说。',
+            'Welcome aboard. Gripes, wishes and wild feature ideas all go to Stan.'),
+  skip:   G('スキップ','跳过','Skip'),
+  foot:   G('Stanのドリル ── 感想と機能のリクエストは、いつでも Stan まで。','Stanのドリル ── 使用感受和功能建议，随时找 Stan。','Stanのドリル — send thoughts and feature requests to Stan, any time.'),
+  gradeN: n => G(`小学${n}年`, `小学 ${n} 年级`, `Grade ${n}`),
+  qofn:   (i,n) => G(`第 ${i} 問 / 全 ${n} 問`, `第 ${i} 题 / 共 ${n} 题`, `Question ${i} of ${n}`),
+  hitN:   n => G(`15問中 ${n}問 正解`, `15 题中答对 ${n} 题`, `${n} of 15 correct`),
+  ratio:  p => G(`目標の ${p}%`, `为目标用时的 ${p}%`, `${p}% of target`)
+};
+const GRADE_DESC = {
+  1: G('たし算ひき算のくふう・順序・時計・数のきまり','加减法技巧 · 顺序 · 时钟 · 数列规律','Adding and subtracting · order · clocks · number patterns'),
+  2: G('かけ算九九・単位・時間・周期・植木算のはじめ','乘法口诀 · 单位 · 时间 · 周期 · 植树问题','Times tables · units · elapsed time · cycles · trees and gaps'),
+  3: G('わり算とあまり・小数分数のはじめ・和差算・円','除法与余数 · 小数分数入门 · 和差问题 · 圆','Division with remainders · first decimals and fractions · sum and difference · circles'),
+  4: G('がい数・小数の乗除・面積と角度・平均・分配算 ＋ 応用','近似数 · 小数乘除 · 面积与角度 · 平均 · 和差倍 ＋ 综合题','Rounding · decimal × ÷ · area and angles · averages ＋ applied problems'),
+  5: G('倍数約数・割合・速さ・図形の面積・過不足算 ＋ 応用','倍数约数 · 百分比 · 速度 · 图形面积 · 盈亏 ＋ 综合题','Factors and multiples · percentages · speed · area · surplus and shortage ＋ applied'),
+  6: G('分数の乗除・円と立体・比・場合の数・旅人算 ＋ 応用','分数乘除 · 圆与立体 · 比 · 计数 · 行程 ＋ 综合题','Fraction × ÷ · circles and solids · ratio · counting · travel problems ＋ applied')
+};
+
+/* ============================ helpers ============================ */
+const R = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+const P = a => a[Math.floor(Math.random()*a.length)];
+const SH = a => { const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; };
+const gcd = (a,b) => b ? gcd(b, a%b) : Math.abs(a);
+const lcm = (a,b) => a/gcd(a,b)*b;
+const num = n => { const r = Math.round(n*1e6)/1e6; return String(r); };
+/* English article before a number: an 8, an 11, an 18, an 80 … otherwise a */
+const AN = n => { const s = String(n); return (s[0]==='8' || s==='11' || s==='18') ? 'an' : 'a'; };
+function fr(n,d){ const g=gcd(n,d)||1; n/=g; d/=g; if(d===1) return String(n); return n+'/'+d; }
+function frMixed(n,d){ const g=gcd(n,d)||1; n/=g; d/=g; if(d===1) return String(n);
+  if(n>d){ const w=Math.floor(n/d); return w+' '+(n-w*d)+'/'+d; } return n+'/'+d; }
+
+/* question builders */
+function QI(o){ // fill-in
+  return {kind:'input', tag:o.tag, q:o.q, fig:o.fig||null, unit:o.unit||null,
+          val:o.val, disp:o.disp!=null?String(o.disp):num(o.val), note:o.note||null,
+          exp:o.exp, sec:o.sec};
+}
+function QC(o){ // multiple choice; o.opts = [text...], o.ci = index of correct
+  const idx = SH(o.opts.map((_,i)=>i));
+  return {kind:'choice', tag:o.tag, q:o.q, fig:o.fig||null,
+          opts: idx.map(i=>o.opts[i]), ci: idx.indexOf(o.ci),
+          exp:o.exp, sec:o.sec};
+}
+/* numeric answer parsing: 12, 3.5, 3/4, 1 1/2, １２ (full width), 12cm */
+function parseNum(s){
+  if(s==null) return null;
+  let t = String(s).replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0))
+    .replace(/[．。]/g,'.').replace(/[／]/g,'/').replace(/[，,]/g,'')
+    .replace(/と/g,' ').replace(/\s+/g,' ').trim();
+  t = t.replace(/[^0-9./ -]/g,'').trim();
+  if(!t) return null;
+  let m = t.match(/^(-?\d+)\s+(\d+)\/(\d+)$/);
+  if(m) return (+m[1]) + (m[1][0]==='-'?-1:1)*(+m[2])/(+m[3]);
+  m = t.match(/^(-?\d+)\/(\d+)$/);
+  if(m) return (+m[1])/(+m[2]);
+  m = t.match(/^-?\d*\.?\d+$/);
+  if(m) return parseFloat(t);
+  return null;
+}
+const same = (a,b) => a!=null && Math.abs(a-b) < 1e-6*Math.max(1,Math.abs(b));
+
+const BANK = {1:[],2:[],3:[],4:[],5:[],6:[]};
+/* 応用問題（複数の考え方を組み合わせる多段の問題）。各回の後半に 3〜5問 まざる */
+const COMP = {4:[],5:[],6:[]};
+const CQ = fn => () => { const q = fn(); q.hard = true; return q; };
+/* ======================= 小学1年 ======================= */
+BANK[1].push(
+()=>{ const a=R(6,9),b=R(4,9),c=R(3,9);
+  return QI({tag:G('計算','计算','Arithmetic'),q:G(`つぎの 計算を しましょう。\n\n[[${a} + ${b} + ${c}]]`,`计算：\n\n[[${a} + ${b} + ${c}]]`,`Work this out.\n\n[[${a} + ${b} + ${c}]]`),
+    val:a+b+c,sec:20,exp:G(`${a}+${b}=${a+b}、${a+b}+${c}=${a+b+c}。前から じゅんに たします。`,`${a}+${b}=${a+b}，再加 ${c} 得 ${a+b+c}。`,`Add from the left: ${a}+${b}=${a+b}, then ${a+b}+${c}=${a+b+c}.`)});},
+
+()=>{ const b=R(4,9),ans=R(5,9),a=ans+b;
+  const f=P([0,1]);
+  return f===0
+    ? QI({tag:G('虫くい算','填空计算','Missing number'),q:G(`□に あてはまる 数を 答えましょう。\n\n[[${a} − □ = ${b}]]`,`求 □：\n\n[[${a} − □ = ${b}]]`,`Find the missing number.\n\n[[${a} − □ = ${b}]]`),
+        val:ans,sec:25,exp:G(`ひかれる数 − 答え = ひく数 なので ${a}−${b}=${ans}。`,`被减数减差：${a}−${b}=${ans}。`,`Take the answer away from the first number: ${a}−${b}=${ans}.`)})
+    : QI({tag:G('虫くい算','填空计算','Missing number'),q:G(`□に あてはまる 数を 答えましょう。\n\n[[□ + ${b} = ${a}]]`,`求 □：\n\n[[□ + ${b} = ${a}]]`,`Find the missing number.\n\n[[□ + ${b} = ${a}]]`),
+        val:a-b,sec:25,exp:G(`${a}−${b}=${a-b}。`,`${a}−${b}=${a-b}。`,`${a}−${b}=${a-b}.`)});},
+
+()=>{ const f=R(4,9),b=R(4,9);
+  return QI({tag:G('じゅんばん','顺序问题','Order'),q:G(`子どもが 一れつに ならんで います。\nたろうさんは 前から ${f}番目、後ろから ${b}番目です。\nみんなで 何人 いますか。`,
+      `小朋友排成一队。太郎从前面数是第 ${f} 个，从后面数是第 ${b} 个。一共有多少人？`,
+      `Children are standing in one line.\nTaro is ${f}th from the front and ${b}th from the back.\nHow many children are there altogether?`),
+    unit:G('人','人','children'),val:f+b-1,sec:35,
+    exp:G(`${f}+${b}=${f+b} だと たろうさんを 2回 数えて います。1をひいて ${f+b-1}人。`,
+          `${f}+${b}=${f+b} 把太郎数了两次，减 1 得 ${f+b-1} 人。`,
+          `${f}+${b}=${f+b} counts Taro twice. Subtract 1 to get ${f+b-1}.`)});},
+
+()=>{ const a=R(1,5),d=R(2,5),n=R(8,12);
+  const seq=[a,a+d,a+2*d,a+3*d].join('、'), seqe=[a,a+d,a+2*d,a+3*d].join(', ');
+  return QI({tag:G('数のきまり','数列规律','Number pattern'),q:G(`数が つぎのように ならんで います。\n\n[[${seq}、…]]\n\n${n}番目の 数は いくつですか。`,
+      `数按下面的规律排列：\n\n[[${seq}、…]]\n\n第 ${n} 个数是多少？`,
+      `These numbers follow a rule.\n\n[[${seqe}, …]]\n\nWhat is the ${n}th number?`),
+    val:a+d*(n-1),sec:40,
+    exp:G(`${d}ずつ ふえます。1番目から ${n-1}回 ふえるので ${a}+${d}×${n-1}=${a+d*(n-1)}。`,
+          `每次加 ${d}。从第1个加了 ${n-1} 次：${a}+${d}×${n-1}=${a+d*(n-1)}。`,
+          `It goes up by ${d} each time, ${n-1} times after the first: ${a}+${d}×${n-1}=${a+d*(n-1)}.`)});},
+
+()=>{ const h=R(1,8),m=R(15,55),ad=R(20,50),t=h*60+m+ad;
+  const f=x=>`${Math.floor(x/60)}時${x%60}分`, fz=x=>`${Math.floor(x/60)}点${x%60}分`,
+        fe=x=>`${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}`;
+  const o=[t,t+60,t-15,t+25];
+  return QC({tag:G('とけい','时钟','Clock'),q:G(`いま ${h}時${m}分 です。\nこれから ${ad}分 たつと 何時何分に なりますか。`,
+      `现在是 ${h} 点 ${m} 分。再过 ${ad} 分钟是几点几分？`,
+      `It is ${fe(h*60+m)} now.\nWhat time will it be in ${ad} minutes?`),
+    opts:o.map(x=>G(f(x),fz(x),fe(x))),ci:0,sec:35,
+    exp:G(`${60-m}分で ${h+1}時。のこり ${ad-(60-m)}分 すすんで ${f(t)}。`,
+          `再过 ${60-m} 分到 ${h+1} 点，还剩 ${ad-(60-m)} 分，所以是 ${fz(t)}。`,
+          `${60-m} minutes reaches ${h+1}:00, and ${ad-(60-m)} more gives ${fe(t)}.`)});},
+
+()=>{ const a=R(3,6),b=R(4,7);
+  return QI({tag:G('ならべ方','排列','Arrays'),q:G(`おはじきを たて ${a}れつ、よこ ${b}れつ に きれいに ならべました。\nおはじきは ぜんぶで 何こ ありますか。`,
+      `把棋子摆成 ${a} 行 ${b} 列。一共有多少个？`,
+      `Counters are laid out neatly in ${a} rows of ${b}.\nHow many counters are there in all?`),
+    unit:G('こ','个','counters'),val:a*b,sec:30,
+    exp:G(`1れつに ${b}こ が ${a}れつ 分。${b}を ${a}回 たして ${a*b}こ。`,`每行 ${b} 个，共 ${a} 行：${a*b} 个。`,
+          `${b} in each row, ${a} rows: ${a*b} counters.`)});},
+
+()=>{ const s=R(12,18),e=R(5,9),g=R(4,9);
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`あめを ${s}こ もって いました。\n${e}こ 食べて、そのあと ${g}こ もらいました。\nいま あめは 何こ ありますか。`,
+      `原来有 ${s} 颗糖，吃掉 ${e} 颗，之后又得到 ${g} 颗。现在有多少颗？`,
+      `You had ${s} sweets.\nYou ate ${e} of them, then someone gave you ${g} more.\nHow many sweets do you have now?`),
+    unit:G('こ','个','sweets'),val:s-e+g,sec:30,
+    exp:G(`${s}−${e}=${s-e}、${s-e}+${g}=${s-e+g}。じゅんに 計算します。`,`${s}−${e}=${s-e}，再加 ${g} 得 ${s-e+g}。`,
+          `Step by step: ${s}−${e}=${s-e}, then ${s-e}+${g}=${s-e+g}.`)});},
+
+()=>{ const t=P([8,9,10,11,12]);
+  let c=0; for(let i=1;i<=9;i++) for(let j=i+1;j<=9;j++) if(i+j===t) c++;
+  return QI({tag:G('しらべ方','枚举','Listing'),q:G(`1から9までの カードが 1まいずつ あります。\nこの中から 2まい えらんで、たして ${t}に する えらび方は 何通り ありますか。`,
+      `有 1〜9 各一张卡片。从中选 2 张，使和为 ${t}，有多少种选法？`,
+      `There is one card each for the numbers 1 to 9.\nHow many ways can you pick 2 cards that add up to ${t}?`),
+    unit:G('通り','种','ways'),val:c,sec:45,
+    exp:G(`小さい ほうから じゅんに しらべると ${c}通り。じゅんばんは 考えません。`,
+          `从小到大有序枚举，共 ${c} 种（不计顺序）。`,
+          `List them in order starting from the smallest: ${c} ways. The order of the two cards does not matter.`)});},
+
+()=>{ let v,o;
+  do{ const a=R(3,7),b=R(1,9),n2=R(20,69),c=R(30,79),k=R(2,9),m=R(20,69);
+    v=[10*a+b,n2,c-k,m];
+    o=[G(`10が ${a}こと 1が ${b}こ`,`${a} 个十和 ${b} 个一`,`${a} tens and ${b} ones`),G(`${n2}`,`${n2}`,`${n2}`),
+       G(`${c}より ${k} 小さい 数`,`比 ${c} 小 ${k} 的数`,`${k} less than ${c}`),G(`1が ${m}こ`,`${m} 个一`,`${m} ones`)];
+  }while(new Set(v).size<4);
+  const ci=v.indexOf(Math.max(...v));
+  return QC({tag:G('数のせいしつ','数的组成','Place value'),q:G('つぎのうち、いちばん 大きい 数は どれですか。','下面哪个数最大？','Which of these is the largest number?'),
+    opts:o,ci:ci,sec:40,exp:G(`それぞれ ${v.join('、')} です。`,`四个数分别是 ${v.join('、')}。`,`The four values are ${v.join(', ')}.`)});},
+
+()=>{ const p=R(3,4),n=R(4,6),r=R(1,3);
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`あめを 1人に ${p}こずつ ${n}人に くばったら、${r}こ あまりました。\nあめは はじめ 何こ ありましたか。`,
+      `每人分 ${p} 颗糖，分给 ${n} 个人后还剩 ${r} 颗。原来有多少颗糖？`,
+      `Sweets were shared out, ${p} each, to ${n} children, and ${r} were left over.\nHow many sweets were there to begin with?`),
+    unit:G('こ','个','sweets'),val:p*n+r,sec:40,
+    exp:G(`くばった 分は ${p}を ${n}回 たして ${p*n}こ。あまりを たして ${p*n+r}こ。`,
+          `分出去 ${p}×${n}=${p*n} 颗，加上剩下的 ${r} 颗，共 ${p*n+r} 颗。`,
+          `${p}×${n}=${p*n} were given out; add the ${r} left over to get ${p*n+r}.`)});},
+
+()=>{ const tot=R(11,15),f=R(3,5),b=R(3,5);
+  return QI({tag:G('じゅんばん','顺序问题','Order'),q:G(`${tot}人が 一れつに ならんで います。\nたろうさんは 前から ${f}番目、はなこさんは 後ろから ${b}番目です。\n2人の 間には 何人 いますか。`,
+      `${tot} 个人排成一队。太郎从前数第 ${f} 个，花子从后数第 ${b} 个。两人之间有几个人？`,
+      `${tot} children stand in one line.\nTaro is ${f}th from the front and Hanako is ${b}th from the back.\nHow many children stand between them?`),
+    unit:G('人','人','children'),val:tot-f-b,sec:45,
+    exp:G(`ぜんぶ ${tot}人から、たろうさんまでの ${f}人と、はなこさんまでの ${b}人を ひいて ${tot-f-b}人。`,
+          `${tot}−${f}−${b}=${tot-f-b} 人。`,
+          `Take away the ${f} up to Taro and the ${b} up to Hanako: ${tot}−${f}−${b}=${tot-f-b}.`)});},
+
+()=>{ const a=R(6,12),b=a+R(3,8);
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`赤い 花が ${a}本、白い 花が ${b}本 あります。\n白い 花は 赤い 花より 何本 多いですか。`,
+      `红花 ${a} 朵，白花 ${b} 朵。白花比红花多几朵？`,
+      `There are ${a} red flowers and ${b} white flowers.\nHow many more white flowers are there than red ones?`),
+    unit:G('本','朵','flowers'),val:b-a,sec:25,exp:G(`${b}−${a}=${b-a}本。`,`${b}−${a}=${b-a} 朵。`,`${b}−${a}=${b-a}.`)});}
+);
+
+/* ======================= 小学2年 ======================= */
+BANK[2].push(
+()=>{ const a=R(3,9),b=R(4,9);
+  return QI({tag:G('九九','乘法口诀','Times tables'),q:G(`□に あてはまる 数を 答えましょう。\n\n[[□ × ${a} = ${a*b}]]`,`求 □：\n\n[[□ × ${a} = ${a*b}]]`,`Find the missing number.\n\n[[□ × ${a} = ${a*b}]]`),
+    val:b,sec:20,exp:G(`${a}のだんで ${a*b}に なるのは ${a}×${b}。`,`${a} 的乘法表中得 ${a*b} 的是 ${a}×${b}。`,`In the ${a} times table, ${a*b} comes from ${a}×${b}.`)});},
+
+()=>{ const a=R(230,690),b=R(150,290);
+  return P([0,1])===0
+    ? QI({tag:G('計算','计算','Arithmetic'),q:G(`つぎの 計算を しましょう。\n\n[[${a} + ${b}]]`,`计算：\n\n[[${a} + ${b}]]`,`Work this out.\n\n[[${a} + ${b}]]`),val:a+b,sec:30,
+        exp:G(`くらいを そろえて たします。答えは ${a+b}。`,`竖式对齐相加，得 ${a+b}。`,`Line up the place values and add: ${a+b}.`)})
+    : QI({tag:G('計算','计算','Arithmetic'),q:G(`つぎの 計算を しましょう。\n\n[[${a+b} − ${b}]]`,`计算：\n\n[[${a+b} − ${b}]]`,`Work this out.\n\n[[${a+b} − ${b}]]`),val:a,sec:30,
+        exp:G(`くり下がりに 気を つけて ${a}。`,`注意退位，得 ${a}。`,`Watch the borrowing: ${a}.`)});},
+
+()=>{ const k=P([
+    ()=>{const a=R(1,4),b=R(1,9);return{q:G(`${a}L${b}dL は 何mL ですか。`,`${a}L${b}dL 等于多少 mL？`,`How many mL is ${a}L ${b}dL?`),v:a*1000+b*100,u:G('mL','mL','mL'),
+      e:G(`1L=1000mL、1dL=100mL。${a*1000}+${b*100}=${a*1000+b*100}mL。`,`1L=1000mL，1dL=100mL，合计 ${a*1000+b*100}mL。`,`1L=1000mL and 1dL=100mL, so ${a*1000}+${b*100}=${a*1000+b*100}mL.`)};},
+    ()=>{const a=R(1,4),b=R(10,90);return{q:G(`${a}m${b}cm は 何cm ですか。`,`${a}m${b}cm 等于多少 cm？`,`How many cm is ${a}m ${b}cm?`),v:a*100+b,u:G('cm','cm','cm'),
+      e:G(`1m=100cm なので ${a*100}+${b}=${a*100+b}cm。`,`1m=100cm，共 ${a*100+b}cm。`,`1m=100cm, so ${a*100}+${b}=${a*100+b}cm.`)};},
+    ()=>{const a=R(2,9),b=R(1,9);return{q:G(`${a}cm${b}mm は 何mm ですか。`,`${a}cm${b}mm 等于多少 mm？`,`How many mm is ${a}cm ${b}mm?`),v:a*10+b,u:G('mm','mm','mm'),
+      e:G(`1cm=10mm なので ${a*10+b}mm。`,`1cm=10mm，共 ${a*10+b}mm。`,`1cm=10mm, so the answer is ${a*10+b}mm.`)};}])();
+  return QI({tag:G('たんい','单位换算','Units'),q:k.q,val:k.v,unit:k.u,sec:30,exp:k.e});},
+
+()=>{ const h=R(8,10),m=R(20,50),d=R(30,90),t=h*60+m+d;
+  const fe=x=>`${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}`;
+  return QI({tag:G('時こくと時間','时刻与时间','Elapsed time'),q:G(`${h}時${m}分から ${Math.floor(t/60)}時${t%60}分まで、時間は 何分 ありますか。`,
+      `从 ${h} 点 ${m} 分到 ${Math.floor(t/60)} 点 ${t%60} 分，一共经过多少分钟？`,
+      `How many minutes are there from ${fe(h*60+m)} to ${fe(t)}?`),
+    unit:G('分','分钟','minutes'),val:d,sec:35,
+    exp:G(`${h}時${m}分から ${h+1}時までが ${60-m}分、そこから ${d-(60-m)}分。合わせて ${d}分。`,
+          `先到整点 ${60-m} 分，再加 ${d-(60-m)} 分，共 ${d} 分钟。`,
+          `${60-m} minutes to reach ${h+1}:00, then ${d-(60-m)} more — ${d} minutes in total.`)});},
+
+()=>{ const a=R(6,9),b=R(4,8),e=R(3,9);
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`1はこに ${a}こ 入った クッキーが ${b}はこ あります。\nそのうち ${e}こ 食べました。\nクッキーは 何こ のこって いますか。`,
+      `每盒 ${a} 块饼干，共 ${b} 盒，吃掉 ${e} 块。还剩多少块？`,
+      `There are ${b} boxes of biscuits with ${a} in each box.\n${e} biscuits have been eaten.\nHow many biscuits are left?`),
+    unit:G('こ','块','biscuits'),val:a*b-e,sec:35,
+    exp:G(`${a}×${b}=${a*b}こ から ${e}こ ひいて ${a*b-e}こ。`,`${a}×${b}=${a*b}，减 ${e} 得 ${a*b-e} 块。`,
+          `${a}×${b}=${a*b} in total, minus ${e} eaten, leaves ${a*b-e}.`)});},
+
+()=>{ const p=R(3,4),cj=['赤','青','黄','緑'].slice(0,p),cz=['红','蓝','黄','绿'].slice(0,p),
+        ce=['red','blue','yellow','green'].slice(0,p);
+  const n=R(23,68),k=(n-1)%p;
+  return QC({tag:G('きまり','周期规律','Repeating pattern'),q:G(`ボールを ${cj.join('・')} の じゅんに くりかえし ならべます。\n左から ${n}番目の ボールは 何色ですか。`,
+      `按 ${cz.join('、')} 的顺序循环排列小球。从左数第 ${n} 个是什么颜色？`,
+      `Balls are laid out repeating the order ${ce.join(', ')}.\nWhat colour is the ${n}th ball from the left?`),
+    opts:cj.map((c,i)=>G(c,cz[i],ce[i])),ci:k,sec:40,
+    exp:G(`${p}個ごとの くりかえし。${n}÷${p}=${Math.floor(n/p)}あまり${n%p} なので ${k+1}番目の 色。`,
+          `每 ${p} 个一循环，${n}÷${p}=${Math.floor(n/p)}余${n%p}，对应第 ${k+1} 个颜色。`,
+          `The pattern repeats every ${p}. ${n}÷${p}=${Math.floor(n/p)} remainder ${n%p}, so it is the ${k+1}${['st','nd','rd','th'][Math.min(k,3)]} colour.`)});},
+
+()=>{ const d=P([2,3,4,5]),n=R(6,12),len=d*n;
+  return QI({tag:G('植木算','植树问题','Trees and gaps'),q:G(`まっすぐな 道の はしから はしまで、${d}mおきに 木を うえます。\n道の 長さが ${len}m のとき、木は 何本 いりますか。`,
+      `在一条直路上从头到尾每隔 ${d} 米种一棵树。路长 ${len} 米，需要多少棵树？`,
+      `Trees are planted every ${d}m along a straight road, from one end to the other.\nThe road is ${len}m long. How many trees are needed?`),
+    unit:G('本','棵','trees'),val:n+1,sec:40,
+    exp:G(`間の数は ${len}÷${d}=${n}。両はしにも うえるので 木は ${n}+1=${n+1}本。`,
+          `间隔数 ${len}÷${d}=${n}，两端都种，树 = 间隔数 + 1 = ${n+1} 棵。`,
+          `There are ${len}÷${d}=${n} gaps. Both ends get a tree, so trees = gaps + 1 = ${n+1}.`)});},
+
+()=>{ const d=P([2,3,4,8]);
+  const opts=[2,3,4,8],ci=opts.indexOf(d);
+  const w={2:'half',3:'a third',4:'a quarter',8:'an eighth'};
+  return QC({tag:G('分数','分数','Fractions'),q:G(`ケーキを 同じ 大きさに ${d}つに 分けました。\nその 1つ分は、もとの 大きさの どれだけですか。`,
+      `把一个蛋糕平均分成 ${d} 份，其中 1 份是原来的多少？`,
+      `A cake is cut into ${d} equal pieces.\nOne piece is how much of the whole cake?`),
+    opts:opts.map(x=>G(`${x}分の1`,`${x} 分之一`,w[x])),ci:ci,sec:25,
+    exp:G(`同じ 大きさに ${d}つに 分けた 1つ分だから ${d}分の1。`,`平均分成 ${d} 份，一份就是 ${d} 分之一。`,
+          `Cut into ${d} equal parts, one part is ${w[d]}.`)});},
+
+()=>{ const set=P([
+   {q:G('四角形に ついて、正しい ものは どれですか。','关于四边形，下面哪句话是对的？','Which statement about a quadrilateral is true?'),
+    o:[G('へんが 4本 ある','有 4 条边','It has 4 sides'),G('かどが 3つ ある','有 3 个角','It has 3 corners'),
+       G('三角形より へんが 少ない','边比三角形少','It has fewer sides than a triangle'),G('へんは かならず 同じ 長さ','四条边一定一样长','All four sides must be equal')],c:0,
+    e:G('四角形は へんが4本、かどが4つ ある形です。','四边形有 4 条边 4 个角，边不一定等长。','A quadrilateral has 4 sides and 4 corners; the sides need not be equal.')},
+   {q:G('長方形に ついて、正しい ものは どれですか。','关于长方形，下面哪句话是对的？','Which statement about a rectangle is true?'),
+    o:[G('4つの かどが みんな 直角','四个角都是直角','All four corners are right angles'),G('へんが 3本','有 3 条边','It has 3 sides'),
+       G('4つの へんが みんな 同じ 長さ','四条边都相等','All four sides are equal'),G('直角は 2つ だけ','只有 2 个直角','It has exactly 2 right angles')],c:0,
+    e:G('長方形は 4つの かどが すべて 直角。4辺が 等しい ものは 正方形です。','长方形四个角都是直角；四边都相等的是正方形。','A rectangle has four right angles; the one with four equal sides is a square.')}]);
+  return QC({tag:G('図形','图形','Shapes'),q:set.q,opts:set.o,ci:set.c,sec:30,exp:set.e});},
+
+()=>{ const t=P([0,1]),n=R(7,10);
+  if(t===0){ const v=n*(n+1)/2;
+    return QI({tag:G('数のきまり','数列规律','Number pattern'),q:G(`1、3、6、10、15、… と ならんで います。\n${n}番目の 数は いくつですか。`,
+        `1、3、6、10、15、… 按此规律排列。第 ${n} 个数是多少？`,
+        `The numbers go 1, 3, 6, 10, 15, …\nWhat is the ${n}th number?`),val:v,sec:45,
+      exp:G(`ふえ方が 2、3、4、… です。1から ${n}までを たして ${v}。`,`每次增加 2、3、4…，即 1+2+…+${n}=${v}。`,
+            `The jumps are 2, 3, 4, …, so it is 1+2+…+${n}=${v}.`)});}
+  const a=R(2,6),d=R(3,7),v=a+d*(n-1);
+  return QI({tag:G('数のきまり','数列规律','Number pattern'),q:G(`${a}、${a+d}、${a+2*d}、${a+3*d}、… と ならんで います。\n${n}番目の 数は いくつですか。`,
+      `${a}、${a+d}、${a+2*d}、${a+3*d}、… 按此规律排列。第 ${n} 个数是多少？`,
+      `The numbers go ${a}, ${a+d}, ${a+2*d}, ${a+3*d}, …\nWhat is the ${n}th number?`),val:v,sec:40,
+    exp:G(`${d}ずつ ふえるので ${a}+${d}×${n-1}=${v}。`,`每次加 ${d}：${a}+${d}×${n-1}=${v}。`,`It rises by ${d} each time: ${a}+${d}×${n-1}=${v}.`)});},
+
+()=>{ const b=R(27,58),ans=R(30,60);
+  return P([0,1])===0
+    ? QI({tag:G('虫くい算','填空计算','Missing number'),q:G(`□に あてはまる 数を 答えましょう。\n\n[[□ − ${b} = ${ans}]]`,`求 □：\n\n[[□ − ${b} = ${ans}]]`,`Find the missing number.\n\n[[□ − ${b} = ${ans}]]`),
+        val:ans+b,sec:25,exp:G(`${ans}+${b}=${ans+b}。`,`${ans}+${b}=${ans+b}。`,`${ans}+${b}=${ans+b}.`)})
+    : QI({tag:G('虫くい算','填空计算','Missing number'),q:G(`□に あてはまる 数を 答えましょう。\n\n[[${b} + □ = ${b+ans}]]`,`求 □：\n\n[[${b} + □ = ${b+ans}]]`,`Find the missing number.\n\n[[${b} + □ = ${b+ans}]]`),
+        val:ans,sec:25,exp:G(`${b+ans}−${b}=${ans}。`,`${b+ans}−${b}=${ans}。`,`${b+ans}−${b}=${ans}.`)});},
+
+()=>{ const p=P([20,30,40,50]),n=R(4,9),tot=p*n;
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`1本 ${p}円の えんぴつを 何本か 買って、ちょうど ${tot}円 はらいました。\nえんぴつを 何本 買いましたか。`,
+      `每支 ${p} 日元的铅笔，一共付了 ${tot} 日元。买了几支？`,
+      `Pencils cost ${p} yen each. You paid exactly ${tot} yen.\nHow many pencils did you buy?`),
+    unit:G('本','支','pencils'),val:n,sec:30,
+    exp:G(`${p}を 何回 たすと ${tot}に なるかを 考えて ${n}本。`,`${tot}÷${p}=${n} 支。`,`How many ${p}s make ${tot}? ${tot}÷${p}=${n}.`)});},
+
+()=>{ let a,b,c,d;
+  do{ a=R(4,9);b=R(4,9);c=R(4,9);d=R(4,9);}while(a*b===c*d);
+  const v1=a*b,v2=c*d,ci=v1>v2?0:1;
+  return QC({tag:G('九九','乘法比较','Times tables'),q:G(`${a}×${b} と ${c}×${d} では、どちらが 大きいですか。`,`${a}×${b} 和 ${c}×${d} 哪个大？`,`Which is bigger, ${a}×${b} or ${c}×${d}?`),
+    opts:[G(`${a}×${b}`,`${a}×${b}`,`${a}×${b}`),G(`${c}×${d}`,`${c}×${d}`,`${c}×${d}`),G('同じ','一样大','They are equal'),G('くらべられない','无法比较','You cannot tell')],ci:ci,sec:30,
+    exp:G(`${a}×${b}=${v1}、${c}×${d}=${v2}。`,`${a}×${b}=${v1}，${c}×${d}=${v2}。`,`${a}×${b}=${v1} and ${c}×${d}=${v2}.`)});}
+);
+/* ======================= 小学3年 ======================= */
+const WJ=['日','月','火','水','木','金','土'], WZ=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+      WE=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+BANK[3].push(
+()=>{ const cap=R(4,8),n=cap*R(6,14)+R(1,cap-1),t=Math.ceil(n/cap);
+  return QI({tag:G('わり算とあまり','除法与余数','Division with remainder'),q:G(`${n}人の 子どもが、1台に ${cap}人まで 乗れる ゴンドラに 乗ります。\n全員が 乗るには ゴンドラは 何台 いりますか。`,
+      `${n} 个小朋友要坐缆车，每台最多坐 ${cap} 人。全部坐下至少需要几台？`,
+      `${n} children are riding cable cars that hold up to ${cap} people each.\nHow many cars are needed for everyone?`),
+    unit:G('台','台','cars'),val:t,sec:40,
+    exp:G(`${n}÷${cap}=${Math.floor(n/cap)}あまり${n%cap}。あまった ${n%cap}人にも 1台 いるので ${t}台。`,
+          `${n}÷${cap}=${Math.floor(n/cap)}余${n%cap}，余下的 ${n%cap} 人还要 1 台，共 ${t} 台。`,
+          `${n}÷${cap}=${Math.floor(n/cap)} remainder ${n%cap}. The last ${n%cap} still need a car, so ${t}.`)});},
+
+()=>{ const a=R(23,89),k=P([10,100]),v=a*k*10;
+  return QI({tag:G('大きな数','大数','Large numbers'),q:G(`${v} を ${k}で わった 数は いくつですか。`,`${v} 除以 ${k} 得多少？`,`What is ${v} divided by ${k}?`),
+    val:v/k,sec:30,exp:G(`${k}で わると くらいが ${String(k).length-1}つ 下がるので ${v/k}。`,
+      `除以 ${k}，各数位下降 ${String(k).length-1} 位，得 ${v/k}。`,
+      `Dividing by ${k} shifts every digit ${String(k).length-1} place down: ${v/k}.`)});},
+
+()=>{ let a,b; do{ a=R(15,89); b=R(15,89); }while(a%10===0||b%10===0||(a+b)%10===0);
+  return P([0,1])===0
+    ? QI({tag:G('小数','小数','Decimals'),q:G(`つぎの 計算を しましょう。\n\n[[${a/10} + ${b/10}]]`,`计算：\n\n[[${a/10} + ${b/10}]]`,`Work this out.\n\n[[${a/10} + ${b/10}]]`),
+        val:(a+b)/10,sec:30,exp:G(`小数点を そろえて たすと ${(a+b)/10}。`,`小数点对齐相加，得 ${(a+b)/10}。`,`Line up the decimal points and add: ${(a+b)/10}.`)})
+    : QI({tag:G('小数','小数','Decimals'),q:G(`つぎの 計算を しましょう。\n\n[[${(a+b)/10} − ${b/10}]]`,`计算：\n\n[[${(a+b)/10} − ${b/10}]]`,`Work this out.\n\n[[${(a+b)/10} − ${b/10}]]`),
+        val:a/10,sec:30,exp:G(`小数点を そろえて ひくと ${a/10}。`,`小数点对齐相减，得 ${a/10}。`,`Line up the decimal points and subtract: ${a/10}.`)});},
+
+()=>{ const d=R(5,9),x=R(1,d-2),y=R(1,d-x-1);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`つぎの 計算を しましょう。答えは 分数で 書きましょう。\n\n[[${x}/${d} + ${y}/${d}]]`,
+      `计算（用分数作答）：\n\n[[${x}/${d} + ${y}/${d}]]`,
+      `Work this out. Give your answer as a fraction.\n\n[[${x}/${d} + ${y}/${d}]]`),
+    val:(x+y)/d,disp:fr(x+y,d),note:UI.fracN,sec:30,
+    exp:G(`分母は そのまま、分子を たして ${x+y}/${d}。`,`分母不变，分子相加得 ${x+y}/${d}。`,`Keep the denominator, add the numerators: ${x+y}/${d}.`)});},
+
+()=>{ const kg=R(2,5),g=R(100,900),sub=R(150,900);
+  const tot=kg*1000+g;
+  return QI({tag:G('重さ','重量','Mass'),q:G(`${kg}kg${g}g の さとうから ${sub}g 使いました。\nのこりは 何g ですか。`,
+      `${kg}kg${g}g 的糖用掉 ${sub}g，还剩多少克？`,
+      `You start with ${kg}kg ${g}g of sugar and use ${sub}g.\nHow many grams are left?`),
+    unit:G('g','g','g'),val:tot-sub,sec:35,
+    exp:G(`1kg=1000g なので ぜんぶで ${tot}g。${tot}−${sub}=${tot-sub}g。`,`1kg=1000g，共 ${tot}g，减去 ${sub}g 得 ${tot-sub}g。`,
+          `1kg=1000g, so you start with ${tot}g. ${tot}−${sub}=${tot-sub}g.`)});},
+
+()=>{ const b=R(0,6),d=R(15,29),ci=(b+d-1)%7;
+  const os=SH([0,1,2,3].map(k=>(ci+k*2)%7)).slice(0,4);
+  const opts=Array.from(new Set([ci,...os])).slice(0,4);
+  return QC({tag:G('きまり','周期规律','Repeating pattern'),q:G(`ある月の 1日は ${WJ[b]}曜日です。\nこの月の ${d}日は 何曜日ですか。`,
+      `某月 1 号是${WZ[b]}。这个月的 ${d} 号是星期几？`,
+      `The 1st of a month falls on a ${WE[b]}.\nWhat day of the week is the ${d}th?`),
+    opts:opts.map(i=>G(WJ[i]+'曜日',WZ[i],WE[i])),ci:opts.indexOf(ci),sec:40,
+    exp:G(`1日から ${d}日までは ${d-1}日 あと。${d-1}÷7=${Math.floor((d-1)/7)}あまり${(d-1)%7} なので ${WJ[b]}曜日から ${(d-1)%7}つ 進んで ${WJ[ci]}曜日。`,
+          `相隔 ${d-1} 天，${d-1}÷7 余 ${(d-1)%7}，从${WZ[b]}往后 ${(d-1)%7} 天是${WZ[ci]}。`,
+          `That is ${d-1} days later. ${d-1}÷7=${Math.floor((d-1)/7)} remainder ${(d-1)%7}, so move ${(d-1)%7} days on from ${WE[b]} to reach ${WE[ci]}.`)});},
+
+()=>{ const r=R(3,7),n=R(3,5);
+  return QI({tag:G('円','圆','Circles'),q:G(`半径 ${r}cm の 円を ${n}こ、となり どうし ぴったり つけて 横一列に ならべました。\nはしから はしまでの 長さは 何cm ですか。`,
+      `把 ${n} 个半径 ${r}cm 的圆一个挨一个横排。从最左端到最右端长多少厘米？`,
+      `${n} circles of radius ${r}cm are placed in a row, each just touching the next.\nHow long is the row from end to end, in cm?`),
+    unit:G('cm','cm','cm'),val:2*r*n,sec:40,
+    exp:G(`円 1こ分の はばは 直径 ${2*r}cm。${2*r}×${n}=${2*r*n}cm。`,`每个圆宽为直径 ${2*r}cm，${2*r}×${n}=${2*r*n}cm。`,
+          `Each circle is one diameter wide, ${2*r}cm. ${2*r}×${n}=${2*r*n}cm.`)});},
+
+()=>{ const s=P([
+   {q:G('二等辺三角形に ついて、正しい ものは どれですか。','关于等腰三角形，下面哪句是对的？','Which statement about an isosceles triangle is true?'),
+    o:[G('2つの 辺の 長さが 等しい','有两条边相等','Two of its sides are equal'),G('3つの 角が すべて 60度','三个角都是 60 度','All three angles are 60°'),
+       G('かならず 直角が ある','一定有直角','It always has a right angle'),G('4つの 辺が ある','有四条边','It has four sides')],c:0,
+    e:G('二等辺三角形は 2辺が 等しく、その 2つの 底角も 等しく なります。','等腰三角形有两条边相等，两底角也相等。','An isosceles triangle has two equal sides, and the two base angles are equal too.')},
+   {q:G('正三角形に ついて、正しい ものは どれですか。','关于等边三角形，下面哪句是对的？','Which statement about an equilateral triangle is true?'),
+    o:[G('3つの 角が すべて 60度','三个角都是 60 度','All three angles are 60°'),G('直角が 1つ ある','有一个直角','It has one right angle'),
+       G('2つの 辺だけ 等しい','只有两条边相等','Only two sides are equal'),G('角の 大きさは ばらばら','三个角大小不一','The angles are all different')],c:0,
+    e:G('正三角形は 3辺 3角が すべて 等しく、1つの 角は 180÷3=60度。','等边三角形三边三角都相等，每个角 180÷3=60 度。','All three sides and angles are equal, and each angle is 180÷3=60°.')}]);
+  return QC({tag:G('図形','图形','Shapes'),q:s.q,opts:s.o,ci:s.c,sec:30,exp:s.e});},
+
+()=>{ const small=R(8,30),diff=R(4,20),sum=small*2+diff;
+  return QI({tag:G('和差算','和差问题','Sum and difference'),q:G(`兄と 弟が あめを 合わせて ${sum}こ 持って います。\n兄は 弟より ${diff}こ 多く 持って います。\n兄は 何こ 持って いますか。`,
+      `哥哥和弟弟一共有 ${sum} 颗糖，哥哥比弟弟多 ${diff} 颗。哥哥有多少颗？`,
+      `Two brothers have ${sum} sweets between them.\nThe older one has ${diff} more than the younger.\nHow many does the older brother have?`),
+    unit:G('こ','颗','sweets'),val:small+diff,sec:50,
+    exp:G(`(${sum}+${diff})÷2=${small+diff}こ が 兄。弟は ${small}こ。`,`(${sum}+${diff})÷2=${small+diff} 颗是哥哥，弟弟 ${small} 颗。`,
+          `(${sum}+${diff})÷2=${small+diff} for the older brother; the younger has ${small}.`)});},
+
+()=>{ const d=P([3,4,5,6]),n=R(8,15),len=d*n;
+  return QI({tag:G('植木算','植树问题','Posts round a loop'),q:G(`まわりの 長さが ${len}m の 池の まわりに、${d}mおきに くいを 打ちます。\nくいは 何本 いりますか。`,
+      `一个周长 ${len} 米的池塘，沿池边每隔 ${d} 米打一根木桩。需要多少根？`,
+      `Posts are driven every ${d}m all the way round a pond whose perimeter is ${len}m.\nHow many posts are needed?`),
+    unit:G('本','根','posts'),val:n,sec:45,
+    exp:G(`まわりが つながって いるので、間の数と くいの数は 同じ。${len}÷${d}=${n}本。`,
+          `封闭一圈时桩数 = 间隔数，${len}÷${d}=${n} 根。`,
+          `Round a closed loop the number of posts equals the number of gaps: ${len}÷${d}=${n}.`)});},
+
+()=>{ const k=R(3,9),a=P([25,50]),b=(a===25?4:2)*k;
+  return QI({tag:G('計算のくふう','巧算','Smart calculation'),q:G(`くふうして 計算しましょう。\n\n[[${a} × ${b}]]`,`用简便方法计算：\n\n[[${a} × ${b}]]`,`Find a quick way to work this out.\n\n[[${a} × ${b}]]`),
+    val:a*b,sec:35,
+    exp:G(`${a}×${a===25?4:2}=100 を つくります。${a}×${b}=${a*(a===25?4:2)}×${k}=${a*b}。`,
+          `凑整：${a}×${a===25?4:2}=100，所以 ${a}×${b}=100×${k}=${a*b}。`,
+          `Make 100 first: ${a}×${a===25?4:2}=100, so ${a}×${b}=100×${k}=${a*b}.`)});},
+
+()=>{ const n=[R(12,28),R(12,28),R(12,28),R(12,28)],names=['1組','2組','3組','4組'],nz=['一班','二班','三班','四班'],
+        ne=['Class 1','Class 2','Class 3','Class 4'];
+  const tot=n.reduce((s,x)=>s+x,0),mx=Math.max(...n),mn=Math.min(...n);
+  const t=P([0,1]);
+  const fig=G(names.map((x,i)=>`${x}  ${n[i]}人`).join('\n'),nz.map((x,i)=>`${x}  ${n[i]}人`).join('\n'),
+              ne.map((x,i)=>`${x}  ${n[i]}`).join('\n'));
+  return t===0
+    ? QI({tag:G('表の読み取り','读表','Reading a table'),q:G('つぎの 表は、クラスごとの 人数です。\n4クラス 合わせて 何人 ですか。','下表是各班人数。四个班一共多少人？',
+        'The table shows how many pupils are in each class.\nHow many are there in the four classes altogether?'),
+        fig:fig,unit:G('人','人','pupils'),val:tot,sec:40,exp:G(`${n.join('+')}=${tot}人。`,`${n.join('+')}=${tot} 人。`,`${n.join('+')}=${tot}.`)})
+    : QI({tag:G('表の読み取り','读表','Reading a table'),q:G('つぎの 表は、クラスごとの 人数です。\nいちばん 多い クラスと いちばん 少ない クラスの ちがいは 何人 ですか。',
+        '下表是各班人数。人数最多的班比最少的班多多少人？',
+        'The table shows how many pupils are in each class.\nWhat is the difference between the largest and the smallest class?'),
+        fig:fig,unit:G('人','人','pupils'),val:mx-mn,sec:40,exp:G(`${mx}−${mn}=${mx-mn}人。`,`${mx}−${mn}=${mx-mn} 人。`,`${mx}−${mn}=${mx-mn}.`)});},
+
+()=>{ const b=R(4,9),q0=R(6,19),r=R(1,b-1),a=b*q0+r;
+  return QI({tag:G('わり算とあまり','除法与余数','Division with remainder'),q:G(`${a}÷${b} の あまりは いくつですか。`,`${a}÷${b} 的余数是多少？`,`What is the remainder when ${a} is divided by ${b}?`),
+    val:r,sec:25,exp:G(`${b}×${q0}=${b*q0}、${a}−${b*q0}=${r}。`,`${b}×${q0}=${b*q0}，余 ${r}。`,`${b}×${q0}=${b*q0}, and ${a}−${b*q0}=${r}.`)});}
+);
+
+/* ======================= 小学4年 ======================= */
+BANK[4].push(
+()=>{ const n=R(3,9)*10000+R(1000,9999);
+  const up=Math.round(n/1000)*1000;
+  return QI({tag:G('がい数','近似数','Rounding'),q:G(`${n} を 四捨五入して、上から 2けたの がい数に しましょう。`,`把 ${n} 四舍五入到最高的两位。`,`Round ${n} to two significant figures.`),
+    val:up,sec:40,
+    exp:G(`上から 3けためは 百の位。${Math.floor(n/100)%10}を 四捨五入して ${up}。`,
+          `第三位是百位，把它四舍五入，得 ${up}。`,
+          `The third significant digit is in the hundreds place. Rounding on ${Math.floor(n/100)%10} gives ${up}.`)});},
+
+()=>{ const U=[{n:G('1万','1 万','10 thousand'),v:1e4},{n:G('100万','100 万','1 million'),v:1e6},{n:G('1億','1 亿','100 million'),v:1e8},
+        {n:G('100億','100 亿','10 billion'),v:1e10},{n:G('1兆','1 兆','1 trillion'),v:1e12}];
+  let i,j; do{ i=R(1,4); j=R(0,3); }while(i<=j);
+  const a=U[i],b=U[j],k=a.v/b.v;
+  return QI({tag:G('大きな数','大数','Large numbers'),q:G(`${a.n.ja}は ${b.n.ja}の 何倍ですか。`,`${a.n.zh}是${b.n.zh}的多少倍？`,`${a.n.en} is how many times ${b.n.en}?`),
+    unit:G('倍','倍','times'),val:k,sec:40,
+    exp:G(`0の 数の ちがいは ${String(k).length-1}こ。${a.n.ja}÷${b.n.ja}=${k}倍。`,
+          `两数 0 的个数相差 ${String(k).length-1} 个，商为 ${k} 倍。`,
+          `The two differ by ${String(k).length-1} zeros, so the answer is ${k}.`)});},
+
+()=>{ let a,b; do{ a=R(12,49); b=R(11,19); }while(a%10===0||(a*b)%10===0);
+  return P([0,1])===0
+    ? QI({tag:G('小数の計算','小数计算','Decimal calculation'),q:G(`つぎの 計算を しましょう。\n\n[[${a/10} × ${b/10}]]`,`计算：\n\n[[${a/10} × ${b/10}]]`,`Work this out.\n\n[[${a/10} × ${b/10}]]`),
+        val:a*b/100,sec:40,
+        exp:G(`${a}×${b}=${a*b}。小数点は 合わせて 2けた 動かして ${a*b/100}。`,`${a}×${b}=${a*b}，小数点向左移 2 位得 ${a*b/100}。`,
+              `${a}×${b}=${a*b}, then move the decimal point two places: ${a*b/100}.`)})
+    : QI({tag:G('小数の計算','小数计算','Decimal calculation'),q:G(`つぎの 計算を しましょう。\n\n[[${a*b/100} ÷ ${b/10}]]`,`计算：\n\n[[${a*b/100} ÷ ${b/10}]]`,`Work this out.\n\n[[${a*b/100} ÷ ${b/10}]]`),
+        val:a/10,sec:45,
+        exp:G(`わる数を 10倍して 整数に すると ${a*b/10}÷${b}=${a/10}。`,`把除数扩大 10 倍化为整数：${a*b/10}÷${b}=${a/10}。`,
+              `Multiply both numbers by 10 to make the divisor whole: ${a*b/10}÷${b}=${a/10}.`)});},
+
+()=>{ const d=R(4,9),w1=R(1,3),n1=R(1,d-1),w2=R(1,3),n2=R(1,d-1);
+  const tot=(w1*d+n1)+(w2*d+n2);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`つぎの 計算を しましょう。答えは 分数で 書きましょう。\n\n[[${w1} ${n1}/${d} + ${w2} ${n2}/${d}]]`,
+      `计算（分数作答）：\n\n[[${w1} ${n1}/${d} + ${w2} ${n2}/${d}]]`,
+      `Work this out. Give your answer as a fraction.\n\n[[${w1} ${n1}/${d} + ${w2} ${n2}/${d}]]`),
+    val:tot/d,disp:frMixed(tot,d),note:UI.fracN,sec:45,
+    exp:G(`整数どうし ${w1}+${w2}=${w1+w2}、分数どうし ${n1}/${d}+${n2}/${d}=${fr(n1+n2,d)}。合わせて ${frMixed(tot,d)}。`,
+          `整数部分 ${w1}+${w2}=${w1+w2}，分数部分相加得 ${fr(n1+n2,d)}，合起来是 ${frMixed(tot,d)}。`,
+          `Whole parts: ${w1}+${w2}=${w1+w2}. Fraction parts: ${n1}/${d}+${n2}/${d}=${fr(n1+n2,d)}. Together, ${frMixed(tot,d)}.`)});},
+
+()=>{ const A=R(8,15),B=R(9,16),a=R(3,A-3),b=R(3,B-3);
+  return QI({tag:G('面積','面积','Area'),q:G(`たて ${A}cm、よこ ${B}cm の 長方形の 紙から、たて ${a}cm、よこ ${b}cm の 長方形を 角に そって 切り取りました。\nのこった 部分の 面積は 何cm² ですか。`,
+      `一张长 ${B}cm、宽 ${A}cm 的长方形纸，从一角剪去一个 ${a}cm×${b}cm 的长方形。剩下部分的面积是多少 cm²？`,
+      `A rectangle of paper ${A}cm by ${B}cm has ${AN(a)} ${a}cm by ${b}cm rectangle cut away from one corner.\nWhat is the area of the piece that is left, in cm²?`),
+    unit:G('cm²','cm²','cm²'),val:A*B-a*b,sec:45,
+    exp:G(`${A}×${B}=${A*B}、${a}×${b}=${a*b}。${A*B}−${a*b}=${A*B-a*b}cm²。`,
+          `${A}×${B}=${A*B}，减去 ${a}×${b}=${a*b}，得 ${A*B-a*b}cm²。`,
+          `${A}×${B}=${A*B} minus ${a}×${b}=${a*b} leaves ${A*B-a*b}cm².`)});},
+
+()=>{ const t=P([0,1]);
+  if(t===0){ const a=R(35,80),b=R(30,180-a-20);
+    return QI({tag:G('角度','角度','Angles'),q:G(`三角形の 3つの 角の うち、2つが ${a}度と ${b}度 です。\nのこりの 角は 何度 ですか。`,
+        `三角形中两个角分别是 ${a} 度和 ${b} 度。第三个角是多少度？`,
+        `Two angles of a triangle are ${a}° and ${b}°.\nWhat is the third angle?`),
+      unit:G('度','度','degrees'),val:180-a-b,sec:35,
+      exp:G(`三角形の 内角の 和は 180度。180−${a}−${b}=${180-a-b}度。`,`三角形内角和 180 度：180−${a}−${b}=${180-a-b} 度。`,
+            `Angles in a triangle add to 180°: 180−${a}−${b}=${180-a-b}°.`)});}
+  const a=R(40,140);
+  return QI({tag:G('角度','角度','Angles'),q:G(`平行四辺形の 1つの 角が ${a}度 です。\nその となりの 角は 何度 ですか。`,
+      `平行四边形的一个角是 ${a} 度。它相邻的角是多少度？`,
+      `One angle of a parallelogram is ${a}°.\nWhat is the angle next to it?`),
+    unit:G('度','度','degrees'),val:180-a,sec:35,
+    exp:G(`平行四辺形の となり合う 角の 和は 180度。180−${a}=${180-a}度。`,`平行四边形邻角互补：180−${a}=${180-a} 度。`,
+          `Neighbouring angles of a parallelogram add to 180°: 180−${a}=${180-a}°.`)});},
+
+()=>{ const c=P([25,15,12,18]),a=R(11,89),b=100-a;
+  return QI({tag:G('計算のきまり','运算定律','Number laws'),q:G(`くふうして 計算しましょう。\n\n[[${a} × ${c} + ${b} × ${c}]]`,`用简便方法计算：\n\n[[${a} × ${c} + ${b} × ${c}]]`,`Find a quick way to work this out.\n\n[[${a} × ${c} + ${b} × ${c}]]`),
+    val:100*c,sec:40,
+    exp:G(`(${a}+${b})×${c}=100×${c}=${100*c}。分配の きまりを 使います。`,`(${a}+${b})×${c}=100×${c}=${100*c}（乘法分配律）。`,
+          `Factor out the ${c}: (${a}+${b})×${c}=100×${c}=${100*c}.`)});},
+
+()=>{ const m=R(68,85),n=4,x=R(88,100);
+  const newAvg=(m*n+x)/(n+1);
+  return QI({tag:G('平均','平均数','Averages'),q:G(`テストを ${n}回 受けた 平均点は ${m}点 でした。\n5回目に ${x}点を とると、5回の 平均点は 何点に なりますか。`,
+      `4 次考试的平均分是 ${m} 分。第 5 次考了 ${x} 分，5 次的平均分是多少？`,
+      `After ${n} tests your average is ${m} marks.\nYou score ${x} on the fifth test. What is your average over all five?`),
+    unit:G('点','分','marks'),val:newAvg,sec:50,
+    exp:G(`合計は ${m}×${n}=${m*n}点。${m*n}+${x}=${m*n+x}、${m*n+x}÷5=${num(newAvg)}点。`,
+          `总分 ${m}×4=${m*n}，加 ${x} 得 ${m*n+x}，÷5=${num(newAvg)} 分。`,
+          `Total so far ${m}×${n}=${m*n}; add ${x} to get ${m*n+x}; ${m*n+x}÷5=${num(newAvg)}.`)});},
+
+()=>{ const y=R(7,20),k=R(2,4),d=R(3,12),sum=y*(k+1)+d;
+  return QI({tag:G('分配算','和倍差倍','Sharing in parts'),q:G(`兄と 弟で カードを 合わせて ${sum}まい 持って います。\n兄の まい数は 弟の ${k}倍より ${d}まい 多い そうです。\n弟は 何まい 持って いますか。`,
+      `哥哥和弟弟共有 ${sum} 张卡片。哥哥的张数比弟弟的 ${k} 倍还多 ${d} 张。弟弟有多少张？`,
+      `Two brothers have ${sum} cards between them.\nThe older one has ${d} more than ${k} times what the younger one has.\nHow many cards does the younger brother have?`),
+    unit:G('まい','张','cards'),val:y,sec:60,
+    exp:G(`${sum}から ${d}を ひくと ${sum-d}。これが 弟の ${k+1}倍 なので 弟は ${sum-d}÷${k+1}=${y}まい。`,
+          `先减去多的 ${d} 张：${sum-d}，它是弟弟的 ${k+1} 倍，所以弟弟 ${sum-d}÷${k+1}=${y} 张。`,
+          `Take off the extra ${d}: ${sum-d}. That is ${k+1} times the younger brother's share, so ${sum-d}÷${k+1}=${y}.`)});},
+
+()=>{ const s=P([
+   {q:G('ひし形に ついて、いつでも 正しい ものは どれですか。','关于菱形，下面哪句总是成立？','Which is always true of a rhombus?'),
+    o:[G('4つの 辺の 長さが 等しい','四条边都相等','All four sides are equal'),G('4つの 角が すべて 直角','四个角都是直角','All four angles are right angles'),
+       G('対角線の 長さが 等しい','两条对角线一样长','The diagonals are equal in length'),G('平行な 辺が 1組だけ','只有一组对边平行','Only one pair of sides is parallel')],c:0,
+    e:G('ひし形は 4辺が 等しい 平行四辺形。対角線は 垂直に 交わりますが 長さは ちがいます。','菱形是四边相等的平行四边形，对角线互相垂直但长度不一定相等。','A rhombus is a parallelogram with four equal sides; its diagonals cross at right angles but are not equal.')},
+   {q:G('台形の せつめいとして 正しい ものは どれですか。','关于梯形，下面哪句是对的？','Which describes a trapezium?'),
+    o:[G('平行な 辺が 1組ある 四角形','有一组对边平行的四边形','A quadrilateral with one pair of parallel sides'),G('4辺が すべて 等しい 四角形','四边都相等的四边形','A quadrilateral with four equal sides'),
+       G('平行な 辺が 2組ある 四角形','两组对边都平行的四边形','A quadrilateral with two pairs of parallel sides'),G('直角が 4つ ある 四角形','有四个直角的四边形','A quadrilateral with four right angles')],c:0,
+    e:G('平行な 辺が 2組 あるのは 平行四辺形です。','两组对边都平行的是平行四边形。','Two pairs of parallel sides would make it a parallelogram.')}]);
+  return QC({tag:G('図形','图形','Shapes'),q:s.q,opts:s.o,ci:s.c,sec:35,exp:s.e});},
+
+()=>{ const b=R(6,9),q0=R(11,29),r=R(1,b-1);
+  return QI({tag:G('虫くい算','填空计算','Missing number'),q:G(`□に あてはまる 数を 答えましょう。\n\n[[□ ÷ ${b} = ${q0} あまり ${r}]]`,
+      `求 □：\n\n[[□ ÷ ${b} = ${q0} …… ${r}]]`,
+      `Find the missing number.\n\n[[□ ÷ ${b} = ${q0} remainder ${r}]]`),
+    val:b*q0+r,sec:35,
+    exp:G(`わる数×商+あまり=わられる数。${b}×${q0}+${r}=${b*q0+r}。`,`除数×商+余数=被除数：${b}×${q0}+${r}=${b*q0+r}。`,
+          `Divisor × quotient + remainder: ${b}×${q0}+${r}=${b*q0+r}.`)});},
+
+()=>{ const n=R(6,12);
+  return QI({tag:G('数のきまり','数列规律','Number pattern'),q:G(`おはじきを、1辺に ${n}こずつ ならべて 正方形の わくを つくります。\nおはじきは ぜんぶで 何こ いりますか。`,
+      `用棋子摆成正方形的框，每边 ${n} 个。一共需要多少个棋子？`,
+      `Counters are arranged in a hollow square frame with ${n} counters along each side.\nHow many counters are needed in total?`),
+    unit:G('こ','个','counters'),val:4*n-4,sec:50,
+    exp:G(`1辺 ${n}こ×4=${4*n}こ だと 角の 4こを 2回ずつ 数えて います。${4*n}−4=${4*n-4}こ。`,
+          `${n}×4=${4*n} 会把四个角各多数一次，${4*n}−4=${4*n-4} 个。`,
+          `${n}×4=${4*n} counts each of the 4 corners twice, so ${4*n}−4=${4*n-4}.`)});},
+
+()=>{ const w=R(4,12),S=w*R(6,15);
+  return QI({tag:G('面積','面积','Area'),q:G(`面積が ${S}cm² の 長方形が あります。たての 長さが ${w}cm の とき、よこの 長さは 何cm ですか。`,
+      `一个长方形面积为 ${S}cm²，宽是 ${w}cm。长是多少 cm？`,
+      `A rectangle has an area of ${S}cm² and a width of ${w}cm.\nHow long is it?`),
+    unit:G('cm','cm','cm'),val:S/w,sec:30,
+    exp:G(`面積÷たて=よこ。${S}÷${w}=${S/w}cm。`,`面积÷宽=长：${S}÷${w}=${S/w}cm。`,`Area ÷ width = length: ${S}÷${w}=${S/w}cm.`)});},
+
+()=>{ const d=[R(12,20),0,0,0],names=['4月','5月','6月','7月'],nz=['4月','5月','6月','7月'],
+        ne=['April','May','June','July'];
+  d[1]=d[0]+R(3,9); d[2]=d[1]-R(2,6); d[3]=d[2]+R(4,10);
+  const fig=G(names.map((x,i)=>`${x}  ${d[i]}さつ`).join('\n'),nz.map((x,i)=>`${x}  ${d[i]} 本`).join('\n'),
+              ne.map((x,i)=>`${x.padEnd(6)}${d[i]}`).join('\n'));
+  const i=R(1,3);
+  return QI({tag:G('グラフ','折线图','Graphs'),q:G(`ある人が 読んだ 本の さっ数の 記録です。\n${names[i]}と ${names[i-1]}では、さっ数の ちがいは 何さつ ですか。`,
+      `下面是某人每月读书本数的记录。${nz[i]}和${nz[i-1]}相差多少本？`,
+      `The record shows how many books someone read each month.\nWhat is the difference between ${ne[i]} and ${ne[i-1]}?`),
+    fig:fig,unit:G('さつ','本','books'),val:Math.abs(d[i]-d[i-1]),sec:40,
+    exp:G(`${d[i]}−${d[i-1]}=${d[i]-d[i-1]}。変化の 大きさは ${Math.abs(d[i]-d[i-1])}さつ。`,
+          `${d[i]}−${d[i-1]}=${d[i]-d[i-1]}，变化量为 ${Math.abs(d[i]-d[i-1])} 本。`,
+          `${d[i]}−${d[i-1]}=${d[i]-d[i-1]}, so the difference is ${Math.abs(d[i]-d[i-1])} books.`)});}
+);
+/* ======================= 小学5年 ======================= */
+BANK[5].push(
+()=>{ let a,b; do{a=R(4,12);b=R(4,14);}while(a===b||lcm(a,b)>200);
+  const l=lcm(a,b);
+  return QI({tag:G('公倍数','公倍数','Common multiples'),q:G(`たて ${a}cm、よこ ${b}cm の 長方形の タイルを、同じ向きに すきまなく しきつめて 正方形を つくります。\nいちばん 小さい 正方形の 1辺は 何cm ですか。`,
+      `用长 ${b}cm、宽 ${a}cm 的长方形瓷砖同向密铺成一个正方形。最小的正方形边长是多少 cm？`,
+      `Rectangular tiles ${a}cm by ${b}cm are laid all facing the same way, with no gaps, to form a square.\nWhat is the side of the smallest such square, in cm?`),
+    unit:G('cm','cm','cm'),val:l,sec:55,
+    exp:G(`${a}と ${b}の 最小公倍数 ${l}cm。たてに ${l/a}まい、よこに ${l/b}まい ならびます。`,
+          `${a} 与 ${b} 的最小公倍数是 ${l}cm（纵 ${l/a} 块、横 ${l/b} 块）。`,
+          `The lowest common multiple of ${a} and ${b} is ${l}: ${l/a} tiles one way and ${l/b} the other.`)});},
+
+()=>{ let b,d,a,c; do{ b=R(2,9);d=R(2,9);a=R(1,b-1);c=R(1,d-1); }
+  while(b===d||lcm(b,d)>36||gcd(a,b)!==1||gcd(c,d)!==1);
+  const L2=lcm(b,d),n=a*(L2/b)+c*(L2/d);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`つぎの 計算を しましょう。答えは 分数で 書きましょう。\n\n[[${a}/${b} + ${c}/${d}]]`,
+      `计算（分数作答）：\n\n[[${a}/${b} + ${c}/${d}]]`,
+      `Work this out. Give your answer as a fraction.\n\n[[${a}/${b} + ${c}/${d}]]`),
+    val:n/L2,disp:frMixed(n,L2),note:UI.fracN,sec:45,
+    exp:G(`分母を ${L2}に そろえて ${a*(L2/b)}/${L2}+${c*(L2/d)}/${L2}=${frMixed(n,L2)}。`,
+          `通分到 ${L2}：${a*(L2/b)}/${L2}+${c*(L2/d)}/${L2}=${frMixed(n,L2)}。`,
+          `Put both over ${L2}: ${a*(L2/b)}/${L2}+${c*(L2/d)}/${L2}=${frMixed(n,L2)}.`)});},
+
+()=>{ const p=R(12,40)*100,k=P([1,2,3]);
+  return QI({tag:G('割合','百分数','Percentages'),q:G(`定価 ${p}円の シャツを、${k}割引きで 買いました。\n代金は 何円 ですか。`,
+      `一件标价 ${p} 日元的衬衫按 ${k*10}% 的折扣（即减价 ${k*10}%）出售。实付多少日元？`,
+      `A shirt priced at ${p} yen is sold with ${k*10}% off.\nHow much do you pay?`),
+    unit:G('円','日元','yen'),val:p*(10-k)/10,sec:45,
+    exp:G(`${k}割引きは 定価の ${10-k}割 = ${(10-k)/10}倍。${p}×${(10-k)/10}=${p*(10-k)/10}円。`,
+          `打折后是原价的 ${(10-k)*10}%：${p}×${(10-k)/10}=${p*(10-k)/10} 日元。`,
+          `You pay ${(10-k)*10}% of the price: ${p}×${(10-k)/10}=${p*(10-k)/10} yen.`)});},
+
+()=>{ const t=P([0,1,2]);
+  if(t===0){ const v=R(50,90),m=R(12,40);
+    return QI({tag:G('速さ','速度','Speed'),q:G(`分速 ${v}m で 歩く 人が ${m}分間 歩きました。\n進んだ 道のりは 何m ですか。`,
+        `以每分钟 ${v} 米的速度走 ${m} 分钟，走了多少米？`,
+        `Someone walks at ${v} metres per minute for ${m} minutes.\nHow far do they walk, in metres?`),
+      unit:G('m','m','m'),val:v*m,sec:35,exp:G(`道のり=速さ×時間。${v}×${m}=${v*m}m。`,`路程=速度×时间：${v}×${m}=${v*m} 米。`,
+        `Distance = speed × time: ${v}×${m}=${v*m}m.`)});}
+  if(t===1){ const km=R(3,9)*6,h=R(2,4),v=km/h;
+    return QI({tag:G('速さ','速度','Speed'),q:G(`${km}km の 道のりを ${h}時間で 進みました。\n時速 何km ですか。`,
+        `${km} 公里的路程用了 ${h} 小时。时速是多少公里？`,
+        `A journey of ${km}km takes ${h} hours.\nWhat is the speed in km per hour?`),
+      unit:G('km','km/h','km/h'),val:v,sec:35,exp:G(`速さ=道のり÷時間。${km}÷${h}=${v}km/時。`,`速度=路程÷时间：${km}÷${h}=${v} km/h。`,
+        `Speed = distance ÷ time: ${km}÷${h}=${v}km/h.`)});}
+  const kmh=R(3,12)*6;
+  return QI({tag:G('速さ','速度','Speed'),q:G(`時速 ${kmh}km は、分速 何m ですか。`,`时速 ${kmh} 公里等于每分钟多少米？`,`${kmh}km per hour is how many metres per minute?`),
+    unit:G('m','m','m'),val:kmh*1000/60,sec:45,
+    exp:G(`${kmh}km=${kmh*1000}m、1時間=60分。${kmh*1000}÷60=${kmh*1000/60}m。`,`${kmh*1000}m÷60分=${kmh*1000/60} 米/分。`,
+          `${kmh}km=${kmh*1000}m and 1 hour = 60 minutes, so ${kmh*1000}÷60=${kmh*1000/60}m.`)});},
+
+()=>{ const a=R(20,90),d=R(80,400),p=a*d;
+  return QI({tag:G('単位量あたり','单位量','Rates'),q:G(`面積が ${a}km²、人口が ${p}人の 町が あります。\nこの 町の 人口密度（1km²あたりの 人数）は 何人 ですか。`,
+      `一个城镇面积 ${a} 平方公里，人口 ${p} 人。人口密度（每平方公里人数）是多少？`,
+      `A town covers ${a}km² and has ${p} people.\nWhat is its population density, in people per km²?`),
+    unit:G('人','人','people'),val:d,sec:40,exp:G(`${p}÷${a}=${d}人。`,`${p}÷${a}=${d} 人/km²。`,`${p}÷${a}=${d} people per km².`)});},
+
+()=>{ const t=P([0,1,2]);
+  if(t===0){ const a=R(4,12),b=R(5,15),h=R(4,12);
+    return QI({tag:G('面積','面积','Area'),q:G(`上底 ${a}cm、下底 ${b}cm、高さ ${h}cm の 台形の 面積は 何cm² ですか。`,
+        `上底 ${a}cm、下底 ${b}cm、高 ${h}cm 的梯形，面积是多少 cm²？`,
+        `A trapezium has parallel sides of ${a}cm and ${b}cm and a height of ${h}cm.\nWhat is its area in cm²?`),
+      unit:G('cm²','cm²','cm²'),val:(a+b)*h/2,sec:40,
+      exp:G(`(上底+下底)×高さ÷2=(${a}+${b})×${h}÷2=${(a+b)*h/2}cm²。`,`(${a}+${b})×${h}÷2=${(a+b)*h/2}cm²。`,
+            `(sum of parallel sides) × height ÷ 2 = (${a}+${b})×${h}÷2=${(a+b)*h/2}cm².`)});}
+  if(t===1){ const d1=R(6,16),d2=R(5,15);
+    return QI({tag:G('面積','面积','Area'),q:G(`対角線が ${d1}cm と ${d2}cm の ひし形の 面積は 何cm² ですか。`,
+        `两条对角线分别为 ${d1}cm 和 ${d2}cm 的菱形，面积是多少 cm²？`,
+        `A rhombus has diagonals of ${d1}cm and ${d2}cm.\nWhat is its area in cm²?`),
+      unit:G('cm²','cm²','cm²'),val:d1*d2/2,sec:35,
+      exp:G(`対角線×対角線÷2=${d1}×${d2}÷2=${d1*d2/2}cm²。`,`对角线乘积的一半：${d1}×${d2}÷2=${d1*d2/2}cm²。`,
+            `Half the product of the diagonals: ${d1}×${d2}÷2=${d1*d2/2}cm².`)});}
+  const b=R(6,18),h=R(5,14);
+  return QI({tag:G('面積','面积','Area'),q:G(`底辺 ${b}cm、高さ ${h}cm の 三角形の 面積は 何cm² ですか。`,
+      `底 ${b}cm、高 ${h}cm 的三角形，面积是多少 cm²？`,
+      `A triangle has a base of ${b}cm and a height of ${h}cm.\nWhat is its area in cm²?`),
+    unit:G('cm²','cm²','cm²'),val:b*h/2,sec:30,exp:G(`底辺×高さ÷2=${b*h/2}cm²。`,`底×高÷2=${b*h/2}cm²。`,`base × height ÷ 2 = ${b*h/2}cm².`)});},
+
+()=>{ const a=R(10,30),b=R(10,25),h=R(5,20),dep=R(3,h-1);
+  return QI({tag:G('体積','体积','Volume'),q:G(`内のりが たて ${a}cm、よこ ${b}cm、深さ ${h}cm の 水そうに、深さ ${dep}cm まで 水を 入れました。\n水の 体積は 何cm³ ですか。`,
+      `一个内部长 ${b}cm、宽 ${a}cm、深 ${h}cm 的水槽，注水到 ${dep}cm 深。水的体积是多少 cm³？`,
+      `A tank measures ${a}cm by ${b}cm inside and is ${h}cm deep. It is filled with water to a depth of ${dep}cm.\nWhat is the volume of the water, in cm³?`),
+    unit:G('cm³','cm³','cm³'),val:a*b*dep,sec:40,
+    exp:G(`${a}×${b}×${dep}=${a*b*dep}cm³。深さ ${h}cm は 使いません。`,`${a}×${b}×${dep}=${a*b*dep}cm³（深度 ${h}cm 是干扰条件）。`,
+          `${a}×${b}×${dep}=${a*b*dep}cm³. The ${h}cm depth of the tank is not needed.`)});},
+
+()=>{ let m,f,x,y,avg,k=0;
+  do{ m=R(12,22);f=R(12,22);x=R(60,90);y=R(60,95);avg=(m*x+f*y)/(m+f);k++; }
+  while(Math.abs(avg*2-Math.round(avg*2))>1e-9 && k<400);
+  return QI({tag:G('平均','平均数','Averages'),q:G(`あるクラスの 男子 ${m}人の 平均点は ${x}点、女子 ${f}人の 平均点は ${y}点 でした。\nクラス全体の 平均点は 何点 ですか。`,
+      `某班男生 ${m} 人平均 ${x} 分，女生 ${f} 人平均 ${y} 分。全班平均分是多少？`,
+      `In a class, ${m} boys averaged ${x} marks and ${f} girls averaged ${y} marks.\nWhat is the average for the whole class?`),
+    unit:G('点','分','marks'),val:avg,sec:60,
+    exp:G(`合計は ${m}×${x}+${f}×${y}=${m*x+f*y}点。人数は ${m+f}人。${m*x+f*y}÷${m+f}=${num(avg)}点。`,
+          `总分 ${m*x+f*y}，人数 ${m+f}，平均 ${num(avg)} 分。`,
+          `Total marks ${m}×${x}+${f}×${y}=${m*x+f*y} over ${m+f} pupils: ${m*x+f*y}÷${m+f}=${num(avg)}.`)});},
+
+()=>{ let n,a,b,r1,r2,k=0;
+  do{ n=R(6,18);a=R(3,6);b=a+R(1,3);r1=R(2,12);r2=(b-a)*n-r1;k++; }while((r2<=0||r2>15)&&k<200);
+  return QI({tag:G('過不足算','盈亏问题','Surplus and shortage'),q:G(`あめを 子どもに 配ります。\n1人に ${a}こずつ 配ると ${r1}こ あまり、1人に ${b}こずつ 配ると ${r2}こ たりません。\n子どもは 何人 いますか。`,
+      `把糖分给小朋友。每人 ${a} 颗则剩 ${r1} 颗，每人 ${b} 颗则差 ${r2} 颗。有多少个小朋友？`,
+      `Sweets are shared among some children.\nGiving ${a} each leaves ${r1} over; giving ${b} each leaves you ${r2} short.\nHow many children are there?`),
+    unit:G('人','人','children'),val:n,sec:70,
+    exp:G(`1人あたり ${b-a}こ ふえると 必要数が ${r1+r2}こ ふえる。${r1+r2}÷${b-a}=${n}人。あめは ${a*n+r1}こ。`,
+          `每人多分 ${b-a} 颗，总需求多 ${r1}+${r2}=${r1+r2} 颗，人数 ${r1+r2}÷${b-a}=${n} 人（糖 ${a*n+r1} 颗）。`,
+          `Giving ${b-a} more each needs ${r1}+${r2}=${r1+r2} extra sweets, so ${r1+r2}÷${b-a}=${n} children (and ${a*n+r1} sweets).`)});},
+
+()=>{ const s=P([
+   {q:G('つぎの 数の うち、3でも 4でも わりきれる 数は どれですか。','下面哪个数既能被 3 整除又能被 4 整除？','Which of these divides exactly by both 3 and 4?'),
+    o:[G('96','96','96'),G('92','92','92'),G('68','68','68'),G('54','54','54')],c:0,
+    e:G('3でも 4でも わりきれる 数は 12の倍数。96=12×8。92と68は 4で わりきれても 3で わりきれず、54は 3だけ。',
+        '同时被 3、4 整除即 12 的倍数：96=12×8。92、68 只能被 4 整除，54 只能被 3 整除。',
+        'A number divisible by both 3 and 4 is a multiple of 12: 96=12×8. 92 and 68 take 4 but not 3; 54 takes 3 but not 4.')},
+   {q:G('12と 18の 最大公約数は どれですか。','12 和 18 的最大公因数是多少？','What is the highest common factor of 12 and 18?'),
+    o:[G('6','6','6'),G('3','3','3'),G('12','12','12'),G('36','36','36')],c:0,
+    e:G('12=2×2×3、18=2×3×3。共通なのは 2×3=6。','12=2×2×3，18=2×3×3，公共部分 2×3=6。','12=2×2×3 and 18=2×3×3; the shared factors give 2×3=6.')},
+   {q:G('偶数と 奇数に ついて、いつでも 正しい ものは どれですか。','关于奇数和偶数，下面哪句总是成立？','Which is always true about odd and even numbers?'),
+    o:[G('奇数+奇数は 偶数','奇数+奇数=偶数','odd + odd = even'),G('奇数+奇数は 奇数','奇数+奇数=奇数','odd + odd = odd'),
+       G('偶数×奇数は 奇数','偶数×奇数=奇数','even × odd = odd'),G('偶数+奇数は 偶数','偶数+奇数=偶数','even + odd = even')],c:0,
+    e:G('奇数=2×□+1。2つ たすと 2×(□+□)+2 で 偶数に なります。','两个奇数相加，余数 1+1=2，结果为偶数。','An odd number is 2×□+1; adding two gives 2×(□+□)+2, which is even.')}]);
+  return QC({tag:G('数の性質','数的性质','Number properties'),q:s.q,opts:s.o,ci:s.c,sec:40,exp:s.e});},
+
+()=>{ const d=R(4,20)*2;
+  return QI({tag:G('円','圆','Circles'),q:G(`直径 ${d}cm の 円の まわりの 長さは 何cm ですか。円周率は 3.14 と します。`,
+      `直径 ${d}cm 的圆，周长是多少 cm？（π 取 3.14）`,
+      `What is the circumference of a circle with diameter ${d}cm? Take π as 3.14.`),
+    unit:G('cm','cm','cm'),val:Math.round(d*3.14*100)/100,sec:35,
+    exp:G(`直径×3.14=${d}×3.14=${num(Math.round(d*3.14*100)/100)}cm。`,`直径×3.14=${num(Math.round(d*3.14*100)/100)}cm。`,
+          `diameter × 3.14 = ${d}×3.14=${num(Math.round(d*3.14*100)/100)}cm.`)});},
+
+()=>{ let den,nu; do{ den=P([3,4,5,7,8,9]); nu=R(1,den-1); }while(gcd(nu,den)!==1);
+  const rest=R(6,25)*(den-nu), total=rest*den/(den-nu);
+  return QI({tag:G('割合','分数应用','Fraction of a whole'),q:G(`本を 全体の ${nu}/${den} まで 読んだら、のこりは ${rest}ページ でした。\nこの 本は 全部で 何ページ ですか。`,
+      `一本书读了全书的 ${nu}/${den}，还剩 ${rest} 页。全书共多少页？`,
+      `After reading ${nu}/${den} of a book, ${rest} pages are left.\nHow many pages does the book have altogether?`),
+    unit:G('ページ','页','pages'),val:total,sec:60,
+    exp:G(`のこりは 全体の ${fr(den-nu,den)}。${rest}÷${fr(den-nu,den)}=${total}ページ。`,
+          `剩下的占 ${fr(den-nu,den)}，${rest}÷${fr(den-nu,den)}=${total} 页。`,
+          `The remainder is ${fr(den-nu,den)} of the book, so ${rest}÷${fr(den-nu,den)}=${total} pages.`)});},
+
+()=>{ const n=P([5,6,8,9,10,12]);
+  return QI({tag:G('正多角形','正多边形','Regular polygons'),q:G(`正${n}角形の 1つの 内角は 何度 ですか。`,`正 ${n} 边形的一个内角是多少度？`,`What is one interior angle of a regular ${n}-sided polygon?`),
+    unit:G('度','度','degrees'),val:180*(n-2)/n,sec:50,
+    exp:G(`内角の 和は 180×(${n}−2)=${180*(n-2)}度。1つ分は ${180*(n-2)}÷${n}=${180*(n-2)/n}度。`,
+          `内角和 180×(${n}−2)=${180*(n-2)} 度，每个 ${180*(n-2)/n} 度。`,
+          `The interior angles total 180×(${n}−2)=${180*(n-2)}°, so each one is ${180*(n-2)}÷${n}=${180*(n-2)/n}°.`)});},
+
+()=>{ const b=R(4,20)*5,p=P([10,20,25,40,50,60,75]),a=b*p/100;
+  return QI({tag:G('割合','百分数','Percentages'),q:G(`${a}人は ${b}人の 何% ですか。`,`${a} 人是 ${b} 人的百分之几？`,`${a} people is what percentage of ${b} people?`),
+    unit:G('%','%','%'),val:p,sec:40,
+    exp:G(`くらべる量÷もとにする量=${a}÷${b}=${num(a/b)}。100をかけて ${p}%。`,`${a}÷${b}=${num(a/b)}，即 ${p}%。`,
+          `${a}÷${b}=${num(a/b)}, and ×100 gives ${p}%.`)});}
+);
+
+/* ======================= 小学6年 ======================= */
+BANK[6].push(
+()=>{ let a,b,c,d; do{ b=R(3,9);a=R(1,b-1);d=R(3,9);c=R(1,d-1); }
+  while(gcd(a,b)!==1||gcd(c,d)!==1||(a===c&&b===d));
+  const n=a*d,m=b*c;
+  return QI({tag:G('分数の計算','分数计算','Fraction calculation'),q:G(`つぎの 計算を しましょう。答えは 分数で 書きましょう。\n\n[[${a}/${b} ÷ ${c}/${d}]]`,
+      `计算（分数作答）：\n\n[[${a}/${b} ÷ ${c}/${d}]]`,
+      `Work this out. Give your answer as a fraction.\n\n[[${a}/${b} ÷ ${c}/${d}]]`),
+    val:n/m,disp:frMixed(n,m),note:UI.fracN,sec:45,
+    exp:G(`わる数を 逆数に して かけます。${a}/${b}×${d}/${c}=${frMixed(n,m)}。`,
+          `除以一个分数等于乘它的倒数：${a}/${b}×${d}/${c}=${frMixed(n,m)}。`,
+          `Dividing by a fraction means multiplying by its reciprocal: ${a}/${b}×${d}/${c}=${frMixed(n,m)}.`)});},
+
+()=>{ const r=R(3,12),k=P([[G('4分の1','四分之一','a quarter'),4],[G('2分の1','二分之一','a half'),2]]);
+  const v=Math.round(r*r*3.14/k[1]*100)/100;
+  return QI({tag:G('円の面積','圆的面积','Area of a circle'),q:G(`半径 ${r}cm の 円の ${k[0].ja}の おうぎ形の 面積は 何cm² ですか。円周率は 3.14 と します。`,
+      `半径 ${r}cm 的圆的${k[0].zh}扇形，面积是多少 cm²？（π 取 3.14）`,
+      `What is the area of ${k[0].en} of a circle of radius ${r}cm, in cm²? Take π as 3.14.`),
+    unit:G('cm²','cm²','cm²'),val:v,sec:50,
+    exp:G(`円の 面積は ${r}×${r}×3.14=${num(r*r*3.14)}cm²。その ${k[0].ja}で ${num(v)}cm²。`,
+          `整圆面积 ${num(r*r*3.14)}cm²，取${k[0].zh}得 ${num(v)}cm²。`,
+          `The whole circle is ${r}×${r}×3.14=${num(r*r*3.14)}cm²; ${k[0].en} of that is ${num(v)}cm².`)});},
+
+()=>{ const t=P([0,1]);
+  if(t===0){ const r=R(3,8),h=R(5,15);
+    const v=Math.round(r*r*3.14*h*100)/100;
+    return QI({tag:G('体積','体积','Volume'),q:G(`底面の 半径が ${r}cm、高さが ${h}cm の 円柱の 体積は 何cm³ ですか。円周率は 3.14 と します。`,
+        `底面半径 ${r}cm、高 ${h}cm 的圆柱，体积是多少 cm³？（π 取 3.14）`,
+        `A cylinder has base radius ${r}cm and height ${h}cm.\nWhat is its volume in cm³? Take π as 3.14.`),
+      unit:G('cm³','cm³','cm³'),val:v,sec:50,
+      exp:G(`底面積 ${r}×${r}×3.14=${num(r*r*3.14)}cm²。×高さ ${h}=${num(v)}cm³。`,`底面积 ${num(r*r*3.14)}cm² × 高 ${h} = ${num(v)}cm³。`,
+            `Base area ${r}×${r}×3.14=${num(r*r*3.14)}cm², times height ${h} gives ${num(v)}cm³.`)});}
+  const b=R(4,12),hh=R(4,10),h=R(6,15);
+  return QI({tag:G('体積','体积','Volume'),q:G(`底面が 底辺 ${b}cm、高さ ${hh}cm の 三角形で、高さが ${h}cm の 三角柱の 体積は 何cm³ ですか。`,
+      `底面是底 ${b}cm、高 ${hh}cm 的三角形，柱高 ${h}cm 的三棱柱，体积是多少 cm³？`,
+      `A triangular prism has a base triangle with base ${b}cm and height ${hh}cm, and the prism is ${h}cm long.\nWhat is its volume in cm³?`),
+    unit:G('cm³','cm³','cm³'),val:b*hh/2*h,sec:45,
+    exp:G(`底面積 ${b}×${hh}÷2=${b*hh/2}cm²。×${h}=${b*hh/2*h}cm³。`,`底面积 ${b*hh/2}cm² × ${h} = ${b*hh/2*h}cm³。`,
+          `Base area ${b}×${hh}÷2=${b*hh/2}cm², times ${h} gives ${b*hh/2*h}cm³.`)});},
+
+()=>{ const a=R(2,7),b=R(2,7),k=R(4,14),tot=(a+b)*k;
+  return QI({tag:G('比','比','Ratio'),q:G(`${tot}まいの カードを、兄と 弟で ${a}:${b} に なるように 分けます。\n兄は 何まい もらえますか。`,
+      `把 ${tot} 张卡片按 ${a}:${b} 分给哥哥和弟弟。哥哥分到多少张？`,
+      `${tot} cards are shared between two brothers in the ratio ${a}:${b}.\nHow many does the older brother get?`),
+    unit:G('まい','张','cards'),val:a*k,sec:50,
+    exp:G(`比の 合計は ${a}+${b}=${a+b}。${tot}÷${a+b}=${k} が 1あたり。兄は ${k}×${a}=${a*k}まい。`,
+          `份数共 ${a+b}，每份 ${tot}÷${a+b}=${k}，哥哥 ${a} 份 = ${a*k} 张。`,
+          `There are ${a}+${b}=${a+b} shares; each is ${tot}÷${a+b}=${k}. The older brother gets ${a} of them: ${a*k}.`)});},
+
+()=>{ let a,b,n; do{ a=R(12,40);b=R(8,36);n=R(3,12); }while(a===b||(a*n)%b!==0);
+  return QI({tag:G('反比例','反比例','Inverse proportion'),q:G(`歯の 数が ${a}の 歯車Aと、歯の 数が ${b}の 歯車Bが かみ合って います。\n歯車Aが ${n}回転する とき、歯車Bは 何回転 しますか。`,
+      `齿数 ${a} 的齿轮 A 与齿数 ${b} 的齿轮 B 啮合。A 转 ${n} 圈时，B 转多少圈？`,
+      `Gear A has ${a} teeth and meshes with gear B, which has ${b} teeth.\nWhen gear A turns ${n} times, how many times does gear B turn?`),
+    unit:G('回転','圈','turns'),val:a*n/b,sec:55,
+    exp:G(`かみ合う 歯の 数は 同じ。${a}×${n}=${a*n}、${a*n}÷${b}=${a*n/b}回転。`,`啮合齿数相同：${a}×${n}÷${b}=${a*n/b} 圈。`,
+          `The same number of teeth pass the meshing point: ${a}×${n}=${a*n}, then ${a*n}÷${b}=${a*n/b} turns.`)});},
+
+()=>{ const t=P([0,1]);
+  if(t===0){ const n=R(4,7);
+    return QI({tag:G('場合の数','计数','Counting'),q:G(`${n}人の 中から、そうじ当番を 2人 えらびます。\nえらび方は 何通り ありますか。`,
+        `从 ${n} 个人中选 2 人做值日。有多少种选法？`,
+        `Two people are chosen from ${n} to be on cleaning duty.\nHow many different choices are there?`),
+      unit:G('通り','种','ways'),val:n*(n-1)/2,sec:55,
+      exp:G(`${n}×${n-1}=${n*(n-1)}通り は 順番を 区別した 数。2人の 順番は 関係ないので ÷2 して ${n*(n-1)/2}通り。`,
+            `有序时 ${n}×${n-1}=${n*(n-1)} 种，选人不分先后，÷2 得 ${n*(n-1)/2} 种。`,
+            `${n}×${n-1}=${n*(n-1)} counts order; the two are interchangeable, so divide by 2 to get ${n*(n-1)/2}.`)});}
+  const n=R(4,6);
+  return QI({tag:G('場合の数','计数','Counting'),q:G(`${n}まいの ちがう カードから 3まいを えらんで 横に ならべます。\nならべ方は 何通り ありますか。`,
+      `从 ${n} 张不同的卡片中取 3 张排成一行。有多少种排法？`,
+      `Three cards are chosen from ${n} different cards and laid out in a row.\nHow many arrangements are possible?`),
+    unit:G('通り','种','ways'),val:n*(n-1)*(n-2),sec:55,
+    exp:G(`1まい目 ${n}通り、2まい目 ${n-1}通り、3まい目 ${n-2}通り。${n}×${n-1}×${n-2}=${n*(n-1)*(n-2)}通り。`,
+          `${n}×${n-1}×${n-2}=${n*(n-1)*(n-2)} 种。`,
+          `${n} choices, then ${n-1}, then ${n-2}: ${n}×${n-1}×${n-2}=${n*(n-1)*(n-2)}.`)});},
+
+()=>{ const va=R(50,90),vb=R(50,90),t=R(6,15),d=(va+vb)*t;
+  return QI({tag:G('旅人算','行程问题','Travel problem'),q:G(`${d}m はなれた 2地点から、A さんは 分速 ${va}m、B さんは 分速 ${vb}m で 同時に 向かい合って 歩き出しました。\n2人が 出会うのは 何分後 ですか。`,
+      `相距 ${d} 米的两地，A 以每分 ${va} 米、B 以每分 ${vb} 米同时相向出发。几分钟后相遇？`,
+      `Two people start at the same moment from points ${d}m apart and walk towards each other, A at ${va} m/min and B at ${vb} m/min.\nAfter how many minutes do they meet?`),
+    unit:G('分後','分钟后','minutes'),val:t,sec:60,
+    exp:G(`1分間に 2人 合わせて ${va}+${vb}=${va+vb}m 近づきます。${d}÷${va+vb}=${t}分後。`,
+          `每分钟共接近 ${va+vb} 米，${d}÷${va+vb}=${t} 分钟。`,
+          `Together they close ${va}+${vb}=${va+vb}m every minute: ${d}÷${va+vb}=${t} minutes.`)});},
+
+()=>{ const p=P([[12,6,4],[10,15,6],[20,30,12],[6,12,4],[8,24,6],[9,18,6],[15,10,6],[18,9,6]]);
+  return QI({tag:G('仕事算','工程问题','Work rate'),q:G(`ある仕事を、A さん 1人では ${p[0]}日、B さん 1人では ${p[1]}日で 終わらせる ことが できます。\n2人で いっしょに すると 何日で 終わりますか。`,
+      `一项工作，A 单独做需 ${p[0]} 天，B 单独做需 ${p[1]} 天。两人合作需要几天？`,
+      `A job takes A alone ${p[0]} days and B alone ${p[1]} days.\nWorking together, how many days does it take?`),
+    unit:G('日','天','days'),val:p[2],sec:65,
+    exp:G(`全体を 1と すると 1日に A は 1/${p[0]}、B は 1/${p[1]}。合わせて ${fr(p[0]+p[1],p[0]*p[1])}。1÷それ=${p[2]}日。`,
+          `设总量为 1，每天共完成 1/${p[0]}+1/${p[1]}=${fr(p[0]+p[1],p[0]*p[1])}，1÷它 = ${p[2]} 天。`,
+          `Call the job 1. Each day they do 1/${p[0]}+1/${p[1]}=${fr(p[0]+p[1],p[0]*p[1])}, so it takes ${p[2]} days.`)});},
+
+()=>{ const t=P([0,1]);
+  if(t===0){ const g=R(2,8)*50,p=P([4,5,6,8,10,12]);
+    return QI({tag:G('食塩水','浓度','Concentration'),q:G(`${p}% の 食塩水が ${g}g あります。\nこの中に とけて いる 食塩は 何g ですか。`,
+        `有 ${p}% 的盐水 ${g} 克。其中溶解的盐有多少克？`,
+        `You have ${g}g of ${AN(p)} ${p}% salt solution.\nHow many grams of salt does it contain?`),
+      unit:G('g','g','g'),val:g*p/100,sec:45,
+      exp:G(`${g}×0.${String(p).padStart(2,'0')}=${g*p/100}g。`,`${g}×${p}%=${g*p/100} 克。`,`${g}×${p}% = ${g*p/100}g.`)});}
+  const salt=R(2,9)*5,water=R(4,12)*20;
+  return QI({tag:G('食塩水','浓度','Concentration'),q:G(`水 ${water}g に 食塩 ${salt}g を とかしました。\nこの 食塩水の こさは 何% ですか。`,
+      `在 ${water} 克水中溶解 ${salt} 克盐。这杯盐水的浓度是百分之几？`,
+      `${salt}g of salt is dissolved in ${water}g of water.\nWhat is the concentration of the solution, as a percentage?`),
+    unit:G('%','%','%'),val:Math.round(salt/(salt+water)*10000)/100,sec:55,
+    exp:G(`食塩水は ${salt+water}g。${salt}÷${salt+water}×100=${num(Math.round(salt/(salt+water)*10000)/100)}%。`,
+          `盐水共 ${salt+water} 克，${salt}÷${salt+water}=${num(Math.round(salt/(salt+water)*10000)/100)}%。`,
+          `The solution weighs ${salt+water}g, so ${salt}÷${salt+water}×100=${num(Math.round(salt/(salt+water)*10000)/100)}%.`)});},
+
+()=>{ const k=P([1000,2000,5000,25000,50000]),cm=R(2,12);
+  const m=cm*k/100;
+  return QI({tag:G('縮図','比例尺','Scale drawing'),q:G(`縮尺 1/${k} の 地図で、${cm}cm の 長さは、実際には 何m ですか。`,
+      `在比例尺为 1:${k} 的地图上，${cm}cm 对应实际多少米？`,
+      `On a map with a scale of 1:${k}, a length of ${cm}cm represents how many metres on the ground?`),
+    unit:G('m','m','m'),val:m,sec:55,
+    exp:G(`実際は ${cm}×${k}=${cm*k}cm。100で わって ${m}m。`,`实际 ${cm}×${k}=${cm*k}cm = ${m} 米。`,
+          `${cm}×${k}=${cm*k}cm in real life; divide by 100 to get ${m}m.`)});},
+
+()=>{ const s=P([
+   {q:G('線対称でも 点対称でも ある 図形は どれですか。','下面哪个图形既是轴对称图形又是中心对称图形？','Which shape has both line symmetry and point symmetry?'),
+    o:[G('長方形','长方形','Rectangle'),G('正三角形','等边三角形','Equilateral triangle'),G('二等辺三角形','等腰三角形','Isosceles triangle'),G('台形','梯形','Trapezium')],c:0,
+    e:G('正三角形は 線対称ですが 点対称では ありません。長方形は どちらにも なります。','等边三角形只是轴对称；长方形两者都满足。','An equilateral triangle has line symmetry but not point symmetry; a rectangle has both.')},
+   {q:G('点対称な 図形に ついて、正しい ものは どれですか。','关于中心对称图形，下面哪句是对的？','Which is true of a shape with point symmetry?'),
+    o:[G('180度 回すと もとの 形に ぴったり 重なる','旋转 180 度后与原图重合','Turning it 180° maps it onto itself'),
+       G('90度 回すと かならず 重なる','旋转 90 度一定重合','Turning it 90° always maps it onto itself'),
+       G('折ると ぴったり 重なる','对折后一定重合','Folding it always makes the halves match'),
+       G('かならず 辺が 4本 ある','一定有 4 条边','It must have four sides')],c:0,
+    e:G('折って 重なるのは 線対称です。','对折重合的是轴对称。','Folding to match is line symmetry, not point symmetry.')}]);
+  return QC({tag:G('対称','对称','Symmetry'),q:s.q,opts:s.o,ci:s.c,sec:40,exp:s.e});},
+
+()=>{ const d=SH([R(2,9),R(2,9),R(10,19),R(10,19),R(3,9),R(11,18),R(4,14)]);
+  const so=d.slice().sort((x,y)=>x-y),med=so[3];
+  const t=P([0,1]);
+  const fig=G(d.join('、'),d.join('、'),d.join(', '));
+  return t===0
+    ? QI({tag:G('資料の調べ方','数据','Data'),q:G('つぎの 7つの 記録が あります。\n中央値（メジアン）は いくつですか。','下面是 7 个数据。中位数是多少？',
+        'Here are seven results.\nWhat is the median?'),
+        fig:fig,val:med,sec:45,
+        exp:G(`小さい 順に ならべると ${so.join('、')}。まん中の 4番目は ${med}。`,`排序后为 ${so.join('、')}，中间第 4 个是 ${med}。`,
+              `In order they are ${so.join(', ')}; the 4th, in the middle, is ${med}.`)})
+    : QI({tag:G('資料の調べ方','数据','Data'),q:G('つぎの 7つの 記録が あります。\n平均値は いくつですか。（わりきれない ときは 小数で 答えなさい）',
+        '下面是 7 个数据。平均数是多少？（除不尽时用小数作答）',
+        'Here are seven results.\nWhat is the mean? Give a decimal if it does not divide exactly.'),
+        fig:fig,val:Math.round(d.reduce((s,x)=>s+x,0)/7*1000)/1000,
+        note:G('小数第3位まで で 答えなさい','请保留到小数点后 3 位','Give your answer to 3 decimal places'),sec:50,
+        exp:G(`合計 ${d.reduce((s,x)=>s+x,0)} を 7で わって ${num(Math.round(d.reduce((s,x)=>s+x,0)/7*1000)/1000)}。`,
+              `总和 ${d.reduce((s,x)=>s+x,0)} ÷ 7 = ${num(Math.round(d.reduce((s,x)=>s+x,0)/7*1000)/1000)}。`,
+              `The total is ${d.reduce((s,x)=>s+x,0)}; divided by 7 that is ${num(Math.round(d.reduce((s,x)=>s+x,0)/7*1000)/1000)}.`)});},
+
+()=>{ const cost=R(4,20)*100,rate=P([20,25,30,40,50]),price=cost*(100+rate)/100;
+  return QI({tag:G('売買損益','利润问题','Profit and loss'),q:G(`原価 ${cost}円の 品物に、原価の ${rate}% の 利益を 見こんで 定価を つけました。\n定価は 何円 ですか。`,
+      `一件成本 ${cost} 日元的商品，按成本的 ${rate}% 加价定价。定价是多少日元？`,
+      `An item costing ${cost} yen is marked up by ${rate}% of the cost.\nWhat is the selling price, in yen?`),
+    unit:G('円','日元','yen'),val:price,sec:50,
+    exp:G(`${cost}×${(100+rate)/100}=${price}円。`,`${cost}×(1+${rate}%)=${price} 日元。`,`${cost}×${(100+rate)/100}=${price} yen.`)});},
+
+()=>{ const v=P([10,12,15,20,25]); let len,bl;
+  do{ len=R(8,20)*10; bl=v*R(15,50)-len; }while(bl<150||bl>700||bl%10!==0);
+  return QI({tag:G('通過算','火车过桥','Train crossing'),q:G(`長さ ${len}m の 電車が、秒速 ${v}m で 長さ ${bl}m の 鉄橋を わたります。\nわたり始めてから わたり終わるまで 何秒 かかりますか。`,
+      `一列长 ${len} 米的火车以每秒 ${v} 米通过一座长 ${bl} 米的桥。从车头上桥到车尾离桥需要多少秒？`,
+      `A train ${len}m long crosses a bridge ${bl}m long at ${v} metres per second.\nHow many seconds pass between the front entering and the back leaving?`),
+    unit:G('秒','秒','seconds'),val:(len+bl)/v,sec:65,
+    exp:G(`進む 道のりは 鉄橋+電車の 長さ=${bl}+${len}=${bl+len}m。${bl+len}÷${v}=${num((len+bl)/v)}秒。`,
+          `总路程 = 桥长 + 车长 = ${bl+len} 米，${bl+len}÷${v}=${num((len+bl)/v)} 秒。`,
+          `The train travels bridge + train = ${bl}+${len}=${bl+len}m, so ${bl+len}÷${v}=${num((len+bl)/v)} seconds.`)});}
+);
+
+/* ================= 応用問題（4年） ================= */
+COMP[4].push(
+CQ(()=>{ let B,x,y,avg; do{ B=R(58,84); x=R(4,13); y=R(3,11); avg=(3*B+x-y)/3; }while(!Number.isInteger(avg));
+  return QI({tag:G('応用・平均と和差','综合 · 平均与和差','Applied · averages'),
+    q:G(`A、B、C の 3人が テストを 受けました。\nA は B より ${x}点 高く、C は B より ${y}点 低い 点数でした。\n3人の 平均点が ${avg}点の とき、A の 点数は 何点 ですか。`,
+        `A、B、C 三人考试。A 比 B 高 ${x} 分，C 比 B 低 ${y} 分。三人平均分是 ${avg} 分。A 考了多少分？`,
+        `A, B and C sat a test.\nA scored ${x} marks more than B, and C scored ${y} marks less than B.\nThe three of them averaged ${avg} marks. What did A score?`),
+    unit:G('点','分','marks'),val:B+x,sec:100,
+    exp:G(`合計は ${avg}×3=${avg*3}点。B を もとに すると A=B+${x}、C=B−${y} なので 合計=B×3+${x}−${y}。\nB×3=${avg*3}−${x}+${y}=${3*B} より B=${B}点、A=${B}+${x}=${B+x}点。`,
+          `总分 ${avg}×3=${avg*3}。以 B 为基准：总分 = B×3+${x}−${y}，得 B×3=${3*B}，B=${B} 分，A=${B+x} 分。`,
+          `The three total ${avg}×3=${avg*3}. Measuring from B: A=B+${x} and C=B−${y}, so the total is B×3+${x}−${y}.\nThen B×3=${avg*3}−${x}+${y}=${3*B}, giving B=${B} and A=${B}+${x}=${B+x}.`)});}),
+
+CQ(()=>{ const a=R(14,26),b=R(16,32),w=R(2,4);
+  return QI({tag:G('応用・面積','综合 · 面积','Applied · area'),
+    q:G(`たて ${a}m、よこ ${b}m の 長方形の 土地に、はば ${w}m の 道を たてに 1本、よこに 1本 まっすぐ 通しました。\n道を のぞいた 部分の 面積は 何m² ですか。`,
+        `一块长 ${b} 米、宽 ${a} 米的长方形土地，纵横各修一条宽 ${w} 米的直路。除去道路后的面积是多少平方米？`,
+        `A rectangular field is ${a}m by ${b}m. One straight path ${w}m wide runs across it and another runs down it.\nWhat is the area of the field that is left, in m²?`),
+    unit:G('m²','m²','m²'),val:(a-w)*(b-w),sec:110,
+    exp:G(`道を はしに よせて 考えると、のこりは たて ${a}−${w}=${a-w}m、よこ ${b}−${w}=${b-w}m の 長方形 1つに まとまります。\n${a-w}×${b-w}=${(a-w)*(b-w)}m²。`,
+          `把两条路平移到边上，剩下部分合并成一个 ${a-w}m×${b-w}m 的长方形：${(a-w)*(b-w)} 平方米。`,
+          `Slide both paths to the edges and the remaining ground gathers into one rectangle, ${a}−${w}=${a-w}m by ${b}−${w}=${b-w}m.\n${a-w}×${b-w}=${(a-w)*(b-w)}m².`)});}),
+
+CQ(()=>{ const pat=P([['赤','青','青','黄'],['赤','赤','青','黄','黄'],['青','黄','赤','青']]);
+  const pz={'赤':'红','青':'蓝','黄':'黄'}, pe={'赤':'red','青':'blue','黄':'yellow'};
+  const tgt=P([...new Set(pat)]),p=pat.length,n=R(50,140);
+  const per=pat.filter(c=>c===tgt).length;
+  const rem=n%p, extra=pat.slice(0,rem).filter(c=>c===tgt).length;
+  return QI({tag:G('応用・きまり','综合 · 周期','Applied · patterns'),
+    q:G(`${pat.join('・')} の ${p}個を くりかえして、左から ボールを ならべます。\n左から ${n}番目 までに、${tgt}い ボールは 何個 ありますか。`,
+        `按 ${pat.map(c=>pz[c]).join('、')} 这 ${p} 个一组循环排列小球。从左数前 ${n} 个当中，${pz[tgt]}色的球有多少个？`,
+        `Balls are laid out from the left repeating this group of ${p}: ${pat.map(c=>pe[c]).join(', ')}.\nAmong the first ${n} balls, how many are ${pe[tgt]}?`),
+    unit:G('個','个','balls'),val:Math.floor(n/p)*per+extra,sec:110,
+    exp:G(`${n}÷${p}=${Math.floor(n/p)}あまり${rem}。1くりかえしに ${tgt}は ${per}個 あるので ${per}×${Math.floor(n/p)}=${per*Math.floor(n/p)}個。\nあまりの ${rem}個の 中に ${extra}個 あるので 合計 ${Math.floor(n/p)*per+extra}個。`,
+          `${n}÷${p}=${Math.floor(n/p)}余${rem}。每组有 ${per} 个，共 ${per*Math.floor(n/p)} 个；余下 ${rem} 个里还有 ${extra} 个，合计 ${Math.floor(n/p)*per+extra} 个。`,
+          `${n}÷${p}=${Math.floor(n/p)} remainder ${rem}. Each group holds ${per} ${pe[tgt]} balls, giving ${per}×${Math.floor(n/p)}=${per*Math.floor(n/p)}.\nThe leftover ${rem} balls add ${extra} more, so ${Math.floor(n/p)*per+extra} in all.`)});}),
+
+CQ(()=>{ const x=R(3,9);
+  return QI({tag:G('応用・やりとり','综合 · 交换','Applied · exchange'),
+    q:G(`兄は 弟の 3倍の カードを 持って います。\n兄が 弟に ${x}まい あげると、兄の まい数は 弟の 2倍に なりました。\n兄は はじめ 何まい 持って いましたか。`,
+        `哥哥的卡片是弟弟的 3 倍。哥哥给弟弟 ${x} 张后，哥哥的张数变成弟弟的 2 倍。哥哥原来有多少张？`,
+        `An older brother has 3 times as many cards as his younger brother.\nAfter he gives ${x} cards away to him, he has only twice as many.\nHow many cards did the older brother start with?`),
+    unit:G('まい','张','cards'),val:9*x,sec:120,
+    exp:G(`弟を ①と すると 兄は ③。やりとり後は 兄 ③−${x}、弟 ①+${x} で、③−${x}=(①+${x})×2。\n③−${x}=②+${2*x} より ①=${3*x}まい。兄は ${3*x}×3=${9*x}まい。`,
+          `设弟弟为 ①，哥哥为 ③。交换后 ③−${x} = 2×(①+${x})，解得 ① = ${3*x} 张，哥哥 = ${9*x} 张。`,
+          `Let the younger brother have 1 unit, so the older has 3. Afterwards 3 units −${x} = 2 × (1 unit +${x}).\nThat gives 1 unit = ${3*x} cards, so the older brother began with ${3*x}×3=${9*x}.`)});}),
+
+CQ(()=>{ const s=[R(62,88),R(62,88),R(62,88),R(62,88)],m=R(75,85);
+  const need=5*m-s.reduce((a,b)=>a+b,0);
+  if(need<0||need>100) return COMP[4][0]();
+  return QI({tag:G('応用・平均','综合 · 平均','Applied · averages'),
+    q:G(`テストを 4回 受けて、点数は ${s.join('点、')}点 でした。\n5回の 平均点を ${m}点に するには、5回目に 何点 とれば よいですか。`,
+        `四次考试成绩分别是 ${s.join('、')} 分。要让五次平均分达到 ${m} 分，第五次需要考多少分？`,
+        `Your marks in four tests were ${s.join(', ')}.\nWhat must you score on the fifth test to average ${m} across all five?`),
+    unit:G('点','分','marks'),val:need,sec:100,
+    exp:G(`5回の 合計は ${m}×5=${5*m}点 必要。4回の 合計は ${s.reduce((a,b)=>a+b,0)}点。\n${5*m}−${s.reduce((a,b)=>a+b,0)}=${need}点。`,
+          `五次总分需 ${m}×5=${5*m}，前四次共 ${s.reduce((a,b)=>a+b,0)}，还需 ${need} 分。`,
+          `Five tests must total ${m}×5=${5*m}. The first four came to ${s.reduce((a,b)=>a+b,0)}.\n${5*m}−${s.reduce((a,b)=>a+b,0)}=${need}.`)});})
+);
+
+/* ================= 応用問題（5年） ================= */
+COMP[5].push(
+CQ(()=>{ const cost=R(10,32)*40, price=cost/8*11;
+  return QI({tag:G('応用・割合','综合 · 百分数','Applied · percentages'),
+    q:G(`原価 ${cost}円の 品物に 定価を つけます。\n定価の 2割引きで 売っても、原価の 1割の 利益が 出るように したい そうです。\n定価は 何円に すれば よいですか。`,
+        `一件成本 ${cost} 日元的商品。希望即使按定价的 8 折出售，仍能获得成本 10% 的利润。定价应定为多少日元？`,
+        `An item costs the shop ${cost} yen.\nThe owner wants a profit of 10% of the cost even after selling it at 20% off the marked price.\nWhat should the marked price be, in yen?`),
+    unit:G('円','日元','yen'),val:price,sec:130,
+    exp:G(`売値は 原価の 1.1倍で ${cost}×1.1=${cost*1.1}円。\n売値は 定価の 0.8倍 なので、定価=${cost*1.1}÷0.8=${price}円。`,
+          `售价须为成本的 1.1 倍 = ${cost*1.1} 日元；售价是定价的 0.8 倍，故定价 = ${cost*1.1}÷0.8 = ${price} 日元。`,
+          `The selling price must be 1.1 × cost = ${cost}×1.1=${cost*1.1} yen.\nThat selling price is 0.8 of the marked price, so the mark is ${cost*1.1}÷0.8=${price} yen.`)});}),
+
+CQ(()=>{ const p=P([[60,40,48],[30,20,24],[80,20,32],[90,60,72],[45,30,36],[72,24,36],[100,25,40]]);
+  const [v1,v2,ans]=p, d=lcm(v1,v2);
+  return QI({tag:G('応用・速さ','综合 · 速度','Applied · speed'),
+    q:G(`同じ 道を 往復しました。行きは 分速 ${v1}m、帰りは 分速 ${v2}m でした。\n往復の 平均の 速さは 分速 何m ですか。`,
+        `沿同一条路往返。去时每分 ${v1} 米，回时每分 ${v2} 米。往返全程的平均速度是每分多少米？`,
+        `You travel out and back along the same road, at ${v1} m/min going and ${v2} m/min returning.\nWhat is your average speed for the whole trip, in metres per minute?`),
+    unit:G('m','m','m'),val:ans,sec:140,
+    exp:G(`片道を ${d}m と すると 行きは ${d/v1}分、帰りは ${d/v2}分、合わせて ${d/v1+d/v2}分。\n道のりは ${2*d}m なので ${2*d}÷${d/v1+d/v2}=${ans}m。(${v1}と${v2}の 平均では ありません)`,
+          `设单程 ${d} 米，去 ${d/v1} 分、回 ${d/v2} 分，共 ${d/v1+d/v2} 分；总路程 ${2*d} 米，平均速度 ${ans} 米/分（不是两个速度的平均）。`,
+          `Take one leg as ${d}m: that is ${d/v1} min out and ${d/v2} min back, ${d/v1+d/v2} min in total.\nThe distance is ${2*d}m, so ${2*d}÷${d/v1+d/v2}=${ans} m/min — not the average of ${v1} and ${v2}.`)});}),
+
+CQ(()=>{ let n,a,b,r1,r2,k=0;
+  do{ n=R(7,16);a=R(3,6);b=a+R(1,3);r1=R(3,14);r2=(b-a)*n-r1;k++; }while((r2<=0||r2>16)&&k<300);
+  return QI({tag:G('応用・過不足算','综合 · 盈亏','Applied · surplus and shortage'),
+    q:G(`あめを 子どもに 配ります。\n1人に ${a}こずつ 配ると ${r1}こ あまり、1人に ${b}こずつ 配ると ${r2}こ たりません。\nあめは 全部で 何こ ありますか。`,
+        `把糖分给小朋友。每人 ${a} 颗则剩 ${r1} 颗，每人 ${b} 颗则差 ${r2} 颗。糖一共有多少颗？`,
+        `Sweets are shared among some children.\nGiving ${a} each leaves ${r1} over; giving ${b} each leaves you ${r2} short.\nHow many sweets are there altogether?`),
+    unit:G('こ','颗','sweets'),val:a*n+r1,sec:130,
+    exp:G(`1人あたり ${b-a}こ ふやすと 必要数が ${r1}+${r2}=${r1+r2}こ ふえるので、子どもは ${r1+r2}÷${b-a}=${n}人。\nあめは ${a}×${n}+${r1}=${a*n+r1}こ。`,
+          `每人多分 ${b-a} 颗，总需求增加 ${r1+r2} 颗，故人数 ${r1+r2}÷${b-a}=${n} 人；糖 = ${a}×${n}+${r1} = ${a*n+r1} 颗。`,
+          `Giving ${b-a} more each takes ${r1}+${r2}=${r1+r2} extra sweets, so there are ${r1+r2}÷${b-a}=${n} children.\nThe sweets number ${a}×${n}+${r1}=${a*n+r1}.`)});}),
+
+CQ(()=>{ const p=R(1,3),q=R(1,3);
+  return QI({tag:G('応用・割合と面積','综合 · 百分数与面积','Applied · percentage and area'),
+    q:G(`長方形の たての 長さを ${p}割 長く し、よこの 長さを ${q}割 短く しました。\n新しい 長方形の 面積は、もとの 面積の 何% に なりますか。`,
+        `把一个长方形的宽增加 ${p*10}%，长减少 ${q*10}%。新长方形的面积是原来的百分之几？`,
+        `A rectangle has its height increased by ${p*10}% and its width decreased by ${q*10}%.\nThe new area is what percentage of the old one?`),
+    unit:G('%','%','%'),val:(10+p)*(10-q),sec:130,
+    exp:G(`もとの たて・よこを 10と 10と すると、新しい 面積は ${10+p}×${10-q}=${(10+p)*(10-q)}。\nもとは 10×10=100 なので ${(10+p)*(10-q)}%。(${p}割増と ${q}割減は 打ち消し合いません)`,
+          `设原来长宽为 10、10，新面积 ${10+p}×${10-q}=${(10+p)*(10-q)}，原面积 100，故为 ${(10+p)*(10-q)}%（增减不会互相抵消）。`,
+          `Take the original sides as 10 and 10. The new area is ${10+p}×${10-q}=${(10+p)*(10-q)} against the old 10×10=100, so ${(10+p)*(10-q)}%. The rise and the fall do not cancel out.`)});}),
+
+CQ(()=>{ let a,b,r1,r2,v; do{ a=P([3,4,5]); b=P([4,5,6,7]); r1=R(1,a-1); r2=R(1,b-1);
+    v=null; for(let x=10;x<100;x++) if(x%a===r1&&x%b===r2){v=x;break;} }while(gcd(a,b)!==1||v===null);
+  return QI({tag:G('応用・数の性質','综合 · 数的性质','Applied · number properties'),
+    q:G(`${a}で わると ${r1} あまり、${b}で わると ${r2} あまる 2けたの 整数の うち、いちばん 小さい 数を 答えなさい。`,
+        `一个两位整数，除以 ${a} 余 ${r1}，除以 ${b} 余 ${r2}。求满足条件的最小的数。`,
+        `Find the smallest two-digit whole number that leaves a remainder of ${r1} when divided by ${a}, and a remainder of ${r2} when divided by ${b}.`),
+    val:v,sec:140,
+    exp:G(`${b}で わると ${r2} あまる 数は ${r2}、${r2+b}、${r2+2*b}、… です。\nこの 中で ${a}で わった あまりが ${r1}に なる 2けたの 数を さがすと ${v}。(${a}と${b}の 公倍数 ${a*b}ごとに くりかえします)`,
+          `除以 ${b} 余 ${r2} 的数为 ${r2}、${r2+b}、${r2+2*b}…，从中找除以 ${a} 余 ${r1} 的两位数，得 ${v}（每 ${a*b} 循环一次）。`,
+          `Numbers leaving ${r2} on division by ${b} run ${r2}, ${r2+b}, ${r2+2*b}, …\nChecking those for a remainder of ${r1} on division by ${a} gives ${v}. The pattern repeats every ${a*b}.`)});})
+);
+
+/* ================= 応用問題（6年） ================= */
+COMP[6].push(
+CQ(()=>{ let x,y,p,q,c; do{ x=R(1,4)*100; y=R(1,4)*100; p=R(2,12); q=R(2,15);
+    c=(p*x+q*y)/(x+y); }while(p===q||!Number.isInteger(c));
+  return QI({tag:G('応用・食塩水','综合 · 浓度','Applied · concentration'),
+    q:G(`${p}% の 食塩水 ${x}g と、${q}% の 食塩水 ${y}g を まぜました。\nできた 食塩水の こさは 何% ですか。`,
+        `把 ${p}% 的盐水 ${x} 克与 ${q}% 的盐水 ${y} 克混合。混合后的浓度是百分之几？`,
+        `${x}g of ${AN(p)} ${p}% salt solution is mixed with ${y}g of ${AN(q)} ${q}% solution.\nWhat is the concentration of the mixture, as a percentage?`),
+    unit:G('%','%','%'),val:c,sec:140,
+    exp:G(`食塩は ${x}×0.0${p<10?'':''}${p}=${x*p/100}g と ${y*q/100}g で 合わせて ${(x*p+y*q)/100}g。\n食塩水は ${x+y}g なので ${(x*p+y*q)/100}÷${x+y}×100=${c}%。`,
+          `盐分别为 ${x*p/100}g 和 ${y*q/100}g，共 ${(x*p+y*q)/100}g；盐水共 ${x+y}g，浓度 ${c}%。`,
+          `The salt weighs ${x*p/100}g and ${y*q/100}g, so ${(x*p+y*q)/100}g in all.\nThe mixture weighs ${x+y}g, giving ${(x*p+y*q)/100}÷${x+y}×100=${c}%.`)});}),
+
+CQ(()=>{ let a,b; do{ a=R(2,7); b=R(2,7); }while(a===b||gcd(a,b)!==1);
+  const k=R(20,70),x=a*k;
+  return QI({tag:G('応用・旅人算と比','综合 · 行程与比','Applied · travel and ratio'),
+    q:G(`A と B が 2つの 地点から 同時に 向かい合って 出発しました。\n2人の 速さの 比は ${a}:${b} で、出会うまでに A は ${x}m 進みました。\n2つの 地点は 何m はなれて いますか。`,
+        `A、B 两人从两地同时相向出发。两人速度之比为 ${a}:${b}，相遇时 A 走了 ${x} 米。两地相距多少米？`,
+        `A and B set off at the same moment from two places and walk towards each other.\nTheir speeds are in the ratio ${a}:${b}, and A has walked ${x}m when they meet.\nHow far apart are the two places, in metres?`),
+    unit:G('m','m','m'),val:(a+b)*k,sec:140,
+    exp:G(`同じ 時間に 進む 道のりの 比は 速さの 比と 同じ ${a}:${b}。\nA の ${x}m が ${a}に あたるので 1あたり ${x}÷${a}=${k}m。全体は ${a}+${b}=${a+b} 分で ${k}×${a+b}=${(a+b)*k}m。`,
+          `同一时间内路程之比等于速度之比 ${a}:${b}。A 的 ${x} 米对应 ${a} 份，每份 ${k} 米，全程 ${a+b} 份 = ${(a+b)*k} 米。`,
+          `In equal time the distances are in the same ratio as the speeds, ${a}:${b}.\nA's ${x}m is ${a} shares, so one share is ${x}÷${a}=${k}m. The whole gap is ${a}+${b}=${a+b} shares: ${k}×${a+b}=${(a+b)*k}m.`)});}),
+
+CQ(()=>{ const p=P([[12,4,6],[15,6,10],[20,12,30],[10,6,15],[18,6,9],[24,8,12],[30,10,15],[12,3,4]]);
+  return QI({tag:G('応用・仕事算','综合 · 工程','Applied · work rate'),
+    q:G(`ある仕事を、A さん 1人で すると ${p[0]}日 かかり、A さんと B さんの 2人で すると ${p[1]}日で 終わります。\nこの 仕事を B さん 1人で すると 何日 かかりますか。`,
+        `一项工作，A 单独做需 ${p[0]} 天，A 和 B 合作需 ${p[1]} 天。B 单独做需要几天？`,
+        `A job takes A working alone ${p[0]} days, and A and B working together ${p[1]} days.\nHow many days would B take working alone?`),
+    unit:G('日','天','days'),val:p[2],sec:150,
+    exp:G(`全体を 1と すると 1日に 2人で 1/${p[1]}、A は 1/${p[0]}。\nB は 1/${p[1]}−1/${p[0]}=${fr(p[0]-p[1],p[0]*p[1])} なので、1÷${fr(p[0]-p[1],p[0]*p[1])}=${p[2]}日。`,
+          `设总量 1，合作每天 1/${p[1]}，A 每天 1/${p[0]}，故 B 每天 ${fr(p[0]-p[1],p[0]*p[1])}，需 ${p[2]} 天。`,
+          `Call the job 1. Together they do 1/${p[1]} a day and A alone does 1/${p[0]}.\nSo B does 1/${p[1]}−1/${p[0]}=${fr(p[0]-p[1],p[0]*p[1])} a day, taking ${p[2]} days.`)});}),
+
+CQ(()=>{ const a=R(3,9)*2, v=Math.round((a*a-(a/2)*(a/2)*3.14)*100)/100;
+  return QI({tag:G('応用・円と面積','综合 · 圆与面积','Applied · circles and area'),
+    q:G(`1辺 ${a}cm の 正方形に、ぴったり 入る 大きさの 円を かきました。\n正方形の 中で、円の 外側に なる 部分の 面積は 何cm² ですか。円周率は 3.14 と します。`,
+        `在边长 ${a}cm 的正方形内画一个内切圆。正方形内、圆外部分的面积是多少 cm²？（π 取 3.14）`,
+        `The largest possible circle is drawn inside a square of side ${a}cm.\nWhat is the area inside the square but outside the circle, in cm²? Take π as 3.14.`),
+    unit:G('cm²','cm²','cm²'),val:v,sec:140,
+    exp:G(`円の 半径は ${a}÷2=${a/2}cm。正方形 ${a}×${a}=${a*a}cm²、円 ${a/2}×${a/2}×3.14=${num((a/2)*(a/2)*3.14)}cm²。\n${a*a}−${num((a/2)*(a/2)*3.14)}=${num(v)}cm²。`,
+          `圆半径 ${a/2}cm。正方形 ${a*a}cm² 减去圆 ${num((a/2)*(a/2)*3.14)}cm²，得 ${num(v)}cm²。`,
+          `The circle's radius is ${a}÷2=${a/2}cm. Square ${a}×${a}=${a*a}cm², circle ${a/2}×${a/2}×3.14=${num((a/2)*(a/2)*3.14)}cm².\n${a*a}−${num((a/2)*(a/2)*3.14)}=${num(v)}cm².`)});}),
+
+CQ(()=>{ let v1,v2,t,ans; do{ v1=R(40,70); v2=v1+R(10,40); t=R(5,15); ans=v1*t/(v2-v1); }while(!Number.isInteger(ans));
+  return QI({tag:G('応用・追いつき算','综合 · 追及','Applied · catching up'),
+    q:G(`弟が 分速 ${v1}m で 家を 出発しました。\nその ${t}分後に、兄が 分速 ${v2}m で 同じ 道を 追いかけました。\n兄が 弟に 追いつくのは、兄が 出発してから 何分後 ですか。`,
+        `弟弟以每分 ${v1} 米出发。${t} 分钟后哥哥以每分 ${v2} 米沿同一条路追赶。哥哥出发后几分钟追上弟弟？`,
+        `A younger brother leaves home walking at ${v1} m/min.\n${t} minutes later his older brother sets off after him along the same road at ${v2} m/min.\nHow many minutes after the older brother starts does he catch up?`),
+    unit:G('分後','分钟后','minutes'),val:ans,sec:150,
+    exp:G(`兄が 出発する とき、弟は ${v1}×${t}=${v1*t}m 先に います。\n1分間に ${v2}−${v1}=${v2-v1}m ずつ 差が ちぢまるので ${v1*t}÷${v2-v1}=${ans}分後。`,
+          `哥哥出发时弟弟已领先 ${v1*t} 米；每分钟追近 ${v2-v1} 米，故 ${v1*t}÷${v2-v1}=${ans} 分钟。`,
+          `When the older brother starts, the younger is ${v1}×${t}=${v1*t}m ahead.\nThe gap closes by ${v2}−${v1}=${v2-v1}m each minute, so ${v1*t}÷${v2-v1}=${ans} minutes.`)});}),
+
+CQ(()=>{ const n=P([4,5]),f=k=>k<=1?1:k*f(k-1);
+  return QI({tag:G('応用・場合の数','综合 · 计数','Applied · counting'),
+    q:G(`${n}人が 横一列に ならびます。\nその うちの 2人、A さんと B さんが となり合う ならび方は 何通り ありますか。`,
+        `${n} 个人排成一行。其中 A 和 B 相邻的排法有多少种？`,
+        `${n} people stand in a row.\nIn how many of the arrangements are A and B standing next to each other?`),
+    unit:G('通り','种','ways'),val:2*f(n-1),sec:150,
+    exp:G(`A と B を 1つの かたまりと 見ると ${n-1}個の ならべ方で ${f(n-1)}通り。\nかたまりの 中で AB・BA の 2通り あるので ${f(n-1)}×2=${2*f(n-1)}通り。`,
+          `把 A、B 捆成一个整体，${n-1} 个元素排列有 ${f(n-1)} 种；整体内部 AB/BA 有 2 种，共 ${2*f(n-1)} 种。`,
+          `Treat A and B as one block: that leaves ${n-1} items to arrange, ${f(n-1)} ways.\nInside the block they can stand AB or BA, so ${f(n-1)}×2=${2*f(n-1)}.`)});})
+);
+
+/* ============================ engine ============================ */
+let state = null;
+const $ = id => document.getElementById(id);
+
+function buildSet(grade){
+  const take = (arr, k) => { let o = []; while(o.length < k) o = o.concat(SH(arr)); return o.slice(0,k); };
+  const comp = COMP[grade] || [];
+  // 入試と同じ構成：前半は計算・小問、後半に応用問題を 3〜5問
+  const nc = comp.length ? Math.min(R(3,5), comp.length) : 0;
+  const order = take(BANK[grade], 15-nc).concat(take(comp, nc));
+  const out = [], seen = new Set();
+  for(const gen of order){
+    let q = null;
+    for(let k=0;k<12;k++){
+      const cand = gen();
+      const key = L(cand.q);
+      if(!seen.has(key)){ q = cand; seen.add(key); break; }
+      q = cand;
+    }
+    out.push(q);
+  }
+  return out;
+}
+
+function fmtTime(ms){
+  const s = Math.round(ms/1000);
+  return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+}
+
+function startQuiz(grade){
+  state = {grade, qs: buildSet(grade), i:0, ans:new Array(15).fill(null),
+           t0: Date.now(), timer:null};
+  state.base = state.qs.reduce((s,q)=>s+q.sec,0);
+  show('scQuiz');
+  drawRail();
+  renderQ();
+  state.timer = setInterval(tick, 250);
+  tick();
+}
+function tick(){
+  const el = $('clock'), ms = Date.now()-state.t0;
+  el.textContent = fmtTime(ms);
+  el.classList.toggle('warn', ms/1000 > state.base*1.5);
+}
+function drawRail(){
+  const r = $('rail'); r.innerHTML='';
+  for(let i=0;i<15;i++){
+    const d = document.createElement('div');
+    const firstHard = state.qs[i].hard && (i===0 || !state.qs[i-1].hard);
+    d.className = 'cell' + (state.ans[i]!=null?' done':'') + (i===state.i?' now':'') + (firstHard?' sec':'');
+    d.textContent = i+1;
+    r.appendChild(d);
+  }
+}
+function renderQ(){
+  const q = state.qs[state.i], i = state.i;
+  $('qno').textContent = L(UI.qofn(i+1,15));
+  $('qtag').textContent = L(q.tag);
+  $('qtag').className = 'tag' + (q.hard ? ' hard' : '');
+  $('qtext').innerHTML = L(q.q).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/\[\[(.+?)\]\]/g,'<b>$1</b>');
+  $('qfig').innerHTML = q.fig ? '<pre class="fig">'+L(q.fig)+'</pre>' : '';
+  const box = $('qans'); box.innerHTML = '';
+  if(q.kind==='choice'){
+    const g = document.createElement('div'); g.className='opts';
+    q.opts.forEach((o,k)=>{
+      const b = document.createElement('button');
+      b.type='button'; b.className='opt'; b.setAttribute('aria-pressed', state.ans[i]===k);
+      b.innerHTML = '<span class="key">'+(k+1)+'</span><span></span>';
+      b.lastChild.textContent = L(o);
+      b.onclick = ()=>{ state.ans[i]=k; renderQ(); drawRail(); };
+      g.appendChild(b);
+    });
+    box.appendChild(g);
+    $('qhint').textContent = L(UI.qhintC);
+  }else{
+    const w = document.createElement('div'); w.className='fill';
+    const inp = document.createElement('input');
+    inp.type='text'; inp.inputMode = q.note ? 'text' : 'decimal'; inp.autocomplete='off';
+    inp.setAttribute('aria-label', L(UI.answerU));
+    inp.value = state.ans[i]==null ? '' : state.ans[i];
+    inp.oninput = ()=>{ state.ans[i] = inp.value.trim()===''?null:inp.value; drawRail(); };
+    inp.onkeydown = e => { if(e.key==='Enter'){ e.preventDefault(); nextQ(); } };
+    w.appendChild(inp);
+    if(q.unit){ const u=document.createElement('span'); u.className='unit'; u.textContent=L(q.unit); w.appendChild(u); }
+    box.appendChild(w);
+    if(q.note){ const n=document.createElement('div'); n.className='note'; n.textContent=L(q.note); box.appendChild(n); }
+    $('qhint').textContent = L(UI.qhint);
+    setTimeout(()=>inp.focus(),0);
+  }
+  $('nextBtn').textContent = L(i===14 ? UI.last : UI.next);
+  drawRail();
+}
+function nextQ(){
+  if(state.i===14) finish(); else { state.i++; renderQ(); }
+}
+function judge(q, a){
+  if(a==null) return false;
+  if(q.kind==='choice') return a===q.ci;
+  return same(parseNum(a), q.val);
+}
+function finish(){
+  clearInterval(state.timer);
+  const ms = Date.now()-state.t0, sec = ms/1000;
+  const ok = state.qs.map((q,i)=>judge(q,state.ans[i]));
+  const hit = ok.filter(Boolean).length;
+  const ratio = sec/state.base;
+  const rank = ratio<=1 ? 'A' : ratio<=1.2 ? 'B' : ratio<=1.5 ? 'C' : 'D';
+  state.res = {ms, ok, hit, ratio, rank};
+  show('scResult');
+  paintResult();
+  saveLog(state.grade, hit, Math.round(sec), rank);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function paintResult(){
+  const {ms, ok, hit, ratio, rank} = state.res;
+  $('rTitle').textContent = L(UI.rTitle);
+  $('rL1').textContent = L(UI.L1);
+  $('rL2').textContent = L(UI.L2);
+  $('rAcc').innerHTML = Math.round(hit/15*100)+'<small>%</small>';
+  $('rAccM').textContent = L(UI.hitN(hit));
+  $('rBar').style.width = (hit/15*100)+'%';
+  $('rTime').textContent = fmtTime(ms);
+  $('rTimeM').textContent = L(UI.target)+' '+fmtTime(state.base*1000)+' ・ '+L(UI.ratio(Math.round(ratio*100)));
+  const rk = $('rRank'); rk.textContent = rank; rk.className = 'rank'+(rank==='D'?' d':'');
+  $('rScale').textContent = L(UI.scale);
+  const rv = $('review'); rv.innerHTML='';
+  state.qs.forEach((q,i)=>{
+    const d = document.createElement('div');
+    d.className = 'rv'+(ok[i]?'':' bad');
+    const mine = state.ans[i]==null ? L(UI.blank)
+      : (q.kind==='choice' ? L(q.opts[state.ans[i]]) : state.ans[i]);
+    const right = q.kind==='choice' ? L(q.opts[q.ci]) : q.disp;
+    d.innerHTML = '<div class="mark">'+(ok[i]?'○':'×')+'</div><div class="body">'
+      + (q.hard?'<span class="tag hard rvtag"></span>':'')
+      + '<div class="q"></div>'+(q.fig?'<pre class="fig rvfig"></pre>':'')
+      + '<div class="ans"><span>'+L(UI.your)+'：<b class="m"></b></span>'
+      + (ok[i]?'':'<span>'+L(UI.correct)+'：<b class="r"></b></span>')+'</div>'
+      + '<div class="exp"></div></div>';
+    if(q.hard) d.querySelector('.rvtag').textContent = L(q.tag);
+    d.querySelector('.q').textContent = (i+1)+'. '+L(q.q).replace(/\[\[|\]\]/g,'');
+    if(q.fig) d.querySelector('.rvfig').textContent = L(q.fig);
+    d.querySelector('.m').textContent = mine;
+    if(!ok[i]) d.querySelector('.r').textContent = right;
+    d.querySelector('.exp').textContent = L(q.exp);
+    rv.appendChild(d);
+  });
+}
+
+/* ---------- log ---------- */
+function saveLog(grade,hit,sec,rank){
+  const l = JSON.parse(localStorage.getItem('md_log')||'[]');
+  l.unshift({g:grade,h:hit,s:sec,r:rank,d:Date.now()});
+  localStorage.setItem('md_log', JSON.stringify(l.slice(0,8)));
+}
+function drawLog(){
+  const l = JSON.parse(localStorage.getItem('md_log')||'[]');
+  $('logBox').classList.toggle('hidden', l.length===0);
+  $('sLog').textContent = L(UI.logT);
+  $('logRows').innerHTML = l.map(x=>{
+    const d = new Date(x.d);
+    return '<tr><td>'+L(UI.gradeN(x.g))+'</td><td class="n">'+x.h+'/15</td>'
+      +'<td class="n">'+fmtTime(x.s*1000)+'</td><td class="n">'+x.r+'</td>'
+      +'<td class="n">'+(d.getMonth()+1)+'/'+d.getDate()+'</td></tr>';
+  }).join('');
+}
+
+/* ---------- screens ---------- */
+function show(id){
+  ['scStart','scQuiz','scResult'].forEach(s=>$(s).classList.toggle('hidden', s!==id));
+}
+let picked = null;
+function drawStart(){
+  $('sTitle').textContent = L(UI.title);
+  $('sSub').textContent = L(UI.sub);
+  $('sPick').textContent = L(UI.pick);
+  $('startBtn').textContent = L(UI.start);
+  $('sHint').textContent = L(UI.hint);
+  $('againBtn').textContent = L(UI.again);
+  $('homeBtn').textContent = L(UI.home);
+  $('brandEn').textContent = '15 questions';
+  $('sFoot').textContent = L(UI.foot);
+  const g = $('grades'); g.innerHTML='';
+  for(let n=1;n<=6;n++){
+    const b = document.createElement('button');
+    b.type='button'; b.className='tile'; b.setAttribute('aria-pressed', picked===n);
+    b.innerHTML = '<span class="num">'+'一二三四五六'[n-1]+'</span><span><span class="tname"></span>'
+      + '<span class="tdesc"></span></span>';
+    b.querySelector('.tname').textContent = L(UI.gradeN(n));
+    b.querySelector('.tdesc').textContent = L(GRADE_DESC[n]);
+    b.onclick = ()=>{ picked = n; drawStart(); $('startBtn').disabled = false; };
+    g.appendChild(b);
+  }
+  $('startBtn').disabled = picked===null;
+  drawLog();
+}
+
+function buildLangs(el){
+  el.innerHTML = '';
+  LANGS.forEach(([code,label])=>{
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'lg'; b.textContent = label;
+    b.setAttribute('aria-pressed', code===LANG);
+    b.onclick = e => { e.stopPropagation(); setLang(code); };
+    el.appendChild(b);
+  });
+}
+function applyLang(){
+  document.documentElement.lang = LANG==='ja' ? 'ja' : LANG==='zh' ? 'zh-CN' : 'en';
+  buildLangs($('langsTop')); buildLangs($('langsSplash'));
+  $('spMsg1').textContent = L(UI.msg1);
+  $('spMsg2').textContent = L(UI.msg2);
+  $('spSkip').textContent = L(UI.skip);
+}
+function setLang(code){
+  if(code === LANG) return;
+  LANG = code;
+  localStorage.setItem('md_lang', LANG);
+  applyLang();
+  drawStart();
+  if(state && !$('scQuiz').classList.contains('hidden')) renderQ();
+  if(state && state.res && !$('scResult').classList.contains('hidden')) paintResult();
+  if(!$('splash').classList.contains('out')) restartSplashTimer();  // 読む時間を返す
+}
+
+/* ---------- 欢迎载入页 ---------- */
+let splashTimer = null;
+function closeSplash(){
+  clearTimeout(splashTimer);
+  $('splash').classList.add('out');
+}
+function restartSplashTimer(){
+  clearTimeout(splashTimer);
+  splashTimer = setTimeout(closeSplash, 3800);
+  const bar = document.querySelector('.splash-bar i');
+  bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = '';
+}
+$('splash').onclick = closeSplash;
+$('spSkip').onclick = closeSplash;
+document.addEventListener('keydown', () => {
+  if(!$('splash').classList.contains('out')) closeSplash();
+});
+$('startBtn').onclick = ()=> startQuiz(picked);
+$('nextBtn').onclick = nextQ;
+$('againBtn').onclick = ()=> startQuiz(state.grade);
+$('homeBtn').onclick = ()=>{ show('scStart'); drawStart(); };
+document.addEventListener('keydown', e=>{
+  if($('scQuiz').classList.contains('hidden')) return;
+  const q = state.qs[state.i];
+  if(q.kind==='choice'){
+    if(/^[1-4]$/.test(e.key) && +e.key<=q.opts.length){ state.ans[state.i]=+e.key-1; renderQ(); }
+    else if(e.key==='Enter') nextQ();
+  }
+});
+applyLang();
+drawStart();
+restartSplashTimer();
+</script>
