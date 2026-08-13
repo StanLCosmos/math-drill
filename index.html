@@ -135,6 +135,16 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
 .log td{padding:6px 0;border-bottom:1px solid var(--rule);color:var(--ink-soft)}
 .log td:first-child{font-family:var(--disp);color:var(--ink)}
 .log td.n{font-family:var(--data);text-align:right;font-variant-numeric:tabular-nums}
+.log tr.open{cursor:pointer;transition:background .13s}
+.log tr.open td{position:relative}
+.log tr.open:hover td,.log tr.open:focus-visible td{background:var(--ai-wash);color:var(--ai)}
+.log tr.open:focus-visible{outline:2px solid var(--ai-2);outline-offset:-2px}
+.log tr.open td:last-child::after{content:"›";position:absolute;right:-12px;color:var(--ink-faint);
+  font-size:15px;line-height:1}
+.log tr.open:hover td:last-child::after{color:var(--ai)}
+.loghint{font-size:12px;color:var(--ink-faint);margin:12px 0 0}
+.rwhen{font-family:var(--data);font-size:12px;letter-spacing:.08em;color:var(--shu);
+  margin:-4px 0 0}
 
 /* ---- 答案用紙 rail ---- */
 .sheet{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
@@ -254,6 +264,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
     <div class="log hidden" id="logBox">
       <p class="eyebrow" id="sLog"></p>
       <table><tbody id="logRows"></tbody></table>
+      <p class="loghint" id="logHint"></p>
     </div>
     <p class="foot" id="sFoot"></p>
   </section>
@@ -279,6 +290,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   <!-- ===== RESULT ===== -->
   <section id="scResult" class="hidden">
     <h1 class="lede" id="rTitle"></h1>
+    <p class="rwhen hidden" id="rWhen"></p>
     <div class="scores">
       <div class="score">
         <div class="lab" id="rL1"></div>
@@ -318,6 +330,10 @@ const UI = {
   start:  G('はじめる','开始','Start'),
   hint:   G('15問・自動採点・タイム計測','15 题 · 自动评分 · 计时','15 questions · auto-graded · timed'),
   logT:   G('これまでの記録','历史记录','Past attempts'),
+  logHint:G('記録をクリックすると、そのときの答案を もう一度 見られます（最近15回分）',
+            '点击任意一条记录，可以回看那次的答卷（保留最近 15 次）',
+            'Click any attempt to see that paper again (the last 15 are kept)'),
+  past:   t => G(`${t} の記録`, `${t} 的记录`, `Attempt from ${t}`),
   next:   G('つぎへ','下一题','Next'),
   last:   G('採点する','提交并评分','Finish and grade'),
   qhint:  G('Enter でつぎへ','按 Enter 进入下一题','Press Enter for the next question'),
@@ -336,9 +352,9 @@ const UI = {
   your:   G('きみの答え','你的答案','You answered'),
   correct:G('正しい答え','正确答案','Correct answer'),
   blank:  G('（むかいとう）','（未作答）','(left blank)'),
-  msg1:   G('通勤 0分、集中は 100%。今日の在宅ワークも、ごきげんに はかどりますように。',
-            '通勤零分钟，专注百分之百——祝今天的居家办公，愉快又高效。',
-            'Zero-minute commute, focus dialled to eleven — here’s to a home-office day that actually works.'),
+  msg1:   G('集中は 100%。今日の在宅ワークも、ごきげんに はかどりますように。',
+            '专注百分之百——祝今天的居家办公，愉快又高效。',
+            'Focus dialled to eleven — here’s to a home-office day that actually works.'),
   msg2:   G('ようこそ。使ってみて気になったところ、「こんな機能がほしい」は、遠慮なく Stan まで。',
             '欢迎使用。哪里别扭、想加什么功能，尽管跟 Stan 说。',
             'Welcome aboard. Gripes, wishes and wild feature ideas all go to Stan.'),
@@ -1492,14 +1508,21 @@ function finish(){
   const ratio = sec/state.base;
   const rank = ratio<=1 ? 'A' : ratio<=1.2 ? 'B' : ratio<=1.5 ? 'C' : 'D';
   state.res = {ms, ok, hit, ratio, rank};
+  state.viewing = null;
   show('scResult');
   paintResult();
-  saveLog(state.grade, hit, Math.round(sec), rank);
+  saveLog();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 function paintResult(){
   const {ms, ok, hit, ratio, rank} = state.res;
   $('rTitle').textContent = L(UI.rTitle);
+  const when = $('rWhen');
+  when.classList.toggle('hidden', !state.viewing);
+  if(state.viewing){
+    const d = new Date(state.viewing), p = n => String(n).padStart(2,'0');
+    when.textContent = L(UI.past(`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${p(d.getHours())}:${p(d.getMinutes())}`));
+  }
   $('rL1').textContent = L(UI.L1);
   $('rL2').textContent = L(UI.L2);
   $('rAcc').innerHTML = Math.round(hit/15*100)+'<small>%</small>';
@@ -1532,22 +1555,58 @@ function paintResult(){
   });
 }
 
-/* ---------- log ---------- */
-function saveLog(grade,hit,sec,rank){
-  const l = JSON.parse(localStorage.getItem('md_log')||'[]');
-  l.unshift({g:grade,h:hit,s:sec,r:rank,d:Date.now()});
-  localStorage.setItem('md_log', JSON.stringify(l.slice(0,8)));
+/* ---------- log ---------- 直近15回は答案ごと保存し、あとから見返せる */
+const KEEP = 15;
+const readLog = () => { try { return JSON.parse(localStorage.getItem('md_log')||'[]'); }
+                        catch(e){ return []; } };
+function saveLog(){
+  const {ms, hit, rank} = state.res;
+  let l = readLog();
+  l.unshift({g:state.grade, h:hit, s:Math.round(ms/1000), r:rank, d:Date.now(),
+             base:state.base, qs:state.qs, ans:state.ans});
+  l = l.slice(0, KEEP);
+  // 保存できない大きさなら、古い記録から落として入るところまで残す
+  while(l.length){
+    try { localStorage.setItem('md_log', JSON.stringify(l)); return; }
+    catch(e){ l = l.slice(0, l.length-1); }
+  }
+  try { localStorage.removeItem('md_log'); } catch(e){}
 }
 function drawLog(){
-  const l = JSON.parse(localStorage.getItem('md_log')||'[]');
+  const l = readLog();
   $('logBox').classList.toggle('hidden', l.length===0);
   $('sLog').textContent = L(UI.logT);
-  $('logRows').innerHTML = l.map(x=>{
-    const d = new Date(x.d);
-    return '<tr><td>'+L(UI.gradeN(x.g))+'</td><td class="n">'+x.h+'/15</td>'
-      +'<td class="n">'+fmtTime(x.s*1000)+'</td><td class="n">'+x.r+'</td>'
-      +'<td class="n">'+(d.getMonth()+1)+'/'+d.getDate()+'</td></tr>';
-  }).join('');
+  const tb = $('logRows'); tb.innerHTML = '';
+  l.forEach((x,i)=>{
+    const openable = Array.isArray(x.qs) && Array.isArray(x.ans) && x.qs.length>0;
+    const d = new Date(x.d), tr = document.createElement('tr');
+    tr.className = openable ? 'open' : '';
+    tr.innerHTML = '<td></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td>';
+    const c = tr.children;
+    c[0].textContent = L(UI.gradeN(x.g));
+    c[1].textContent = x.h + '/15';
+    c[2].textContent = fmtTime(x.s*1000);
+    c[3].textContent = x.r;
+    c[4].textContent = (d.getMonth()+1) + '/' + d.getDate();
+    if(openable){
+      tr.tabIndex = 0; tr.setAttribute('role','button');
+      tr.onclick = () => openAttempt(i);
+      tr.onkeydown = e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openAttempt(i); } };
+    }
+    tb.appendChild(tr);
+  });
+  $('logHint').textContent = l.some(x=>Array.isArray(x.qs)) ? L(UI.logHint) : '';
+}
+function openAttempt(i){
+  const r = readLog()[i];
+  if(!r || !Array.isArray(r.qs)) return;
+  const ok = r.qs.map((q,k) => judge(q, r.ans[k]));
+  const base = r.base || r.s || 1;
+  state = {grade:r.g, qs:r.qs, ans:r.ans, base:base, timer:null, viewing:r.d,
+           res:{ms:r.s*1000, ok:ok, hit:ok.filter(Boolean).length, ratio:r.s/base, rank:r.r}};
+  show('scResult');
+  paintResult();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 /* ---------- screens ---------- */
