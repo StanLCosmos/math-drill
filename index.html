@@ -97,6 +97,61 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
 @keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 @keyframes fill{from{width:0}to{width:100%}}
 
+/* ---- ライフと renew ---- */
+.gate{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;
+  border:1px solid var(--rule);border-radius:3px;padding:13px 16px;margin-bottom:22px;
+  background:var(--card)}
+.gate.locked{border-color:var(--shu);background:var(--shu-wash)}
+.gate .side{display:flex;align-items:baseline;gap:9px}
+.gate .lab{font-family:var(--data);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.hearts{display:flex;gap:3px;align-items:center}
+.hearts i{width:7px;height:7px;background:var(--shu);border-radius:50%;display:block}
+.hearts i.off{background:var(--rule)}
+.gate .cnt{font-family:var(--data);font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.gate .cd{font-family:var(--data);font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.gate.locked .cnt,.gate.locked .cd{color:var(--shu)}
+.lock{border:1px solid var(--shu);background:var(--shu-wash);border-radius:3px;padding:18px 20px;
+  margin-bottom:22px}
+.lock h2{font-family:var(--disp);font-size:17px;margin:0 0 6px;color:var(--shu);letter-spacing:.03em}
+.lock p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+.tile[disabled],.tile[disabled]:hover{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;
+  border-color:var(--rule)}
+.qlives{display:flex;align-items:center;gap:6px;font-family:var(--data);font-size:12px;
+  color:var(--shu);font-variant-numeric:tabular-nums}
+
+/* ---- 通関ページ ---- */
+.cele{position:fixed;inset:0;z-index:60;background:var(--paper);display:grid;place-items:center;
+  padding:28px;text-align:center;overflow:hidden}
+.cele.hidden{display:none!important}
+.cele canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cele-in{position:relative;display:flex;flex-direction:column;align-items:center;max-width:28rem}
+.cele-art{width:168px;height:168px;margin-bottom:8px}
+.cele-art svg{width:100%;height:100%;overflow:visible}
+.draw{stroke-dasharray:var(--len,1200);stroke-dashoffset:var(--len,1200);
+  animation:stroke 1.1s cubic-bezier(.4,.1,.2,1) forwards}
+.draw.d2{animation-delay:.5s}
+.draw.d3{animation-delay:.85s}
+.pop{animation:pop .5s cubic-bezier(.2,1.5,.4,1) both}
+.pop.d2{animation-delay:.35s}
+.stamp{animation:stamp .45s cubic-bezier(.2,1.4,.35,1) both}
+@keyframes stroke{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@keyframes stamp{0%{opacity:0;transform:scale(2.4) rotate(-14deg)}60%{opacity:1;transform:scale(.92) rotate(-7deg)}
+  100%{opacity:1;transform:scale(1) rotate(-7deg)}}
+.cele-title{font-family:var(--disp);font-weight:600;font-size:clamp(30px,6.5vw,44px);letter-spacing:.1em;
+  color:var(--shu);animation:rise .6s cubic-bezier(.2,.7,.3,1) .9s both}
+.cele-word{font-family:var(--disp);font-size:18px;color:var(--ink);margin-top:10px;letter-spacing:.04em;
+  animation:rise .6s cubic-bezier(.2,.7,.3,1) 1.05s both}
+.cele-stats{display:flex;gap:22px;margin-top:22px;animation:rise .6s cubic-bezier(.2,.7,.3,1) 1.2s both}
+.cele-stat{display:flex;flex-direction:column;gap:3px}
+.cele-stat .k{font-family:var(--data);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.cele-stat .v{font-family:var(--data);font-size:26px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.cele-in .btn{margin-top:26px;animation:rise .6s cubic-bezier(.2,.7,.3,1) 1.35s both}
+.cele-renew{font-size:12.5px;color:var(--ink-faint);margin:14px 0 0;line-height:1.7;
+  animation:rise .6s cubic-bezier(.2,.7,.3,1) 1.5s both}
+
 /* ---- フッター ---- */
 .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);font-size:12.5px;
   color:var(--ink-faint);line-height:1.7}
@@ -255,6 +310,11 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   <section id="scStart">
     <h1 class="lede" id="sTitle"></h1>
     <p class="sub" id="sSub"></p>
+    <div class="gate" id="gate">
+      <span class="side"><span class="lab" id="gLives"></span><span class="hearts" id="gHearts"></span><span class="cnt" id="gCnt"></span></span>
+      <span class="side"><span class="lab" id="gRenew"></span><span class="cd" id="gCd"></span></span>
+    </div>
+    <div class="lock hidden" id="lock"><h2 id="lockT"></h2><p id="lockB"></p></div>
     <p class="eyebrow" id="sPick"></p>
     <div class="grid" id="grades"></div>
     <div class="cta">
@@ -273,6 +333,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   <section id="scQuiz" class="hidden">
     <div class="sheet">
       <div class="rail" id="rail"></div>
+      <span class="qlives" id="qLives"></span>
       <div class="clock" id="clock">0:00</div>
     </div>
     <div class="card">
@@ -286,6 +347,22 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
       </div>
     </div>
   </section>
+
+  <!-- ===== 通関ページ ===== -->
+  <div class="cele hidden" id="cele">
+    <canvas id="celeFx"></canvas>
+    <div class="cele-in">
+      <div class="cele-art" id="celeArt"></div>
+      <div class="cele-title" id="celeTitle"></div>
+      <div class="cele-word" id="celeWord"></div>
+      <div class="cele-stats">
+        <span class="cele-stat"><span class="k" id="celeK1"></span><span class="v" id="celeV1"></span></span>
+        <span class="cele-stat"><span class="k" id="celeK2"></span><span class="v" id="celeV2"></span></span>
+      </div>
+      <button class="btn" id="celeBtn" type="button"></button>
+      <p class="cele-renew" id="celeRenew"></p>
+    </div>
+  </div>
 
   <!-- ===== RESULT ===== -->
   <section id="scResult" class="hidden">
@@ -334,6 +411,26 @@ const UI = {
             '点击任意一条记录，可以回看那次的答卷（保留最近 15 次）',
             'Click any attempt to see that paper again (the last 15 are kept)'),
   past:   t => G(`${t} の記録`, `${t} 的记录`, `Attempt from ${t}`),
+  lives:  G('のこりライフ','剩余生命','Lives left'),
+  renewIn:G('つぎの renew まで','距离下次刷新','Next renew in'),
+  hm:     (h,m) => G(`${h}時間${m}分`, `${h} 小时 ${m} 分`, `${h}h ${m}m`),
+  lockedClearTitle: G('全問正解ずみ ── いまは おやすみ','本周期已满分通关 —— 先歇会儿','Cleared this window — take a breather'),
+  lockedClearBody:  G('この時間帯は もう クリアしました。つぎの renew で ライフが 15に もどります。',
+                      '这个时间段你已经满分通关了。下次刷新时，15 条命会全部恢复。',
+                      'You have already cleared this window. Lives return to 15 at the next renew.'),
+  lockedEmptyTitle: G('ライフ切れ ── つぎの renew を まちましょう','生命用完了 —— 等下次刷新','Out of lives — wait for the next renew'),
+  lockedEmptyBody:  G('15回 ちょうせんして、全問正解には とどきませんでした。つぎの renew で ライフが 15に もどります。',
+                      '15 次机会都用完了，还没拿到满分。下次刷新时，15 条命会全部恢复。',
+                      'All 15 tries are used up without a perfect paper. Lives return to 15 at the next renew.'),
+  celeTitle: G('全問正解','满分通关','Perfect paper'),
+  celeWord: () => P([
+    G('おみごと！','太漂亮了！','Flawless.'),
+    G('かんぺき！','一题不错！','Not a single slip.'),
+    G('よく やりました！','干得漂亮！','Beautifully done.'),
+    G('文句なしの 15問！','15 题全中！','Fifteen out of fifteen.')]),
+  celeSee:  G('答案を 見る','查看答卷','See the marked paper'),
+  celeLock: G('今回は ここで ひと区切り。ライフが もどるまで','本轮到此为止。距离生命恢复还有','That is this window done. Lives come back in'),
+  gateHint: G('1回 ちょうせんすると ライフを 1つ つかいます','每开始一局消耗 1 条命','Each attempt costs one life'),
   next:   G('つぎへ','下一题','Next'),
   last:   G('採点する','提交并评分','Finish and grade'),
   qhint:  G('Enter でつぎへ','按 Enter 进入下一题','Press Enter for the next question'),
@@ -1429,12 +1526,15 @@ function fmtTime(ms){
 }
 
 function startQuiz(grade){
+  if(lockState()){ show('scStart'); drawStart(); return; }   // 念のための二重チェック
+  spendLife();
   state = {grade, qs: buildSet(grade), i:0, ans:new Array(15).fill(null),
            t0: Date.now(), timer:null};
   state.base = state.qs.reduce((s,q)=>s+q.sec,0);
   show('scQuiz');
   drawRail();
   renderQ();
+  drawGate();
   state.timer = setInterval(tick, 250);
   tick();
 }
@@ -1512,7 +1612,10 @@ function finish(){
   show('scResult');
   paintResult();
   saveLog();
+  if(hit === 15) markCleared();
+  drawGate();
   window.scrollTo({top:0, behavior:'smooth'});
+  if(hit === 15) celebrate();
 }
 function paintResult(){
   const {ms, ok, hit, ratio, rank} = state.res;
@@ -1554,6 +1657,61 @@ function paintResult(){
     rv.appendChild(d);
   });
 }
+
+/* ---------- ライフと renew ----------
+   6時間ごとの固定ウィンドウ（0時・6時・12時・18時）。1回の挑戦で ライフを 1つ消費し、
+   全問正解するか ライフが尽きると、つぎの renew まで おやすみ。 */
+const CYCLE_MS = 6*60*60*1000, MAX_LIVES = 15;
+const windowStart = (t=Date.now()) => { const d=new Date(t); d.setHours(Math.floor(d.getHours()/6)*6,0,0,0); return d.getTime(); };
+const nextRenew  = (t=Date.now()) => windowStart(t) + CYCLE_MS;
+function readCycle(){
+  let c = null;
+  try { c = JSON.parse(localStorage.getItem('md_cycle')||'null'); } catch(e){}
+  const ws = windowStart();
+  if(!c || c.ws !== ws) c = {ws:ws, lives:MAX_LIVES, cleared:false};   // ウィンドウが変われば自動でもどる
+  if(typeof c.lives !== 'number' || c.lives < 0 || c.lives > MAX_LIVES) c.lives = MAX_LIVES;
+  return c;
+}
+function writeCycle(c){ try { localStorage.setItem('md_cycle', JSON.stringify(c)); } catch(e){} }
+/* null = 挑戦できる / 'cleared' = 全問正解ずみ / 'empty' = ライフ切れ */
+function lockState(){ const c = readCycle(); return c.cleared ? 'cleared' : (c.lives<=0 ? 'empty' : null); }
+function spendLife(){ const c = readCycle(); c.lives = Math.max(0, c.lives-1); writeCycle(c); return c; }
+function markCleared(){ const c = readCycle(); c.cleared = true; c.clearedAt = Date.now(); writeCycle(c); }
+function untilRenew(){
+  const ms = Math.max(0, nextRenew()-Date.now());
+  return {h:Math.floor(ms/3600000), m:Math.floor(ms/60000)%60, ms:ms};
+}
+function renewText(){ const u = untilRenew(); return L(UI.hm(u.h,u.m)); }
+
+let gateWs = null;
+function drawGate(){
+  const c = readCycle(), lock = lockState(), u = untilRenew();
+  // 開いたまま renew をまたいだら、画面を作りなおす。
+  // 印をさきに更新しないと drawStart→drawGate で無限に呼び合う
+  const rolled = gateWs !== null && gateWs !== c.ws;
+  gateWs = c.ws;
+  if(rolled && !$('scStart').classList.contains('hidden')) drawStart();
+  $('gLives').textContent = L(UI.lives);
+  $('gRenew').textContent = L(UI.renewIn);
+  $('gCnt').textContent = c.lives + ' / ' + MAX_LIVES;
+  $('gCd').textContent = L(UI.hm(u.h,u.m));
+  $('gate').classList.toggle('locked', !!lock);
+  const hs = $('gHearts'); hs.innerHTML = '';
+  for(let i=0;i<MAX_LIVES;i++){ const d=document.createElement('i'); if(i>=c.lives) d.className='off'; hs.appendChild(d); }
+  $('lock').classList.toggle('hidden', !lock);
+  if(lock){
+    $('lockT').textContent = L(lock==='cleared' ? UI.lockedClearTitle : UI.lockedEmptyTitle);
+    $('lockB').textContent = L(lock==='cleared' ? UI.lockedClearBody : UI.lockedEmptyBody);
+  }
+  document.querySelectorAll('#grades .tile').forEach(t => { t.disabled = !!lock; });
+  $('startBtn').disabled = !!lock || picked===null;
+  $('sHint').textContent = lock ? L(UI.renewIn)+' '+L(UI.hm(u.h,u.m)) : L(UI.gateHint);
+  $('qLives').textContent = '♥ ' + c.lives;
+  if(!$('scResult').classList.contains('hidden')) $('againBtn').disabled = !!lock;
+  if(!$('cele').classList.contains('hidden'))
+    $('celeRenew').textContent = L(UI.celeLock)+'\n'+L(UI.hm(u.h,u.m));
+}
+setInterval(drawGate, 15000);
 
 /* ---------- log ---------- 直近15回は答案ごと保存し、あとから見返せる */
 const KEEP = 15;
@@ -1609,6 +1767,104 @@ function openAttempt(i){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
+/* ---------- 通関ページ ---------- */
+const GOLD = '#C9971F', GOLD2 = '#EFC65C';
+const svgWrap = inner => `<svg viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+/* 花丸：先生が答案に描く、あの花のような二重丸 */
+function petalPath(cx,cy,r,n){
+  let d='';
+  for(let i=0;i<n;i++){
+    const a0=(i/n)*Math.PI*2-Math.PI/2, a1=((i+1)/n)*Math.PI*2-Math.PI/2;
+    const x0=cx+r*Math.cos(a0), y0=cy+r*Math.sin(a0), x1=cx+r*Math.cos(a1), y1=cy+r*Math.sin(a1);
+    const pr=r*Math.PI/n*0.98;
+    d += (i===0?`M${x0.toFixed(1)} ${y0.toFixed(1)}`:'') + ` A${pr.toFixed(1)} ${pr.toFixed(1)} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+  }
+  return d+'Z';
+}
+const AWARDS = [
+  () => svgWrap(   /* 花丸 */
+    `<path class="draw" style="--len:900" d="${petalPath(100,100,74,9)}" stroke="var(--shu)" stroke-width="7"/>
+     <circle class="draw d2" style="--len:330" cx="100" cy="100" r="52" stroke="var(--shu)" stroke-width="6"/>
+     <circle class="draw d3" style="--len:200" cx="100" cy="100" r="31" stroke="var(--shu)" stroke-width="5"/>`),
+  () => svgWrap(   /* 金メダル */
+    `<path class="pop" d="M74 26 L100 96 L60 96 Z" fill="${GOLD2}" opacity=".55"/>
+     <path class="pop" d="M126 26 L140 96 L100 96 Z" fill="${GOLD}" opacity=".55"/>
+     <circle class="pop d2" cx="100" cy="126" r="54" fill="${GOLD2}" stroke="${GOLD}" stroke-width="6"/>
+     <circle class="pop d2" cx="100" cy="126" r="40" fill="none" stroke="${GOLD}" stroke-width="2.5" opacity=".7"/>
+     <text class="pop d2" x="100" y="126" text-anchor="middle" dominant-baseline="central"
+       font-family="var(--disp)" font-size="42" font-weight="600" fill="#7A5A0B" stroke="none">1</text>`),
+  () => svgWrap(   /* 王冠 */
+    `<path class="draw" style="--len:800" d="M40 138 L30 62 L68 92 L100 44 L132 92 L170 62 L160 138 Z"
+       stroke="${GOLD}" stroke-width="7" fill="${GOLD2}" fill-opacity=".28"/>
+     <path class="draw d2" style="--len:160" d="M40 152 L160 152" stroke="${GOLD}" stroke-width="7"/>
+     <circle class="pop d2" cx="100" cy="44" r="9" fill="var(--shu)"/>`),
+  () => svgWrap(   /* 「満点」の判子 */
+    `<g class="stamp">
+       <rect x="34" y="34" width="132" height="132" rx="10" fill="none" stroke="var(--shu)" stroke-width="8"/>
+       <text x="100" y="83" text-anchor="middle" dominant-baseline="central" font-family="var(--disp)"
+         font-size="52" font-weight="600" fill="var(--shu)" stroke="none">満</text>
+       <text x="100" y="135" text-anchor="middle" dominant-baseline="central" font-family="var(--disp)"
+         font-size="52" font-weight="600" fill="var(--shu)" stroke="none">点</text>
+     </g>`),
+  () => svgWrap(   /* 三重丸 */
+    `<circle class="draw" style="--len:490" cx="100" cy="100" r="78" stroke="var(--shu)" stroke-width="7"/>
+     <circle class="draw d2" style="--len:350" cx="100" cy="100" r="55" stroke="var(--shu)" stroke-width="6"/>
+     <circle class="draw d3" style="--len:210" cx="100" cy="100" r="33" stroke="var(--shu)" stroke-width="5"/>`),
+  () => {          /* 星章 */
+    let d='M';
+    for(let i=0;i<10;i++){ const r=i%2?32:78, a=(i/10)*Math.PI*2-Math.PI/2;
+      d += `${(100+r*Math.cos(a)).toFixed(1)} ${(100+r*Math.sin(a)).toFixed(1)} `; }
+    return svgWrap(
+      `<path class="draw" style="--len:760" d="${d}Z" stroke="${GOLD}" stroke-width="7" fill="${GOLD2}" fill-opacity=".3"/>
+       <circle class="pop d2" cx="100" cy="100" r="15" fill="var(--shu)"/>`); }
+];
+
+let celeFx = null;
+function confetti(){
+  const cv = $('celeFx'), ctx = cv.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  cv.width = cv.clientWidth*dpr; cv.height = cv.clientHeight*dpr;
+  ctx.scale(dpr,dpr);
+  const W = cv.clientWidth, H = cv.clientHeight;
+  const cols = ['#C3402B','#27467C','#3D7551',GOLD,GOLD2,'#5C8AC4'];
+  // 上端のすぐ上から降らせる。散らしすぎると 画面に入る前に 終わってしまう
+  const bits = Array.from({length:140}, () => ({
+    x: Math.random()*W, y: -20-Math.random()*H*0.35,
+    w: 5+Math.random()*7, h: 8+Math.random()*10,
+    vy: 2.2+Math.random()*3.2, vx: (Math.random()-.5)*1.6,
+    a: Math.random()*Math.PI, va: (Math.random()-.5)*0.22,
+    c: cols[Math.floor(Math.random()*cols.length)]
+  }));
+  const t0 = performance.now();
+  cancelAnimationFrame(celeFx);
+  (function frame(now){
+    const age = now-t0;
+    ctx.clearRect(0,0,W,H);
+    bits.forEach(b=>{
+      b.x+=b.vx; b.y+=b.vy; b.a+=b.va; b.vy+=0.02;
+      ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.a);
+      ctx.globalAlpha = age>3600 ? Math.max(0,1-(age-3600)/1200) : 1;
+      ctx.fillStyle = b.c; ctx.fillRect(-b.w/2,-b.h/2,b.w,b.h);
+      ctx.restore();
+    });
+    if(age<4800) celeFx = requestAnimationFrame(frame);
+    else ctx.clearRect(0,0,W,H);
+  })(t0);
+}
+function celebrate(){
+  const {ms, rank} = state.res;
+  $('celeArt').innerHTML = P(AWARDS)();
+  $('celeTitle').textContent = L(UI.celeTitle);
+  $('celeWord').textContent = L(UI.celeWord());
+  $('celeK1').textContent = L(UI.L2);   $('celeV1').textContent = fmtTime(ms);
+  $('celeK2').textContent = L(UI.L1);   $('celeV2').textContent = '15/15';
+  $('celeBtn').textContent = L(UI.celeSee);
+  $('celeRenew').textContent = L(UI.celeLock)+'\n'+renewText();
+  $('cele').classList.remove('hidden');
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches) confetti();
+}
+$('celeBtn').onclick = () => { cancelAnimationFrame(celeFx); $('cele').classList.add('hidden'); };
+
 /* ---------- screens ---------- */
 function show(id){
   ['scStart','scQuiz','scResult'].forEach(s=>$(s).classList.toggle('hidden', s!==id));
@@ -1621,6 +1877,7 @@ function drawStart(){
   $('startBtn').textContent = L(UI.start);
   $('sHint').textContent = L(UI.hint);
   $('againBtn').textContent = L(UI.again);
+  $('againBtn').disabled = !!lockState();
   $('homeBtn').textContent = L(UI.home);
   $('brandEn').textContent = '15 questions';
   $('sFoot').textContent = L(UI.foot);
@@ -1632,11 +1889,12 @@ function drawStart(){
       + '<span class="tdesc"></span></span>';
     b.querySelector('.tname').textContent = L(UI.gradeN(n));
     b.querySelector('.tdesc').textContent = L(GRADE_DESC[n]);
-    b.onclick = ()=>{ picked = n; drawStart(); $('startBtn').disabled = false; };
+    b.onclick = ()=>{ if(lockState()) return; picked = n; drawStart(); };
     g.appendChild(b);
   }
   $('startBtn').disabled = picked===null;
   drawLog();
+  drawGate();
 }
 
 function buildLangs(el){
@@ -1664,6 +1922,8 @@ function setLang(code){
   drawStart();
   if(state && !$('scQuiz').classList.contains('hidden')) renderQ();
   if(state && state.res && !$('scResult').classList.contains('hidden')) paintResult();
+  if(state && state.res && !$('cele').classList.contains('hidden')) celebrate();
+  drawGate();
   if(!$('splash').classList.contains('out')) restartSplashTimer();  // 読む時間を返す
 }
 
@@ -1684,9 +1944,9 @@ $('spSkip').onclick = closeSplash;
 document.addEventListener('keydown', () => {
   if(!$('splash').classList.contains('out')) closeSplash();
 });
-$('startBtn').onclick = ()=> startQuiz(picked);
+$('startBtn').onclick = ()=> { if(picked && !lockState()) startQuiz(picked); };
 $('nextBtn').onclick = nextQ;
-$('againBtn').onclick = ()=> startQuiz(state.grade);
+$('againBtn').onclick = ()=>{ if(!lockState()) startQuiz(state.grade); };
 $('homeBtn').onclick = ()=>{ show('scStart'); drawStart(); };
 document.addEventListener('keydown', e=>{
   if($('scQuiz').classList.contains('hidden')) return;
