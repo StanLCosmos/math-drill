@@ -115,8 +115,19 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   margin-bottom:22px}
 .lock h2{font-family:var(--disp);font-size:17px;margin:0 0 6px;color:var(--shu);letter-spacing:.03em}
 .lock p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+.lock.notice{border-color:var(--matcha);background:var(--matcha-wash)}
+.lock.notice h2{color:var(--matcha)}
 .tile[disabled],.tile[disabled]:hover{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;
   border-color:var(--rule)}
+/* クリアした学年は「終わった」見た目に。使えないのではなく やりとげた印 */
+.tile.done,.tile.done:hover{opacity:1;border-color:var(--matcha);background:var(--matcha-wash);
+  cursor:default;transform:none;box-shadow:none}
+.tile.done .num{border-color:var(--matcha);color:var(--matcha);background:transparent}
+.tile.done .tname,.tile.done .tdesc{opacity:.62}
+.tile{position:relative}
+.clr{position:absolute;top:9px;right:10px;font-family:var(--data);font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--matcha);border:1px solid var(--matcha);border-radius:2px;
+  padding:2px 5px;line-height:1}
 .qlives{display:flex;align-items:center;gap:6px;font-family:var(--data);font-size:12px;
   color:var(--shu);font-variant-numeric:tabular-nums}
 
@@ -414,10 +425,15 @@ const UI = {
   lives:  G('のこりライフ','剩余生命','Lives left'),
   renewIn:G('つぎの renew まで','距离下次刷新','Next renew in'),
   hm:     (h,m) => G(`${h}時間${m}分`, `${h} 小时 ${m} 分`, `${h}h ${m}m`),
-  lockedClearTitle: G('全問正解ずみ ── いまは おやすみ','本周期已满分通关 —— 先歇会儿','Cleared this window — take a breather'),
-  lockedClearBody:  G('この時間帯は もう クリアしました。つぎの renew で ライフが 15に もどります。',
-                      '这个时间段你已经满分通关了。下次刷新时，15 条命会全部恢复。',
-                      'You have already cleared this window. Lives return to 15 at the next renew.'),
+  clearedTag: G('クリア済み','已通关','Cleared'),
+  lockedSomeTitle: G('クリアした 学年は おやすみ','已通关的年级先休息','Those grades are done for now'),
+  lockedSomeBody: gs => G(`${gs} は この時間帯 クリア済みです。ほかの 学年は まだ ちょうせんできます。`,
+                          `${gs} 本周期已经通关了。其他年级还可以继续挑战。`,
+                          `${gs} — cleared for this window. The other grades are still open.`),
+  lockedAllTitle: G('6学年 すべて クリア ── おみごと','六个年级全部通关 —— 厉害','All six grades cleared — outstanding'),
+  lockedAllBody:  G('すべての 学年で 全問正解しました。つぎの renew で 全部が もどります。',
+                    '六个年级你都拿到了满分。下次刷新时全部恢复。',
+                    'You have a perfect paper in every grade. Everything reopens at the next renew.'),
   lockedEmptyTitle: G('ライフ切れ ── つぎの renew を まちましょう','生命用完了 —— 等下次刷新','Out of lives — wait for the next renew'),
   lockedEmptyBody:  G('15回 ちょうせんして、全問正解には とどきませんでした。つぎの renew で ライフが 15に もどります。',
                       '15 次机会都用完了，还没拿到满分。下次刷新时，15 条命会全部恢复。',
@@ -429,7 +445,9 @@ const UI = {
     G('よく やりました！','干得漂亮！','Beautifully done.'),
     G('文句なしの 15問！','15 题全中！','Fifteen out of fifteen.')]),
   celeSee:  G('答案を 見る','查看答卷','See the marked paper'),
-  celeLock: G('今回は ここで ひと区切り。ライフが もどるまで','本轮到此为止。距离生命恢复还有','That is this window done. Lives come back in'),
+  celeLock: g => G(`${g} は ここで ひと区切り。つぎに ちょうせんできるまで`,
+                   `${g} 到此为止。距离可以再挑战还有`,
+                   `${g} is done for now. You can take it on again in`),
   gateHint: G('1回 ちょうせんすると ライフを 1つ つかいます','每开始一局消耗 1 条命','Each attempt costs one life'),
   next:   G('つぎへ','下一题','Next'),
   last:   G('採点する','提交并评分','Finish and grade'),
@@ -1526,7 +1544,7 @@ function fmtTime(ms){
 }
 
 function startQuiz(grade){
-  if(lockState()){ show('scStart'); drawStart(); return; }   // 念のための二重チェック
+  if(lockState(grade)){ show('scStart'); drawStart(); return; }   // 念のための二重チェック
   spendLife();
   state = {grade, qs: buildSet(grade), i:0, ans:new Array(15).fill(null),
            t0: Date.now(), timer:null};
@@ -1612,7 +1630,7 @@ function finish(){
   show('scResult');
   paintResult();
   saveLog();
-  if(hit === 15) markCleared();
+  if(hit === 15) markCleared(state.grade);
   drawGate();
   window.scrollTo({top:0, behavior:'smooth'});
   if(hit === 15) celebrate();
@@ -1668,15 +1686,34 @@ function readCycle(){
   let c = null;
   try { c = JSON.parse(localStorage.getItem('md_cycle')||'null'); } catch(e){}
   const ws = windowStart();
-  if(!c || c.ws !== ws) c = {ws:ws, lives:MAX_LIVES, cleared:false};   // ウィンドウが変われば自動でもどる
+  if(!c || c.ws !== ws) c = {ws:ws, lives:MAX_LIVES, cleared:[]};   // ウィンドウが変われば自動でもどる
+  // cleared は「全問正解した学年」の一覧。旧版の true/false 形式は学年がわからないので空にもどす
+  if(!Array.isArray(c.cleared)) c.cleared = [];
+  c.cleared = c.cleared.filter(g => Number.isInteger(g) && g>=1 && g<=6);
   if(typeof c.lives !== 'number' || c.lives < 0 || c.lives > MAX_LIVES) c.lives = MAX_LIVES;
   return c;
 }
 function writeCycle(c){ try { localStorage.setItem('md_cycle', JSON.stringify(c)); } catch(e){} }
-/* null = 挑戦できる / 'cleared' = 全問正解ずみ / 'empty' = ライフ切れ */
-function lockState(){ const c = readCycle(); return c.cleared ? 'cleared' : (c.lives<=0 ? 'empty' : null); }
+/* その学年に挑戦できるか。null = できる / 'empty' = ライフ切れ / 'cleared' = その学年はクリア済み */
+function lockState(grade){
+  const c = readCycle();
+  if(c.lives <= 0) return 'empty';
+  return (grade && c.cleared.includes(grade)) ? 'cleared' : null;
+}
+/* 画面ぜんたいを止めるか。ライフ切れ、または6学年すべてクリアしたときだけ */
+function globalLock(){
+  const c = readCycle();
+  if(c.lives <= 0) return 'empty';
+  return c.cleared.length >= 6 ? 'all' : null;
+}
 function spendLife(){ const c = readCycle(); c.lives = Math.max(0, c.lives-1); writeCycle(c); return c; }
-function markCleared(){ const c = readCycle(); c.cleared = true; c.clearedAt = Date.now(); writeCycle(c); }
+function markCleared(grade){
+  const c = readCycle();
+  if(!c.cleared.includes(grade)) c.cleared.push(grade);
+  c.clearedAt = Date.now();
+  writeCycle(c);
+}
+const clearedNames = () => readCycle().cleared.sort((a,b)=>a-b).map(g => L(UI.gradeN(g))).join('・');
 function untilRenew(){
   const ms = Math.max(0, nextRenew()-Date.now());
   return {h:Math.floor(ms/3600000), m:Math.floor(ms/60000)%60, ms:ms};
@@ -1685,7 +1722,7 @@ function renewText(){ const u = untilRenew(); return L(UI.hm(u.h,u.m)); }
 
 let gateWs = null;
 function drawGate(){
-  const c = readCycle(), lock = lockState(), u = untilRenew();
+  const c = readCycle(), g = globalLock(), u = untilRenew();
   // 開いたまま renew をまたいだら、画面を作りなおす。
   // 印をさきに更新しないと drawStart→drawGate で無限に呼び合う
   const rolled = gateWs !== null && gateWs !== c.ws;
@@ -1695,21 +1732,34 @@ function drawGate(){
   $('gRenew').textContent = L(UI.renewIn);
   $('gCnt').textContent = c.lives + ' / ' + MAX_LIVES;
   $('gCd').textContent = L(UI.hm(u.h,u.m));
-  $('gate').classList.toggle('locked', !!lock);
+  $('gate').classList.toggle('locked', !!g);
   const hs = $('gHearts'); hs.innerHTML = '';
   for(let i=0;i<MAX_LIVES;i++){ const d=document.createElement('i'); if(i>=c.lives) d.className='off'; hs.appendChild(d); }
-  $('lock').classList.toggle('hidden', !lock);
-  if(lock){
-    $('lockT').textContent = L(lock==='cleared' ? UI.lockedClearTitle : UI.lockedEmptyTitle);
-    $('lockB').textContent = L(lock==='cleared' ? UI.lockedClearBody : UI.lockedEmptyBody);
+  // 全部止まるとき（ライフ切れ・6学年制覇）は朱、一部の学年だけなら みどりの おしらせ
+  const box = $('lock');
+  box.classList.remove('notice');
+  box.classList.toggle('hidden', !g && c.cleared.length===0);
+  if(g === 'empty'){
+    $('lockT').textContent = L(UI.lockedEmptyTitle); $('lockB').textContent = L(UI.lockedEmptyBody);
+  } else if(g === 'all'){
+    $('lockT').textContent = L(UI.lockedAllTitle); $('lockB').textContent = L(UI.lockedAllBody);
+  } else if(c.cleared.length){
+    box.classList.add('notice');
+    $('lockT').textContent = L(UI.lockedSomeTitle);
+    $('lockB').textContent = L(UI.lockedSomeBody(clearedNames()));
   }
-  document.querySelectorAll('#grades .tile').forEach(t => { t.disabled = !!lock; });
-  $('startBtn').disabled = !!lock || picked===null;
-  $('sHint').textContent = lock ? L(UI.renewIn)+' '+L(UI.hm(u.h,u.m)) : L(UI.gateHint);
+  document.querySelectorAll('#grades .tile').forEach(t => {
+    const n = +t.dataset.grade, lk = lockState(n);
+    t.disabled = !!lk;
+    t.classList.toggle('done', lk === 'cleared');
+  });
+  $('startBtn').disabled = picked===null || !!lockState(picked);
+  $('sHint').textContent = g ? L(UI.renewIn)+' '+L(UI.hm(u.h,u.m)) : L(UI.gateHint);
   $('qLives').textContent = '♥ ' + c.lives;
-  if(!$('scResult').classList.contains('hidden')) $('againBtn').disabled = !!lock;
-  if(!$('cele').classList.contains('hidden'))
-    $('celeRenew').textContent = L(UI.celeLock)+'\n'+L(UI.hm(u.h,u.m));
+  if(!$('scResult').classList.contains('hidden') && state)
+    $('againBtn').disabled = !!lockState(state.grade);
+  if(!$('cele').classList.contains('hidden') && state)
+    $('celeRenew').textContent = L(UI.celeLock(L(UI.gradeN(state.grade))))+'\n'+L(UI.hm(u.h,u.m));
 }
 setInterval(drawGate, 15000);
 
@@ -1859,7 +1909,7 @@ function celebrate(){
   $('celeK1').textContent = L(UI.L2);   $('celeV1').textContent = fmtTime(ms);
   $('celeK2').textContent = L(UI.L1);   $('celeV2').textContent = '15/15';
   $('celeBtn').textContent = L(UI.celeSee);
-  $('celeRenew').textContent = L(UI.celeLock)+'\n'+renewText();
+  $('celeRenew').textContent = L(UI.celeLock(L(UI.gradeN(state.grade))))+'\n'+renewText();
   $('cele').classList.remove('hidden');
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches) confetti();
 }
@@ -1877,19 +1927,24 @@ function drawStart(){
   $('startBtn').textContent = L(UI.start);
   $('sHint').textContent = L(UI.hint);
   $('againBtn').textContent = L(UI.again);
-  $('againBtn').disabled = !!lockState();
+  $('againBtn').disabled = !state || !!lockState(state.grade);
   $('homeBtn').textContent = L(UI.home);
   $('brandEn').textContent = '15 questions';
   $('sFoot').textContent = L(UI.foot);
+  if(picked && lockState(picked)) picked = null;   // 選んでいた学年が使えなくなったら外す
+  const cleared = readCycle().cleared;
   const g = $('grades'); g.innerHTML='';
   for(let n=1;n<=6;n++){
     const b = document.createElement('button');
-    b.type='button'; b.className='tile'; b.setAttribute('aria-pressed', picked===n);
+    b.type='button'; b.className='tile'; b.dataset.grade = n;
+    b.setAttribute('aria-pressed', picked===n);
     b.innerHTML = '<span class="num">'+'一二三四五六'[n-1]+'</span><span><span class="tname"></span>'
-      + '<span class="tdesc"></span></span>';
+      + '<span class="tdesc"></span></span>'
+      + (cleared.includes(n) ? '<span class="clr"></span>' : '');
     b.querySelector('.tname').textContent = L(UI.gradeN(n));
     b.querySelector('.tdesc').textContent = L(GRADE_DESC[n]);
-    b.onclick = ()=>{ if(lockState()) return; picked = n; drawStart(); };
+    if(cleared.includes(n)) b.querySelector('.clr').textContent = L(UI.clearedTag);
+    b.onclick = ()=>{ if(lockState(n)) return; picked = n; drawStart(); };
     g.appendChild(b);
   }
   $('startBtn').disabled = picked===null;
@@ -1944,9 +1999,9 @@ $('spSkip').onclick = closeSplash;
 document.addEventListener('keydown', () => {
   if(!$('splash').classList.contains('out')) closeSplash();
 });
-$('startBtn').onclick = ()=> { if(picked && !lockState()) startQuiz(picked); };
+$('startBtn').onclick = ()=> { if(picked && !lockState(picked)) startQuiz(picked); };
 $('nextBtn').onclick = nextQ;
-$('againBtn').onclick = ()=>{ if(!lockState()) startQuiz(state.grade); };
+$('againBtn').onclick = ()=>{ if(state && !lockState(state.grade)) startQuiz(state.grade); };
 $('homeBtn').onclick = ()=>{ show('scStart'); drawStart(); };
 document.addEventListener('keydown', e=>{
   if($('scQuiz').classList.contains('hidden')) return;
