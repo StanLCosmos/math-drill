@@ -131,7 +131,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
 .rankpanel .nm{font-family:var(--disp);font-size:24px;font-weight:600;letter-spacing:.06em;line-height:1.2}
 .rankpanel.pf .nm{color:var(--gold)}
 .rankpanel .sub{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
-.rankpanel .keep{font-family:var(--data);font-size:11.5px;color:var(--gold);letter-spacing:.03em}
+.rankpanel .keep{font-family:var(--data);font-size:11.5px;color:var(--rk,var(--gold));letter-spacing:.03em}
 .rankpanel.none .nm{color:var(--ink-faint);font-size:19px}
 
 .cele-rank{display:flex;align-items:center;gap:12px;margin-top:20px;
@@ -141,6 +141,72 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
 .cele-rank .k{font-family:var(--data);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
 .cele-rank .v{font-family:var(--disp);font-size:19px;font-weight:600;letter-spacing:.05em;color:var(--ink)}
 .cele-rank.pf .v{color:var(--gold)}
+
+/* ---- 成就ページ ---- */
+.ach{position:fixed;inset:0;z-index:70;background:var(--paper);display:grid;place-items:center;
+  padding:28px;text-align:center;overflow:hidden}
+.ach.hidden{display:none!important}
+.ach::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 38%,var(--rk-wash,transparent) 0%,transparent 62%)}
+.ach-in{position:relative;display:flex;flex-direction:column;align-items:center;max-width:30rem}
+.ach-stage{position:relative;width:210px;height:210px;display:grid;place-items:center;margin-bottom:6px}
+.ach-stage .ach-art{width:150px;height:150px;display:block}
+.ach-stage .ring{position:absolute;border-radius:50%;border:1px dashed var(--rk,var(--ai-2));opacity:.5}
+.ach-stage .r1{inset:6px;animation:spin 18s linear infinite}
+.ach-stage .r2{inset:26px;border-style:dotted;opacity:.35;animation:spin 13s linear infinite reverse}
+.ach-stage .halo{position:absolute;inset:18px;border-radius:50%;
+  background:radial-gradient(circle,var(--rk-wash,rgba(0,0,0,.04)) 0%,transparent 70%);
+  animation:breathe 3.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.9);opacity:.5}50%{transform:scale(1.12);opacity:1}}
+.ach-t{font-family:var(--data);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-faint);margin:10px 0 0}
+.ach-name{font-family:var(--disp);font-weight:600;font-size:clamp(34px,7vw,50px);letter-spacing:.12em;
+  margin:6px 0 0;color:var(--rk,var(--ai))}
+.ach-body{font-size:14.5px;color:var(--ink-soft);margin:12px 0 0;line-height:1.7}
+.ach-keep{font-family:var(--data);font-size:12px;color:var(--rk,var(--ink-faint));margin:8px 0 0;letter-spacing:.03em}
+.ach-in .btn{margin-top:28px;min-width:150px}
+
+/* ---- 位ごとの意匠。完全金から上だけ、位が上がるほど こまやかに ---- */
+:root[data-rank="gold"]    {--rk:#B7891B;--rk2:#F2D479;--rk-wash:rgba(201,151,31,.11)}
+:root[data-rank="platinum"]{--rk:#71818F;--rk2:#D8E2EA;--rk-wash:rgba(113,129,143,.12)}
+:root[data-rank="diamond"] {--rk:#2F87A4;--rk2:#BDEBF8;--rk-wash:rgba(47,135,164,.11)}
+:root[data-rank="legend"]  {--rk:#B03A26;--rk2:#F0A88F;--rk-wash:rgba(176,58,38,.10)}
+:root[data-rank="divine"]  {--rk:#A87A12;--rk2:#FFF1C9;--rk-wash:rgba(201,151,31,.16)}
+:root[data-rank] .topbar{border-bottom-color:var(--rk)}
+:root[data-rank] .rankpanel{border-color:var(--rk);
+  background:linear-gradient(100deg,var(--card) 44%,var(--rk-wash))}
+:root[data-rank] .rankpanel .nm{color:var(--rk)}
+:root[data-rank] .rankchip{border-color:var(--rk)}
+:root[data-rank] .eyebrow{color:var(--rk);opacity:.8}
+/* 白金から：札の四隅に かざり */
+:root[data-rank="platinum"] .rankpanel,:root[data-rank="diamond"] .rankpanel,
+:root[data-rank="legend"] .rankpanel,:root[data-rank="divine"] .rankpanel{position:relative}
+:root[data-rank="platinum"] .rankpanel::before,:root[data-rank="diamond"] .rankpanel::before,
+:root[data-rank="legend"] .rankpanel::before,:root[data-rank="divine"] .rankpanel::before{
+  content:"";position:absolute;inset:5px;pointer-events:none;
+  border:1px solid var(--rk);opacity:.32;
+  clip-path:polygon(0 0,22px 0,22px 1px,1px 1px,1px 22px,0 22px,0 0,
+    100% 0,100% 22px,calc(100% - 1px) 22px,calc(100% - 1px) 1px,calc(100% - 22px) 1px,calc(100% - 22px) 0,100% 0,
+    100% 100%,calc(100% - 22px) 100%,calc(100% - 22px) calc(100% - 1px),calc(100% - 1px) calc(100% - 1px),
+    calc(100% - 1px) calc(100% - 22px),100% calc(100% - 22px),100% 100%,
+    0 100%,0 calc(100% - 22px),1px calc(100% - 22px),1px calc(100% - 1px),22px calc(100% - 1px),22px 100%,0 100%)}
+/* 金剛から：地に かすかな切子 */
+:root[data-rank="diamond"] body,:root[data-rank="diamond"] .wrap::before{}
+:root[data-rank="diamond"] body{background-image:
+  repeating-linear-gradient(45deg,var(--rk-wash) 0 1px,transparent 1px 22px)}
+/* 伝説から：麻の葉ふうの あじろ */
+:root[data-rank="legend"] body{background-image:
+  repeating-linear-gradient(60deg,var(--rk-wash) 0 1px,transparent 1px 26px),
+  repeating-linear-gradient(-60deg,var(--rk-wash) 0 1px,transparent 1px 26px),
+  repeating-linear-gradient(0deg,var(--rk-wash) 0 1px,transparent 1px 26px)}
+/* 神：あじろに 御来光の かがやきを かさねる */
+:root[data-rank="divine"] body{background-image:
+  radial-gradient(circle at 50% -12%,rgba(201,151,31,.22) 0%,transparent 46%),
+  repeating-linear-gradient(60deg,var(--rk-wash) 0 1px,transparent 1px 26px),
+  repeating-linear-gradient(-60deg,var(--rk-wash) 0 1px,transparent 1px 26px);
+  background-attachment:fixed,scroll,scroll}
+:root[data-rank="divine"] .card,:root[data-rank="divine"] .gate{border-color:rgba(201,151,31,.42)}
+:root[data-rank="legend"] .card,:root[data-rank="legend"] .gate{border-color:rgba(176,58,38,.3)}
 
 /* ---- ライフと renew ---- */
 .gate{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;
@@ -434,6 +500,21 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
     </div>
   </div>
 
+  <!-- ===== 成就ページ（手で閉じるまで ずっと出ている） ===== -->
+  <div class="ach hidden" id="ach">
+    <div class="ach-in">
+      <div class="ach-stage">
+        <span class="ring r1"></span><span class="ring r2"></span><span class="halo"></span>
+        <span class="ach-art" id="achArt"></span>
+      </div>
+      <p class="ach-t" id="achTitle"></p>
+      <p class="ach-name" id="achName"></p>
+      <p class="ach-body" id="achBody"></p>
+      <p class="ach-keep" id="achKeep"></p>
+      <button class="btn" id="achOk" type="button"></button>
+    </div>
+  </div>
+
   <!-- ===== RESULT ===== -->
   <section id="scResult" class="hidden">
     <h1 class="lede" id="rTitle"></h1>
@@ -518,6 +599,11 @@ const UI = {
     return p ? G('完全'+ja[t], '完美'+zh[t], 'Perfect '+en[t]) : G(ja[t], zh[t], en[t]);
   },
   heldRank: G('これまでに とどいた 位','已获得并保留中的成就','Earned and still held'),
+  achTitle: G('おめでとう','恭喜你','Congratulations'),
+  achBody:  nm => G(`「${nm}」の 位を 手に入れました`, `你获得了「${nm}」成就`, `You have earned ${nm}`),
+  achKeep:  d => G(`この位は ${d}日間 のこります`, `这个成就会保留 ${d} 天`, `This rank is kept for ${d} days`),
+  achKeepNone: G('この位は つぎの renew までです','这个成就保留到下次刷新为止','This rank lasts until the next renew'),
+  achOk:    G('OK','好的','OK'),
   rankProg: n => G(`${n}学年 クリア`, `已通关 ${n} 个年级`, `${n} of 6 cleared`),
   perfectNote: G('ライフを 1つも むだにせず 全問正解','每一局都满分，一条命都没浪费','Every attempt a perfect paper'),
   keepFor: (d,h) => G(`のこり ${d}日 ${h}時間 表示されます`, `还会保留 ${d} 天 ${h} 小时`, `Shown for ${d}d ${h}h more`),
@@ -1704,7 +1790,11 @@ function finish(){
   show('scResult');
   paintResult();
   saveLog();
+  const rankBefore = shownRank();
   if(hit === 15) markCleared(state.grade);
+  const rankAfter = shownRank();
+  // 位が ほんとうに 上がったときだけ 成就ページを 出す
+  state.rankEarned = rankScore(rankAfter) > rankScore(rankBefore) ? rankAfter : null;
   drawGate();
   window.scrollTo({top:0, behavior:'smooth'});
   if(hit === 15) celebrate();
@@ -1800,13 +1890,23 @@ function renewText(){ const u = untilRenew(); return L(UI.hm(u.h,u.m)); }
 /* ---------- 位（ランク）----------
    その回のウィンドウで クリアした学年の数が 位。つかったライフと クリア数が
    同じなら「完全」── 一度も 取りこぼしていない、という意味。 */
-/* 位を 何日 のこすか。金3・白金4・金剛5・伝説6、そして 神だけ 7日。銀以下は のこらない */
+/* 位を 何日 のこすか。完全金だけ3日（ふつうの金は のこらない）、白金4・金剛5・伝説6・神7 */
 function keepDays(tier, perfect){
   if(tier <= 2) return 0;
+  if(tier === 3) return perfect ? 3 : 0;
   if(tier === 6) return perfect ? 7 : 6;
-  return tier;                                  // 3→3日、4→4日、5→5日
+  return tier;                                  // 4→4日、5→5日
 }
 const isDivine = r => !!(r && r.tier === 6 && r.perfect);   // 完全伝説 ＝ 神
+/* 完全金より上は、画面ぜんたいの意匠が 位に そまる */
+function rankTheme(r){
+  if(!r) return '';
+  if(r.tier === 6) return r.perfect ? 'divine' : 'legend';
+  if(r.tier === 5) return 'diamond';
+  if(r.tier === 4) return 'platinum';
+  if(r.tier === 3 && r.perfect) return 'gold';
+  return '';
+}
 const METAL = {
   1:{a:'#F0B884',b:'#B87333',c:'#6E4118',ring:'#8A5626'},   // 銅
   2:{a:'#F4F8FC',b:'#A9B4C0',c:'#69747F',ring:'#7D8894'},   // 銀
@@ -1973,8 +2073,24 @@ function shownRank(){
 
 /* 位の表示。上のバー（どの画面でも見える）と、最初の画面の大きな札 */
 let rankShown = '';
+/* 手で閉じるまで ずっと出ている 成就ページ */
+function showAchievement(r){
+  $('achArt').innerHTML = rankBadge(r.tier, r.perfect);
+  const nm = L(UI.rankName(r.tier, r.perfect));
+  $('achTitle').textContent = L(UI.achTitle);
+  $('achName').textContent = nm;
+  $('achBody').textContent = L(UI.achBody(nm));
+  const d = keepDays(r.tier, r.perfect);
+  $('achKeep').textContent = d ? L(UI.achKeep(d)) : L(UI.achKeepNone);
+  $('achOk').textContent = L(UI.achOk);
+  $('ach').classList.remove('hidden');
+}
+$('achOk').onclick = () => { $('ach').classList.add('hidden'); if(state) state.rankEarned = null; };
+
 function drawRank(){
   const r = shownRank(), c = readCycle();
+  document.documentElement.dataset.rank = rankTheme(r) || '';
+  if(!rankTheme(r)) document.documentElement.removeAttribute('data-rank');
   const key = r ? r.tier+'/'+(r.perfect?1:0) : 'none';
   const chip = $('rankChip'), panel = $('rankPanel');
   if(key !== rankShown){                        // 絵は変わったときだけ描きなおす
@@ -1999,11 +2115,13 @@ function drawRank(){
   const nm = L(UI.rankName(r.tier, r.perfect));
   $('rankChipName').textContent = nm;
   $('rankName').textContent = nm;
-  // r.until があれば「のこしてある位」、なければ いまのウィンドウで とっている位
-  $('rankSub').textContent = r.until ? L(UI.heldRank)
-    : (r.perfect ? L(UI.perfectNote) : L(UI.rankProg(c.cleared.length)));
-  if(r.until){
-    const ms = r.until - Date.now();
+  // 説明は いまのウィンドウで とっている位のほう、日数は のこしてある記録のほうを見る
+  const kept = readRetained(), cur = currentRank();
+  $('rankSub').textContent = (cur && rankScore(cur) >= rankScore(kept))
+    ? (r.perfect ? L(UI.perfectNote) : L(UI.rankProg(c.cleared.length)))
+    : L(UI.heldRank);
+  if(kept && rankScore(kept) >= rankScore(cur)){
+    const ms = kept.until - Date.now();
     $('rankKeep').textContent = L(UI.keepFor(Math.floor(ms/86400000), Math.floor(ms/3600000)%24));
   } else {
     $('rankKeep').textContent = L(UI.keepNone);
@@ -2199,20 +2317,18 @@ function celebrate(){
   $('celeWord').textContent = L(UI.celeWord());
   $('celeK1').textContent = L(UI.L2);   $('celeV1').textContent = fmtTime(ms);
   $('celeK2').textContent = L(UI.L1);   $('celeV2').textContent = '15/15';
-  const r = shownRank(), cr = $('celeRank');
-  cr.classList.toggle('hidden', !r);
-  cr.classList.toggle('pf', !!(r && r.perfect));
-  if(r){
-    $('celeRankArt').innerHTML = rankBadge(r.tier, r.perfect);
-    $('celeRankK').textContent = L(UI.rankUp);
-    $('celeRankV').textContent = L(UI.rankName(r.tier, r.perfect));
-  }
+  $('celeRank').classList.add('hidden');   // 位は このあとの 成就ページで きちんと出す
   $('celeBtn').textContent = L(UI.celeSee);
   $('celeRenew').textContent = L(UI.celeLock(L(UI.gradeN(state.grade))))+'\n'+renewText();
   $('cele').classList.remove('hidden');
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches) confetti();
 }
-$('celeBtn').onclick = () => { cancelAnimationFrame(celeFx); $('cele').classList.add('hidden'); };
+/* 通関ページ → 成就ページ → 採点ページ の順に見せる */
+$('celeBtn').onclick = () => {
+  cancelAnimationFrame(celeFx);
+  $('cele').classList.add('hidden');
+  if(state && state.rankEarned) showAchievement(state.rankEarned);
+};
 
 /* ---------- screens ---------- */
 function show(id){
@@ -2277,6 +2393,7 @@ function setLang(code){
   if(state && !$('scQuiz').classList.contains('hidden')) renderQ();
   if(state && state.res && !$('scResult').classList.contains('hidden')) paintResult();
   if(state && state.res && !$('cele').classList.contains('hidden')) celebrate();
+  if(state && state.rankEarned && !$('ach').classList.contains('hidden')) showAchievement(state.rankEarned);
   drawGate();
   if(!$('splash').classList.contains('out')) restartSplashTimer();  // 読む時間を返す
 }
