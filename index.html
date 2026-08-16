@@ -112,6 +112,14 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
 .rankchip.none{opacity:.55}
 .rankchip.none .rn{font-family:var(--data);font-size:10.5px;letter-spacing:.12em;color:var(--ink-faint)}
 .rankchip.pf{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-soft) inset,0 2px 10px -4px var(--gold)}
+/* 神：金枠に ほのかな明滅 */
+.rankchip.dv{border-color:var(--gold);background:linear-gradient(100deg,var(--card) 40%,rgba(201,151,31,.16));
+  animation:glow 3.4s ease-in-out infinite}
+.rankpanel.dv{border-color:var(--gold);background:linear-gradient(100deg,var(--card) 42%,rgba(201,151,31,.16))}
+.rankpanel.dv .nm{font-size:30px;letter-spacing:.14em}
+@keyframes glow{0%,100%{box-shadow:0 0 0 1px var(--gold-soft) inset,0 1px 8px -4px var(--gold)}
+  50%{box-shadow:0 0 0 1px var(--gold-soft) inset,0 3px 16px -3px var(--gold)}}
+.badge.divine .rays{transform-origin:50px 50px;animation-duration:44s}
 :root{--gold:#C9971F;--gold-soft:#F2D479}
 
 .rankpanel{display:flex;align-items:center;gap:18px;border:1px solid var(--rule);border-radius:3px;
@@ -504,10 +512,12 @@ const UI = {
   rankNone: G('まだ なし','尚未获得','None yet'),
   rankNoneHint: G('1学年 クリアすると 位が つきます','通关 1 个年级即可获得等级','Clear one grade to earn a rank'),
   rankName: (t,p) => {
+    if(t===6 && p) return G('神','神级','Divine');           // 最高位だけ 別格の名まえ
     const ja=['','銅','銀','金','白金','金剛','伝説'], zh=['','铜牌','银牌','金牌','白金','钻石','传奇'],
           en=['','Bronze','Silver','Gold','Platinum','Diamond','Legend'];
     return p ? G('完全'+ja[t], '完美'+zh[t], 'Perfect '+en[t]) : G(ja[t], zh[t], en[t]);
   },
+  heldRank: G('これまでに とどいた 位','已获得并保留中的成就','Earned and still held'),
   rankProg: n => G(`${n}学年 クリア`, `已通关 ${n} 个年级`, `${n} of 6 cleared`),
   perfectNote: G('ライフを 1つも むだにせず 全問正解','每一局都满分，一条命都没浪费','Every attempt a perfect paper'),
   keepFor: (d,h) => G(`のこり ${d}日 ${h}時間 表示されます`, `还会保留 ${d} 天 ${h} 小时`, `Shown for ${d}d ${h}h more`),
@@ -1755,9 +1765,6 @@ function readCycle(){
   if(!Array.isArray(c.cleared)) c.cleared = [];
   c.cleared = c.cleared.filter(g => Number.isInteger(g) && g>=1 && g<=6);
   if(typeof c.lives !== 'number' || c.lives < 0 || c.lives > MAX_LIVES) c.lives = MAX_LIVES;
-  // best は このウィンドウで とどいた いちばん上の位。前の版の記録には ないので おぎなう
-  if(!c.best && c.cleared.length)
-    c.best = {tier:c.cleared.length, perfect:(MAX_LIVES - c.lives) === c.cleared.length};
   return c;
 }
 function writeCycle(c){ try { localStorage.setItem('md_cycle', JSON.stringify(c)); } catch(e){} }
@@ -1779,10 +1786,9 @@ function markCleared(grade){
   if(!c.cleared.includes(grade)) c.cleared.push(grade);
   c.clearedAt = Date.now();
   // 位は クリアした瞬間だけ 結算する。あとで しくじっても、とどいた位は そのまま
-  const cand = {tier:c.cleared.length, perfect:(MAX_LIVES - c.lives) === c.cleared.length};
-  if(rankScore(cand) > rankScore(c.best || null)) c.best = cand;
   writeCycle(c);
-  if(cand.perfect) saveRetained(cand.tier);   // 完全位なら、renew を またいで のこす
+  // クリアした その時点の位を 記録に のこす（金以上だけ 日数がつく）
+  saveRetained(c.cleared.length, (MAX_LIVES - c.lives) === c.cleared.length);
 }
 const clearedNames = () => readCycle().cleared.sort((a,b)=>a-b).map(g => L(UI.gradeN(g))).join('・');
 function untilRenew(){
@@ -1794,8 +1800,13 @@ function renewText(){ const u = untilRenew(); return L(UI.hm(u.h,u.m)); }
 /* ---------- 位（ランク）----------
    その回のウィンドウで クリアした学年の数が 位。つかったライフと クリア数が
    同じなら「完全」── 一度も 取りこぼしていない、という意味。 */
-const TIERS = [null,
-  {days:0}, {days:0}, {days:3}, {days:5}, {days:6}, {days:7}];   // 完全位を 何日 のこすか
+/* 位を 何日 のこすか。金3・白金4・金剛5・伝説6、そして 神だけ 7日。銀以下は のこらない */
+function keepDays(tier, perfect){
+  if(tier <= 2) return 0;
+  if(tier === 6) return perfect ? 7 : 6;
+  return tier;                                  // 3→3日、4→4日、5→5日
+}
+const isDivine = r => !!(r && r.tier === 6 && r.perfect);   // 完全伝説 ＝ 神
 const METAL = {
   1:{a:'#F0B884',b:'#B87333',c:'#6E4118',ring:'#8A5626'},   // 銅
   2:{a:'#F4F8FC',b:'#A9B4C0',c:'#69747F',ring:'#7D8894'},   // 銀
@@ -1805,7 +1816,55 @@ const METAL = {
   6:{a:'#FFD79A',b:'#C3402B',c:'#6E1A10',ring:'#C9971F'}    // 伝説
 };
 let badgeSeq = 0;
+/* 神：最高位だけの意匠。御来光の光背に、宝玉をちりばめた輪、冠、そして「神」の一字 */
+function divineBadge(){
+  const u = 'd'+(++badgeSeq), cx = 50, cy = 50;
+  let rays = '';
+  for(let i=0;i<36;i++){ const long = i%2===0, r0 = 30, r1 = long ? 49 : 40, w = long ? 2.6 : 1.3;
+    rays += `<path d="M${cx-w} ${cy-r0} L${cx} ${cy-r1} L${cx+w} ${cy-r0} Z" fill="url(#ry${u})"
+             transform="rotate(${i*10} ${cx} ${cy})"/>`; }
+  let gems = '';
+  for(let i=0;i<8;i++){ const a=(i*45-90)*Math.PI/180, x=cx+28.5*Math.cos(a), y=cy+28.5*Math.sin(a);
+    gems += `<path d="M${x.toFixed(1)} ${(y-3.4).toFixed(1)} L${(x+2.8).toFixed(1)} ${y.toFixed(1)}
+             L${x.toFixed(1)} ${(y+3.4).toFixed(1)} L${(x-2.8).toFixed(1)} ${y.toFixed(1)} Z"
+             fill="#FFF6DA" stroke="#C9971F" stroke-width=".7"/>`; }
+  return `<svg viewBox="0 0 100 100" class="badge perfect divine" aria-hidden="true">
+    <defs>
+      <radialGradient id="ry${u}" cx=".5" cy=".5" r=".5">
+        <stop offset=".55" stop-color="#F7D477" stop-opacity=".2"/><stop offset="1" stop-color="#F0C047" stop-opacity=".95"/>
+      </radialGradient>
+      <radialGradient id="hl${u}" cx=".5" cy=".5" r=".5">
+        <stop offset=".6" stop-color="#FFEFC0" stop-opacity=".55"/><stop offset="1" stop-color="#FFEFC0" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="dm${u}" x1=".2" y1="0" x2=".8" y2="1">
+        <stop offset="0" stop-color="#F7E2A6"/><stop offset=".38" stop-color="#C3402B"/>
+        <stop offset="1" stop-color="#5E1409"/>
+      </linearGradient>
+      <linearGradient id="rim${u}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#FBEBB4"/><stop offset=".5" stop-color="#C9971F"/><stop offset="1" stop-color="#8A6410"/>
+      </linearGradient>
+      <linearGradient id="sw${u}" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".8"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="cp${u}"><circle cx="${cx}" cy="${cy}" r="22"/></clipPath>
+    </defs>
+    <circle cx="${cx}" cy="${cy}" r="46" fill="url(#hl${u})"/>
+    <g class="rays">${rays}</g>
+    <circle cx="${cx}" cy="${cy}" r="28.5" fill="none" stroke="url(#rim${u})" stroke-width="3.4"/>
+    ${gems}
+    <path d="M${cx-15} 20 L${cx-17.5} 4 L${cx-7} 13 L${cx} 0 L${cx+7} 13 L${cx+17.5} 4 L${cx+15} 20 Z"
+      fill="#FBEBB4" stroke="#C9971F" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="${cx}" cy="4.5" r="3" fill="#C3402B"/>
+    <circle cx="${cx}" cy="${cy}" r="22" fill="url(#dm${u})" stroke="url(#rim${u})" stroke-width="2.4"/>
+    <circle cx="${cx}" cy="${cy}" r="18" fill="none" stroke="#F7E2A6" stroke-width=".8" opacity=".5"/>
+    <text x="${cx}" y="${cy+1}" text-anchor="middle" dominant-baseline="central" font-family="var(--disp)"
+      font-size="24" font-weight="600" fill="#FFF1C9">神</text>
+    <rect class="shine" x="-40" y="${cy-22}" width="22" height="44" fill="url(#sw${u})" clip-path="url(#cp${u})"/>
+  </svg>`;
+}
 function rankBadge(tier, perfect){
+  if(tier === 6 && perfect) return divineBadge();
   const m = METAL[tier], u = 'b'+(++badgeSeq), cx = 50, cy = perfect ? 46 : 44, R = perfect ? 26 : 30;
   const kanji = '一二三四五六'[tier-1];
   let s = `<svg viewBox="0 0 100 100" class="badge${perfect?' perfect':''}" aria-hidden="true">
@@ -1881,20 +1940,30 @@ function rankBadge(tier, perfect){
   }
   return s + '</svg>';
 }
-/* このウィンドウで とどいた いちばん上の位。クリアした時にだけ 上がり、下がることはない */
-function currentRank(){ return readCycle().best || null; }
+/* いまのウィンドウの位。「完全」は この15ライフで 一度も しくじっていないこと。
+   挑戦中の1回は まだ しくじったと きまっていないので 数に入れない */
+function currentRank(){
+  const c = readCycle(), n = c.cleared.length;
+  if(!n) return null;
+  const inQuiz = !!(state && state.timer) && !$('scQuiz').classList.contains('hidden');
+  const spent = MAX_LIVES - c.lives - (inQuiz ? 1 : 0);
+  return {tier:n, perfect: spent === n};
+}
 function readRetained(){
   let r = null;
   try { r = JSON.parse(localStorage.getItem('md_rank')||'null'); } catch(e){}
   if(!r || !r.tier || !r.until || Date.now() >= r.until) return null;
-  return {tier:r.tier, perfect:true, until:r.until};
+  return {tier:r.tier, perfect:!!r.perfect, until:r.until};
 }
-function saveRetained(tier){
-  const days = TIERS[tier].days;
-  if(!days) return;                                  // 完全銅・完全銀は のこらない
-  const until = Date.now() + days*86400000, cur = readRetained();
-  if(cur && (cur.tier > tier || (cur.tier === tier && cur.until >= until))) return;   // 下げない
-  try { localStorage.setItem('md_rank', JSON.stringify({tier:tier, until:until})); } catch(e){}
+/* とどいた位を 記録に のこす。
+   低ければ そのまま／高ければ 入れかえ／同じなら いまを起点に 数えなおし */
+function saveRetained(tier, perfect){
+  const days = keepDays(tier, perfect);
+  if(!days) return;                                   // 銀以下は のこらない
+  const cur = readRetained();
+  if(cur && rankScore({tier,perfect}) < rankScore(cur)) return;
+  try { localStorage.setItem('md_rank',
+    JSON.stringify({tier:tier, perfect:!!perfect, until:Date.now()+days*86400000})); } catch(e){}
 }
 const rankScore = r => r ? r.tier*2 + (r.perfect?1:0) : -1;
 function shownRank(){
@@ -1915,8 +1984,10 @@ function drawRank(){
   }
   chip.classList.toggle('none', !r);
   chip.classList.toggle('pf', !!(r && r.perfect));
+  chip.classList.toggle('dv', isDivine(r));
   panel.classList.toggle('none', !r);
   panel.classList.toggle('pf', !!(r && r.perfect));
+  panel.classList.toggle('dv', isDivine(r));
   $('rankLab').textContent = L(UI.rankLab);
   if(!r){
     $('rankChipName').textContent = L(UI.rankNone);
@@ -1928,14 +1999,14 @@ function drawRank(){
   const nm = L(UI.rankName(r.tier, r.perfect));
   $('rankChipName').textContent = nm;
   $('rankName').textContent = nm;
-  $('rankSub').textContent = r.perfect ? L(UI.perfectNote) : L(UI.rankProg(c.cleared.length));
-  const kept = readRetained();
-  if(kept && rankScore(kept) >= rankScore(currentRank())){
-    const ms = kept.until - Date.now();
+  // r.until があれば「のこしてある位」、なければ いまのウィンドウで とっている位
+  $('rankSub').textContent = r.until ? L(UI.heldRank)
+    : (r.perfect ? L(UI.perfectNote) : L(UI.rankProg(c.cleared.length)));
+  if(r.until){
+    const ms = r.until - Date.now();
     $('rankKeep').textContent = L(UI.keepFor(Math.floor(ms/86400000), Math.floor(ms/3600000)%24));
   } else {
-    $('rankKeep').textContent = r.perfect && TIERS[r.tier].days
-      ? L(UI.keepFor(TIERS[r.tier].days, 0)) : L(UI.keepNone);
+    $('rankKeep').textContent = L(UI.keepNone);
   }
 }
 
