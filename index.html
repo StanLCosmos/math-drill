@@ -1898,13 +1898,14 @@ function keepDays(tier, perfect){
   return tier;                                  // 4→4日、5→5日
 }
 const isDivine = r => !!(r && r.tier === 6 && r.perfect);   // 完全伝説 ＝ 神
-/* 完全金より上は、画面ぜんたいの意匠が 位に そまる */
+/* 金から上は、画面ぜんたいの意匠が 位に そまる。
+   ふつうの金は のこらないので、renew と いっしょに 意匠も消える */
 function rankTheme(r){
   if(!r) return '';
   if(r.tier === 6) return r.perfect ? 'divine' : 'legend';
   if(r.tier === 5) return 'diamond';
   if(r.tier === 4) return 'platinum';
-  if(r.tier === 3 && r.perfect) return 'gold';
+  if(r.tier === 3) return 'gold';
   return '';
 }
 const METAL = {
