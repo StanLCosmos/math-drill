@@ -909,6 +909,21 @@ Object.assign(LESSON, {
 '追いつき算': G('後から 追いかける ときは、先に 進んで いる 分の 差を ちぢめて いきます。\n1分間に ちぢまるのは「速さの ちがい」だけ。\n追いつく 時間 ＝ はじめの 差 ÷ 速さの差。はじめの差 ＝ 先に出た人の速さ × 先に出た時間。',
   '追及问题：要把对方已经领先的距离一点点追回来。\n每分钟能追近的只是"速度差"。\n追及时间 = 初始差距 ÷ 速度差；初始差距 = 先出发者的速度 × 先走的时间。',
   'When chasing, you are closing a head start.\nThe gap shrinks each minute by the difference in speeds only.\nTime to catch up = head start ÷ speed difference, where the head start is the first mover’s speed × the time they had.'),
+'さいころ': G('さいころは 向かい合う 面の 数を たすと かならず 7に なります（1と6、2と5、3と4）。\n2つ ふる ときは、2つを 区別して 数えます。(1,2)と(2,1)は べつの 出方です。',
+  '骰子相对两面的点数之和恒为 7（1对6、2对5、3对4）。\n掷两颗时要区分它们，(1,2) 与 (2,1) 算两种。',
+  'Opposite faces of a dice always add to 7 — 1 with 6, 2 with 5, 3 with 4.\nWith two dice, treat them as different: (1,2) and (2,1) are separate outcomes.'),
+'てん開図': G('立方体は 面6・辺12・頂点8。直方体も 同じ 数です。\n角柱は、底面が n角形なら 面 n+2、辺 3n、頂点 2n。上下の 底面と 側面に 分けて 数えます。',
+  '正方体（长方体）：6 面、12 棱、8 顶点。\n棱柱若底面为 n 边形：面 n+2、棱 3n、顶点 2n——按上下底面和侧面分开数。',
+  'A cube or cuboid has 6 faces, 12 edges and 8 vertices.\nA prism on an n-sided base has n+2 faces, 3n edges and 2n vertices — count the two bases and the sides separately.'),
+'角柱': G('底面が n角形の 角柱では、面 ＝ n＋2、辺 ＝ n×3、頂点 ＝ n×2。\n上下の 底面を 2つ、まわりの 側面を n個、と 分けて 数えると まちがえません。',
+  '底面为 n 边形的棱柱：面 = n+2，棱 = 3n，顶点 = 2n。\n把上下两个底面和 n 个侧面分开数就不会错。',
+  'For a prism on an n-sided base: faces = n+2, edges = 3n, vertices = 2n.\nCount the two bases and the n side faces separately and you won’t slip.'),
+'比例': G('片方が ◯倍に なると もう片方も ◯倍に なる 関係が 比例です。\nまず「1あたり」を 出すのが 近道：1mあたりの 値段 ＝ 代金 ÷ 長さ。あとは かけるだけ。',
+  '一个量变成几倍、另一个也变成几倍，就是正比例。\n捷径是先求"每一份"：每米单价 = 总价 ÷ 长度，然后乘上要求的份数。',
+  'In direct proportion, multiplying one quantity by a number multiplies the other by the same number.\nThe shortcut is to find the “per one” value first — price per metre — then multiply.'),
+'拡大図': G('◯倍に 拡大すると、長さは ◯倍ですが 面積は ◯×◯倍に なります。たてと よこの 両方が のびる からです。\n体積なら ◯×◯×◯倍。ここを 取りちがえる 人が とても 多い。',
+  '放大到 ◯ 倍：长度是 ◯ 倍，面积却是 ◯×◯ 倍——因为长和宽都变长了。\n体积则是 ◯×◯×◯ 倍。这里最容易搞混。',
+  'Enlarging by a factor of k multiplies lengths by k but areas by k×k, because both dimensions stretch.\nVolumes go up by k×k×k. This is the classic trap.'),
 '平均と和差': G('平均が わかれば 合計が わかります（合計 ＝ 平均 × 人数）。\n1人を「もと」に して、ほかの人を 「もと＋◯」「もと−△」と 表すと、合計の 式が 1つの 文字だけに なります。',
   '知道平均就知道总和（总和 = 平均 × 人数）。\n选一个人作基准，把其他人写成"基准+◯""基准−△"，总和的式子里就只剩一个未知量了。',
   'A mean gives you the total: total = mean × count.\nTake one person as the baseline and write the others as “baseline + ◯” and “baseline − △”; the total then contains just one unknown.')
@@ -1031,6 +1046,66 @@ BANK[1].push(
     unit:G('本','朵','flowers'),val:b-a,sec:25,exp:G(`${b}−${a}=${b-a}本。`,`${b}−${a}=${b-a} 朵。`,`${b}−${a}=${b-a}.`)});}
 );
 
+/* --- 小学1年 追加 --- */
+BANK[1].push(
+()=>{ const a=R(11,18); let b; do{ b=R(3,9); }while(b<=a%10);
+  return QI({tag:G('計算','计算','Arithmetic'),q:G(`つぎの 計算を しましょう。\n\n[[${a} − ${b}]]`,`计算：\n\n[[${a} − ${b}]]`,`Work this out.\n\n[[${a} − ${b}]]`),
+    val:a-b,sec:22,exp:G(`${a}を 10と ${a-10}に 分けます。10−${b}=${10-b}、${10-b}+${a-10}=${a-b}。`,
+      `把 ${a} 拆成 10 和 ${a-10}：10−${b}=${10-b}，再加 ${a-10} 得 ${a-b}。`,
+      `Split ${a} into 10 and ${a-10}. 10−${b}=${10-b}, then ${10-b}+${a-10}=${a-b}.`)});},
+
+()=>{ const n=R(11,19),k=R(3,9);
+  return QI({tag:G('数のせいしつ','数的组成','Place value'),q:G(`${n}は ${k}と いくつですか。`,`${n} 是 ${k} 和几？`,`${n} is ${k} and what?`),
+    val:n-k,sec:22,exp:G(`${n}−${k}=${n-k}。10の まとまりで 考えると 見えやすい。`,`${n}−${k}=${n-k}，凑十来想更容易。`,
+      `${n}−${k}=${n-k}. Thinking in tens makes it quicker.`)});},
+
+()=>{ const a=R(5,12),b=a+R(2,7);
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`りんごが ${a}こ、みかんが ${b}こ あります。\nりんごを 何こ ふやすと、同じ数に なりますか。`,
+      `苹果 ${a} 个，橘子 ${b} 个。苹果再增加几个才和橘子一样多？`,
+      `There are ${a} apples and ${b} oranges.\nHow many more apples are needed to make the numbers equal?`),
+    unit:G('こ','个','apples'),val:b-a,sec:28,
+    exp:G(`ちがいだけ ふやせば そろいます。${b}−${a}=${b-a}こ。`,`补上差额即可：${b}−${a}=${b-a} 个。`,`Add just the difference: ${b}−${a}=${b-a}.`)});},
+
+()=>{ const h=R(1,11),m=R(1,11), mm=m*5;
+  const f=(hh,x)=>`${hh}時${x}分`, fz=(hh,x)=>`${hh}点${x}分`, fe=(hh,x)=>`${hh}:${String(x).padStart(2,'0')}`;
+  const o=[[h,mm],[h+1,mm],[h,(mm+30)%60],[h,(mm+15)%60]];
+  return QC({tag:G('とけい','时钟','Clock'),q:G(`とけいの みじかい はりが ${h}と ${h+1}の あいだ、ながい はりが ${m}を さして います。\n何時何分ですか。`,
+      `钟面上时针在 ${h} 和 ${h+1} 之间，分针指向 ${m}。是几点几分？`,
+      `The hour hand is between ${h} and ${h+1}, and the minute hand points at ${m}.\nWhat time is it?`),
+    opts:o.map(x=>G(f(x[0],x[1]),fz(x[0],x[1]),fe(x[0],x[1]))),ci:0,sec:32,
+    exp:G(`ながい はりの 数字は ×5で 分に なります。${m}×5=${mm}分。みじかい はりは まだ ${h}を すぎた ところ。`,
+      `分针所指数字 ×5 就是分钟：${m}×5=${mm}。时针刚过 ${h}，所以是 ${h} 点 ${mm} 分。`,
+      `The minute hand’s number ×5 gives the minutes: ${m}×5=${mm}. The hour hand has only just passed ${h}.`)});},
+
+()=>{ const g=R(4,9),b=R(11,18);
+  return QI({tag:G('虫くい算','逆推','Working backwards'),q:G(`はこの 中に あめが 何こか 入って います。\n${g}こ 入れたら、ぜんぶで ${b}こに なりました。\nはじめは 何こ 入って いましたか。`,
+      `盒子里原有若干颗糖，放进 ${g} 颗后共有 ${b} 颗。原来有几颗？`,
+      `A box had some sweets in it. After ${g} more were put in there were ${b}.\nHow many were in the box to begin with?`),
+    unit:G('こ','颗','sweets'),val:b-g,sec:30,
+    exp:G(`ふえた 分を もどせば もとの数。${b}−${g}=${b-g}こ。`,`把加进去的减回去：${b}−${g}=${b-g} 颗。`,
+      `Undo the addition: ${b}−${g}=${b-g}.`)});},
+
+()=>{ const a=R(14,19),b=R(2,6),c=R(2,6);
+  return QI({tag:G('計算','计算','Arithmetic'),q:G(`つぎの 計算を しましょう。\n\n[[${a} − ${b} − ${c}]]`,`计算：\n\n[[${a} − ${b} − ${c}]]`,`Work this out.\n\n[[${a} − ${b} − ${c}]]`),
+    val:a-b-c,sec:24,exp:G(`前から じゅんに。${a}−${b}=${a-b}、${a-b}−${c}=${a-b-c}。`,`从左往右：${a}−${b}=${a-b}，再减 ${c} 得 ${a-b-c}。`,
+      `Left to right: ${a}−${b}=${a-b}, then ${a-b}−${c}=${a-b-c}.`)});},
+
+()=>{ const t=R(3,9),o=R(2,9);
+  return QI({tag:G('数のせいしつ','数的组成','Place value'),q:G(`10円玉が ${t}まいと、1円玉が ${o}まい あります。\nぜんぶで 何円ですか。`,
+      `有 ${t} 枚 10 日元硬币和 ${o} 枚 1 日元硬币。一共多少日元？`,
+      `You have ${t} ten-yen coins and ${o} one-yen coins.\nHow much is that altogether?`),
+    unit:G('円','日元','yen'),val:t*10+o,sec:26,
+    exp:G(`10が ${t}こで ${t*10}円、1が ${o}こで ${o}円。合わせて ${t*10+o}円。`,`${t} 个十是 ${t*10}，加 ${o} 个一，共 ${t*10+o} 日元。`,
+      `${t} tens make ${t*10}, plus ${o} ones: ${t*10+o} yen.`)});},
+
+()=>{ const n=R(1,6);
+  return QI({tag:G('さいころ','骰子','Dice'),q:G(`さいころは、向かい合う 面の 数を たすと 7に なります。\n${n}の 反対がわの 面は いくつですか。`,
+      `骰子相对两面的点数之和是 7。${n} 的对面是几？`,
+      `On a dice, opposite faces add up to 7.\nWhat is on the face opposite ${n}?`),
+    val:7-n,sec:25,exp:G(`7−${n}=${7-n}。1と6、2と5、3と4が 向かい合って います。`,`7−${n}=${7-n}。1对6、2对5、3对4。`,
+      `7−${n}=${7-n}. The pairs are 1–6, 2–5 and 3–4.`)});}
+);
+
 /* ======================= 小学2年 ======================= */
 BANK[2].push(
 ()=>{ const a=R(3,9),b=R(4,9);
@@ -1146,6 +1221,80 @@ BANK[2].push(
     opts:[G(`${a}×${b}`,`${a}×${b}`,`${a}×${b}`),G(`${c}×${d}`,`${c}×${d}`,`${c}×${d}`),G('同じ','一样大','They are equal'),G('くらべられない','无法比较','You cannot tell')],ci:ci,sec:30,
     exp:G(`${a}×${b}=${v1}、${c}×${d}=${v2}。`,`${a}×${b}=${v1}，${c}×${d}=${v2}。`,`${a}×${b}=${v1} and ${c}×${d}=${v2}.`)});}
 );
+/* --- 小学2年 追加 --- */
+BANK[2].push(
+()=>{ const a=R(2,9),k=R(2,9);
+  return QI({tag:G('文しょうだい','应用题','Word problem'),q:G(`赤い テープは ${a}m です。青い テープは 赤い テープの ${k}倍の 長さです。\n青い テープは 何m ですか。`,
+      `红绳 ${a} 米，蓝绳是红绳的 ${k} 倍。蓝绳多长？`,
+      `A red tape is ${a}m long. A blue tape is ${k} times as long.\nHow long is the blue tape?`),
+    unit:G('m','m','m'),val:a*k,sec:28,
+    exp:G(`「◯倍」は かけ算。${a}×${k}=${a*k}m。`,`"几倍"用乘法：${a}×${k}=${a*k} 米。`,`“Times as long” means multiply: ${a}×${k}=${a*k}m.`)});},
+
+()=>{ const d=R(3,9),lo=R(2,7)*10,hi=lo+10;
+  let v=null; for(let i=1;i<=9;i++) if(d*i>lo && d*i<hi){ v=d*i; break; }
+  if(v===null) return QI({tag:G('九九','乘法口诀','Times tables'),q:G('7のだんで、40より 大きく 50より 小さい 数は いくつですか。','7 的乘法表中，大于 40 小于 50 的数是多少？','In the 7 times table, which number lies between 40 and 50?'),
+    val:42,sec:30,exp:G('7×6=42。','7×6=42。','7×6=42.')});
+  return QI({tag:G('九九','乘法口诀','Times tables'),q:G(`${d}のだんの 数で、${lo}より 大きく ${hi}より 小さい 数は いくつですか。`,
+      `${d} 的乘法表中，大于 ${lo} 小于 ${hi} 的数是多少？`,
+      `In the ${d} times table, which number lies between ${lo} and ${hi}?`),
+    val:v,sec:32,exp:G(`${d}×${v/d}=${v}。だんの 数を じゅんに 見ていきます。`,`${d}×${v/d}=${v}，逐个数过去即可。`,
+      `${d}×${v/d}=${v} — run down the row until you land inside.`)});},
+
+()=>{ const a=R(2,6),b=R(1,9),c=R(1,6),d=R(1,9);
+  const t=(a*10+b)+(c*10+d);
+  return QI({tag:G('たんい','单位换算','Units'),q:G(`${a}cm${b}mm と ${c}cm${d}mm を 合わせると 何mm ですか。`,
+      `${a}cm${b}mm 加上 ${c}cm${d}mm，一共多少毫米？`,
+      `What is ${a}cm ${b}mm plus ${c}cm ${d}mm, in millimetres?`),
+    unit:G('mm','mm','mm'),val:t,sec:32,
+    exp:G(`1cm=10mm。${a*10+b}mm と ${c*10+d}mm を たして ${t}mm。`,`1cm=10mm，${a*10+b}+${c*10+d}=${t}mm。`,
+      `1cm=10mm, so ${a*10+b}+${c*10+d}=${t}mm.`)});},
+
+()=>{ const L1=R(1,3),d1=R(1,9),use=R(3,9);
+  const total=L1*10+d1;
+  if(total-use<=0) return QI({tag:G('たんい','单位换算','Units'),q:G('2L5dL の 水から 7dL 使いました。のこりは 何dL ですか。','2L5dL 的水用掉 7dL，还剩多少 dL？','7dL is used from 2L 5dL of water. How many dL are left?'),
+    unit:G('dL','dL','dL'),val:18,sec:32,exp:G('2L5dL=25dL。25−7=18dL。','2L5dL=25dL，25−7=18dL。','2L5dL = 25dL, and 25−7=18dL.')});
+  return QI({tag:G('たんい','单位换算','Units'),q:G(`${L1}L${d1}dL の 水から ${use}dL 使いました。\nのこりは 何dL ですか。`,
+      `${L1}L${d1}dL 的水用掉 ${use}dL，还剩多少 dL？`,
+      `${use}dL is poured out of ${L1}L ${d1}dL of water.\nHow many dL are left?`),
+    unit:G('dL','dL','dL'),val:total-use,sec:32,
+    exp:G(`1L=10dL なので ぜんぶで ${total}dL。${total}−${use}=${total-use}dL。`,`1L=10dL，共 ${total}dL，减去 ${use} 得 ${total-use}dL。`,
+      `1L=10dL, so there are ${total}dL. ${total}−${use}=${total-use}dL.`)});},
+
+()=>{ const h=R(9,11),m=R(5,55),back=R(20,50),t=h*60+m-back;
+  const fe=x=>`${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}`;
+  return QI({tag:G('時こくと時間','时刻与时间','Elapsed time'),q:G(`いま ${h}時${m}分です。${back}分前は 何時何分でしたか。答えは 「時」の あとの 「分」を 数字で 書きましょう（例：9時25分なら 25）。`,
+      `现在是 ${h} 点 ${m} 分。${back} 分钟前是几点几分？只填"分"（例：9 点 25 分就填 25）。`,
+      `It is ${fe(h*60+m)} now. What time was it ${back} minutes ago? Give only the minutes (for 9:25, write 25).`),
+    unit:G('分','分','minutes'),val:t%60,sec:35,
+    exp:G(`${h}時ちょうどまで もどると ${m}分。のこり ${back-m>0?back-m:0}分は 前の時間から。答えは ${fe(t)}。`,
+      `先退到 ${h} 点整用去 ${m} 分，剩下的从上一小时里退。结果是 ${fe(t)}。`,
+      `Going back to ${h}:00 uses ${m} minutes; the rest comes out of the previous hour. The time was ${fe(t)}.`)});},
+
+()=>{ const t3=R(2,5),t4=R(2,5);
+  return QI({tag:G('図形','图形','Shapes'),q:G(`三角形が ${t3}こと、四角形が ${t4}こ あります。\nへんは ぜんぶで 何本 ありますか。`,
+      `有 ${t3} 个三角形和 ${t4} 个四边形。一共有多少条边？`,
+      `There are ${t3} triangles and ${t4} quadrilaterals.\nHow many sides are there altogether?`),
+    unit:G('本','条','sides'),val:t3*3+t4*4,sec:32,
+    exp:G(`三角形は 3本、四角形は 4本。3×${t3}+4×${t4}=${t3*3+t4*4}本。`,`三角形 3 条、四边形 4 条：3×${t3}+4×${t4}=${t3*3+t4*4}。`,
+      `Triangles have 3 sides, quadrilaterals 4: 3×${t3}+4×${t4}=${t3*3+t4*4}.`)});},
+
+()=>{ const h=R(2,9),t=R(1,9),o=R(1,9);
+  return QI({tag:G('数のせいしつ','数的组成','Place value'),q:G(`100が ${h}こ、10が ${t}こ、1が ${o}こ あります。\n合わせて いくつですか。`,
+      `${h} 个百、${t} 个十、${o} 个一，合起来是多少？`,
+      `${h} hundreds, ${t} tens and ${o} ones — what number is that?`),
+    val:h*100+t*10+o,sec:26,
+    exp:G(`${h*100}+${t*10}+${o}=${h*100+t*10+o}。位ごとに 分けて 考えます。`,`${h*100}+${t*10}+${o}=${h*100+t*10+o}，按数位拆开看。`,
+      `${h*100}+${t*10}+${o}=${h*100+t*10+o} — read it place by place.`)});},
+
+()=>{ const n=R(2,9),p=R(2,9),tot=n*p;
+  return QI({tag:G('わり算とあまり','平均分','Sharing'),q:G(`${tot}この あめを ${n}人で 同じ数ずつ 分けます。\n1人分は 何こに なりますか。`,
+      `${tot} 颗糖平均分给 ${n} 个人，每人几颗？`,
+      `${tot} sweets are shared equally between ${n} children.\nHow many does each child get?`),
+    unit:G('こ','颗','sweets'),val:p,sec:30,
+    exp:G(`${n}×□=${tot} に なる □を さがします。${n}×${p}=${tot} なので ${p}こ。`,`找 ${n}×□=${tot}：${n}×${p}=${tot}，每人 ${p} 颗。`,
+      `Find □ with ${n}×□=${tot}. Since ${n}×${p}=${tot}, each gets ${p}.`)});}
+);
+
 /* ======================= 小学3年 ======================= */
 const WJ=['日','月','火','水','木','金','土'], WZ=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
       WE=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -1260,6 +1409,77 @@ BANK[3].push(
 ()=>{ const b=R(4,9),q0=R(6,19),r=R(1,b-1),a=b*q0+r;
   return QI({tag:G('わり算とあまり','除法与余数','Division with remainder'),q:G(`${a}÷${b} の あまりは いくつですか。`,`${a}÷${b} 的余数是多少？`,`What is the remainder when ${a} is divided by ${b}?`),
     val:r,sec:25,exp:G(`${b}×${q0}=${b*q0}、${a}−${b*q0}=${r}。`,`${b}×${q0}=${b*q0}，余 ${r}。`,`${b}×${q0}=${b*q0}, and ${a}−${b*q0}=${r}.`)});}
+);
+
+/* --- 小学3年 追加 --- */
+BANK[3].push(
+()=>{ const a=R(13,49),b=R(13,49);
+  return QI({tag:G('計算','计算','Arithmetic'),q:G(`つぎの 計算を しましょう。\n\n[[${a} × ${b}]]`,`计算：\n\n[[${a} × ${b}]]`,`Work this out.\n\n[[${a} × ${b}]]`),
+    val:a*b,sec:45,
+    exp:G(`${a}×${b} は ${a}×${b%10} と ${a}×${Math.floor(b/10)*10} に 分けて たします。${a*(b%10)}+${a*Math.floor(b/10)*10}=${a*b}。`,
+      `拆开算：${a}×${b%10}=${a*(b%10)}，${a}×${Math.floor(b/10)*10}=${a*Math.floor(b/10)*10}，相加得 ${a*b}。`,
+      `Split it: ${a}×${b%10}=${a*(b%10)} and ${a}×${Math.floor(b/10)*10}=${a*Math.floor(b/10)*10}. Adding gives ${a*b}.`)});},
+
+()=>{ const b=R(3,9),q0=R(120,320),a=b*q0;
+  return QI({tag:G('わり算とあまり','除法','Division'),q:G(`つぎの 計算を しましょう。\n\n[[${a} ÷ ${b}]]`,`计算：\n\n[[${a} ÷ ${b}]]`,`Work this out.\n\n[[${a} ÷ ${b}]]`),
+    val:q0,sec:42,
+    exp:G(`上の位から じゅんに わって いきます。答えは ${q0}。`,`从最高位依次除下来，得 ${q0}。`,
+      `Divide from the highest place down; the answer is ${q0}.`)});},
+
+()=>{ const m=R(1,3),s=R(10,55),add=R(20,55);
+  const tot=m*60+s+add;
+  return QI({tag:G('時こくと時間','时刻与时间','Time'),q:G(`${m}分${s}秒 と ${add}秒を 合わせると 何分何秒ですか。「秒」の 数を 答えましょう。`,
+      `${m} 分 ${s} 秒加上 ${add} 秒，是几分几秒？只填"秒"的部分。`,
+      `${m} min ${s} s plus ${add} s makes how long? Give just the seconds part.`),
+    unit:G('秒','秒','seconds'),val:tot%60,sec:35,
+    exp:G(`1分=60秒。ぜんぶで ${tot}秒 ＝ ${Math.floor(tot/60)}分${tot%60}秒。`,`1 分 = 60 秒，共 ${tot} 秒 = ${Math.floor(tot/60)} 分 ${tot%60} 秒。`,
+      `1 minute is 60 seconds. In all ${tot}s = ${Math.floor(tot/60)}min ${tot%60}s.`)});},
+
+()=>{ let d1,d2; do{ d1=R(3,9); d2=R(3,9); }while(d1===d2);
+  const n=R(1,Math.min(d1,d2)-1);
+  const big = (n/d1 > n/d2) ? d1 : d2;
+  return QC({tag:G('分数','分数','Fractions'),q:G(`${n}/${d1} と ${n}/${d2} では、どちらが 大きいですか。`,
+      `${n}/${d1} 和 ${n}/${d2} 哪个大？`,`Which is larger, ${n}/${d1} or ${n}/${d2}?`),
+    opts:[G(`${n}/${d1}`,`${n}/${d1}`,`${n}/${d1}`),G(`${n}/${d2}`,`${n}/${d2}`,`${n}/${d2}`),
+          G('同じ','一样大','They are equal'),G('くらべられない','无法比较','You cannot tell')],
+    ci: big===d1 ? 0 : 1, sec:35,
+    exp:G(`分子が 同じなら、分母が 小さい ほうが 大きい。同じ 1つ分を 少ない数に 分けるから です。`,
+      `分子相同时，分母越小的越大——同样一份东西分给更少的份数，每份就更大。`,
+      `With the same numerator, the smaller denominator wins: the same whole is cut into fewer pieces, so each piece is bigger.`)});},
+
+()=>{ const k=R(12,89);
+  return QI({tag:G('小数','小数','Decimals'),q:G(`0.1を ${k}こ 集めた 数は いくつですか。`,`${k} 个 0.1 合起来是多少？`,`What number is made from ${k} lots of 0.1?`),
+    val:k/10,sec:30,
+    exp:G(`0.1が 10こで 1。${k}こ なら ${k/10}。小数第一位は 0.1が いくつ分かを 表します。`,
+      `10 个 0.1 是 1，${k} 个就是 ${k/10}。小数第一位表示有几个 0.1。`,
+      `Ten 0.1s make 1, so ${k} of them make ${k/10}. The first decimal place counts how many tenths.`)});},
+
+()=>{ const x=R(3,15),a=R(3,9),k=R(2,5);
+  const res=(x+a)*k;
+  return QI({tag:G('虫くい算','逆推','Working backwards'),q:G(`ある数に ${a}を たして、${k}ばい したら ${res}に なりました。\nある数は いくつですか。`,
+      `某数加 ${a} 后再乘 ${k}，得到 ${res}。这个数是多少？`,
+      `A number has ${a} added to it and the result is multiplied by ${k}, giving ${res}.\nWhat was the number?`),
+    val:x,sec:45,
+    exp:G(`さいごから もどします。${res}÷${k}=${x+a}、${x+a}−${a}=${x}。`,`倒着还原：${res}÷${k}=${x+a}，再减 ${a} 得 ${x}。`,
+      `Undo the steps in reverse: ${res}÷${k}=${x+a}, then ${x+a}−${a}=${x}.`)});},
+
+()=>{ const per=P([2,5,10]),marks=R(4,9),v=per*marks;
+  return QI({tag:G('グラフ','读图','Graphs'),q:G(`ぼうグラフの 1目もりが ${per}人を あらわして います。\nぼうの 長さが ${marks}目もり分の とき、何人ですか。`,
+      `条形图上一格代表 ${per} 人。柱高 ${marks} 格表示多少人？`,
+      `On a bar chart one division stands for ${per} people.\nHow many people does a bar ${marks} divisions tall represent?`),
+    unit:G('人','人','people'),val:v,sec:32,
+    exp:G(`1目もり ${per}人が ${marks}つ分。${per}×${marks}=${v}人。まず 1目もりが いくつかを たしかめます。`,
+      `每格 ${per} 人共 ${marks} 格：${per}×${marks}=${v} 人。读图先确认一格代表多少。`,
+      `${per} people per division, ${marks} divisions: ${per}×${marks}=${v}. Always check the value of one division first.`)});},
+
+()=>{ const n=R(4,9),q0=R(4,12),r=R(1,n-1),tot=n*q0+r;
+  return QI({tag:G('わり算とあまり','除法与余数','Division with remainder'),q:G(`${tot}この あめを ${n}人に 同じ数ずつ 配ります。\n何こ あまりますか。`,
+      `${tot} 颗糖平均分给 ${n} 个人，会剩下几颗？`,
+      `${tot} sweets are shared equally between ${n} children.\nHow many are left over?`),
+    unit:G('こ','颗','sweets'),val:r,sec:32,
+    exp:G(`${tot}÷${n}=${q0}あまり${r}。1人 ${q0}こずつで ${n*q0}こ 配り、のこりが ${r}こ。`,
+      `${tot}÷${n}=${q0}余${r}：每人 ${q0} 颗共发出 ${n*q0} 颗，剩 ${r} 颗。`,
+      `${tot}÷${n}=${q0} remainder ${r}: ${n*q0} are handed out and ${r} remain.`)});}
 );
 
 /* ======================= 小学4年 ======================= */
@@ -1402,6 +1622,92 @@ BANK[4].push(
           `${d[i]}−${d[i-1]}=${d[i]-d[i-1]}，变化量为 ${Math.abs(d[i]-d[i-1])} 本。`,
           `${d[i]}−${d[i-1]}=${d[i]-d[i-1]}, so the difference is ${Math.abs(d[i]-d[i-1])} books.`)});}
 );
+/* --- 小学4年 追加 --- */
+BANK[4].push(
+()=>{ const a=R(120,899),b=R(110,499);
+  return P([0,1])===0
+    ? QI({tag:G('小数の計算','小数计算','Decimal calculation'),q:G(`つぎの 計算を しましょう。\n\n[[${a/100} + ${b/100}]]`,`计算：\n\n[[${a/100} + ${b/100}]]`,`Work this out.\n\n[[${a/100} + ${b/100}]]`),
+        val:(a+b)/100,sec:35,exp:G(`小数点を そろえて たします。答えは ${(a+b)/100}。`,`小数点对齐相加，得 ${(a+b)/100}。`,
+          `Line up the decimal points and add: ${(a+b)/100}.`)})
+    : QI({tag:G('小数の計算','小数计算','Decimal calculation'),q:G(`つぎの 計算を しましょう。\n\n[[${(a+b)/100} − ${b/100}]]`,`计算：\n\n[[${(a+b)/100} − ${b/100}]]`,`Work this out.\n\n[[${(a+b)/100} − ${b/100}]]`),
+        val:a/100,sec:38,exp:G(`小数点を そろえて ひきます。答えは ${a/100}。`,`小数点对齐相减，得 ${a/100}。`,
+          `Line up the decimal points and subtract: ${a/100}.`)});},
+
+()=>{ const n=R(1,9),d=P([10,100]);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`${n/d} を 分数で 表しましょう。答えは ${n}/${d} の ように 書きます。`,
+      `把 ${n/d} 写成分数（写成 ${n}/${d} 这样的形式）。`,
+      `Write ${n/d} as a fraction, in the form ${n}/${d}.`),
+    val:n/d,disp:fr(n,d),note:UI.fracN,sec:35,
+    exp:G(`小数第一位は 10分の1、第二位は 100分の1。${n/d} は ${n}/${d} で、約分すると ${fr(n,d)}。`,
+      `小数第一位是十分之一，第二位是百分之一。${n/d} = ${n}/${d}，约分为 ${fr(n,d)}。`,
+      `The first decimal place is tenths and the second hundredths, so ${n/d} = ${n}/${d}, which reduces to ${fr(n,d)}.`)});},
+
+()=>{ const unit=P([10,100,1000]),k=R(2,9),target=k*unit;
+  return QI({tag:G('がい数','近似数','Rounding'),q:G(`四捨五入して 一の位までの がい数に した ときに ${target}に なる 整数の うち、いちばん 小さい 数は いくつですか。`,
+      `四舍五入到 ${unit===10?'十位':unit===100?'百位':'千位'}后得到 ${target} 的整数中，最小的是多少？`,
+      `Rounding to the nearest ${unit}, which is the smallest whole number that rounds to ${target}?`),
+    val:target-unit/2,sec:50,
+    exp:G(`${unit}の 位で 四捨五入する ので、${target}−${unit/2}=${target-unit/2} から ${target+unit/2-1} までが ${target}に なります。いちばん 小さいのは ${target-unit/2}。`,
+      `以 ${unit} 为单位四舍五入，能得到 ${target} 的范围是 ${target-unit/2} 到 ${target+unit/2-1}，最小是 ${target-unit/2}。`,
+      `Numbers from ${target-unit/2} to ${target+unit/2-1} all round to ${target}; the smallest is ${target-unit/2}.`)});},
+
+()=>{ const b=R(12,48),q0=R(12,39),a=b*q0;
+  return QI({tag:G('わり算とあまり','除法','Division'),q:G(`つぎの 計算を しましょう。\n\n[[${a} ÷ ${b}]]`,`计算：\n\n[[${a} ÷ ${b}]]`,`Work this out.\n\n[[${a} ÷ ${b}]]`),
+    val:q0,sec:50,
+    exp:G(`わる数を およその 数（${Math.round(b/10)*10}くらい）と 見て 見当を つけ、たしかめながら 進めます。答えは ${q0}。`,
+      `把除数看成约 ${Math.round(b/10)*10} 来试商，边试边校正，得 ${q0}。`,
+      `Estimate the divisor as about ${Math.round(b/10)*10} to guess each digit, then check as you go. The answer is ${q0}.`)});},
+
+()=>{ const t=P([0,1]);
+  if(t===0){ const k=R(2,9);
+    return QI({tag:G('たんい','单位换算','Units'),q:G(`${k}km² は 何m² ですか。`,`${k} 平方公里等于多少平方米？`,`How many m² is ${k}km²?`),
+      unit:G('m²','m²','m²'),val:k*1000000,sec:40,
+      exp:G(`1km=1000m なので 1km²=1000×1000=1000000m²。${k}×1000000=${k*1000000}m²。`,
+        `1km=1000m，所以 1km²=1000×1000=1000000m²，${k} 倍即 ${k*1000000}m²。`,
+        `1km = 1000m, so 1km² = 1000×1000 = 1,000,000m². That makes ${k*1000000}m².`)});}
+  const k=R(2,9);
+  return QI({tag:G('たんい','单位换算','Units'),q:G(`1辺が ${k*10}m の 正方形の 土地の 面積は 何a ですか。1a は 100m² です。`,
+      `边长 ${k*10} 米的正方形土地，面积是多少公亩？（1 公亩 = 100 平方米）`,
+      `A square plot has sides of ${k*10}m. What is its area in ares? One are is 100m².`),
+    unit:G('a','a','ares'),val:k*k,sec:45,
+    exp:G(`${k*10}×${k*10}=${k*k*100}m²。100で わって ${k*k}a。`,`${k*10}×${k*10}=${k*k*100}m²，÷100 得 ${k*k} 公亩。`,
+      `${k*10}×${k*10}=${k*k*100}m², and dividing by 100 gives ${k*k} ares.`)});},
+
+()=>{ const h=P([1,2,3,4,5,7,8,9,10,11]);
+  const ang=Math.min(h*30, 360-h*30);
+  return QI({tag:G('角度','角度','Angles'),q:G(`${h}時ちょうどの とき、時計の 長針と 短針が つくる 小さい ほうの 角は 何度 ですか。`,
+      `${h} 点整时，钟面上时针与分针所夹的小角是多少度？`,
+      `At exactly ${h} o’clock, what is the smaller angle between the hands of a clock?`),
+    unit:G('度','度','degrees'),val:ang,sec:45,
+    exp:G(`1時間分は 360÷12=30度。${h}時ちょうどなら 30×${h}=${h*30}度、小さい ほうは ${ang}度。`,
+      `每小时刻度对应 360÷12=30 度，${h} 点为 ${h*30} 度，取小角即 ${ang} 度。`,
+      `Each hour mark is 360÷12 = 30°, so ${h} o’clock gives ${h*30}°, and the smaller angle is ${ang}°.`)});},
+
+()=>{ const s=P([
+   {q:G('立方体の てん開図に ついて、正しい ものは どれですか。','关于正方体的展开图，下面哪句是对的？','Which is true of the net of a cube?'),
+    o:[G('正方形が 6つ ならぶ','由 6 个正方形组成','It is made of six squares'),
+       G('正方形が 4つ ならぶ','由 4 个正方形组成','It is made of four squares'),
+       G('長方形が 6つ ならぶ','由 6 个长方形组成','It is made of six rectangles'),
+       G('三角形が 8つ ならぶ','由 8 个三角形组成','It is made of eight triangles')],c:0,
+    e:G('立方体は 面が 6つ、どれも 同じ 大きさの 正方形です。','正方体有 6 个面，都是同样大小的正方形。','A cube has six faces, all squares of the same size.')},
+   {q:G('直方体の 面・辺・頂点の 数の 組み合わせで 正しい ものは どれですか。','长方体的面数、棱数、顶点数，哪组是对的？','Which set is right for a cuboid?'),
+    o:[G('面6・辺12・頂点8','6 个面、12 条棱、8 个顶点','6 faces, 12 edges, 8 vertices'),
+       G('面6・辺8・頂点12','6 个面、8 条棱、12 个顶点','6 faces, 8 edges, 12 vertices'),
+       G('面8・辺12・頂点6','8 个面、12 条棱、6 个顶点','8 faces, 12 edges, 6 vertices'),
+       G('面4・辺8・頂点6','4 个面、8 条棱、6 个顶点','4 faces, 8 edges, 6 vertices')],c:0,
+    e:G('直方体は 面が6、辺が12、頂点が8。向かい合う 面は 同じ形です。','长方体 6 面 12 棱 8 顶点，相对的面形状相同。','A cuboid has 6 faces, 12 edges and 8 vertices; opposite faces match.')}]);
+  return QC({tag:G('てん開図','立体图形','Solids'),q:s.q,opts:s.o,ci:s.c,sec:40,exp:s.e});},
+
+()=>{ const d=R(3,9),w=R(1,d-1),n=w+d*R(1,3);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`仮分数 ${n}/${d} を 帯分数に 直しましょう。「1 2/3」の ように 書きます。`,
+      `把假分数 ${n}/${d} 化成带分数（写成「1 2/3」这样）。`,
+      `Write the improper fraction ${n}/${d} as a mixed number, in the form “1 2/3”.`),
+    val:n/d,disp:frMixed(n,d),note:UI.fracN,sec:38,
+    exp:G(`${n}÷${d}=${Math.floor(n/d)}あまり${n%d}。整数部分が ${Math.floor(n/d)}、のこりが ${n%d}/${d} で ${frMixed(n,d)}。`,
+      `${n}÷${d}=${Math.floor(n/d)}余${n%d}，整数部分 ${Math.floor(n/d)}，余下 ${n%d}/${d}，即 ${frMixed(n,d)}。`,
+      `${n}÷${d} = ${Math.floor(n/d)} remainder ${n%d}, so the whole part is ${Math.floor(n/d)} and ${n%d}/${d} is left: ${frMixed(n,d)}.`)});}
+);
+
 /* ======================= 小学5年 ======================= */
 BANK[5].push(
 ()=>{ let a,b; do{a=R(4,12);b=R(4,14);}while(a===b||lcm(a,b)>200);
@@ -1554,6 +1860,84 @@ BANK[5].push(
     unit:G('%','%','%'),val:p,sec:40,
     exp:G(`くらべる量÷もとにする量=${a}÷${b}=${num(a/b)}。100をかけて ${p}%。`,`${a}÷${b}=${num(a/b)}，即 ${p}%。`,
           `${a}÷${b}=${num(a/b)}, and ×100 gives ${p}%.`)});}
+);
+
+/* --- 小学5年 追加 --- */
+BANK[5].push(
+()=>{ const n=P([12,18,20,24,28,30,36,40,45,48,50,54,60,72]);
+  let c=0; for(let i=1;i<=n;i++) if(n%i===0) c++;
+  return QI({tag:G('数の性質','数的性质','Number properties'),q:G(`${n}の 約数は 何個 ありますか。`,`${n} 有多少个约数？`,`How many factors does ${n} have?`),
+    unit:G('個','个','factors'),val:c,sec:50,
+    exp:G(`1から じゅんに かけ算の 組を さがします（1×${n}、2×${n/2}…）。組で 数えると もれません。ぜんぶで ${c}個。`,
+      `从 1 开始成对地找（1×${n}、2×${n/2}…），成对数就不会漏，共 ${c} 个。`,
+      `Hunt in pairs from 1 up (1×${n}, 2×${n/2}, …) — pairing them makes sure none are missed. There are ${c}.`)});},
+
+()=>{ const p=P([[0.75,3,4],[0.25,1,4],[0.5,1,2],[0.2,1,5],[0.4,2,5],[0.6,3,5],[0.8,4,5],[0.125,1,8],[0.375,3,8]]);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`${p[0]} を 分数で 表しましょう。それ以上 約分できない 形で 書きます。`,
+      `把 ${p[0]} 写成最简分数。`,`Write ${p[0]} as a fraction in its simplest form.`),
+    val:p[1]/p[2],disp:fr(p[1],p[2]),note:UI.fracN,sec:42,
+    exp:G(`${p[0]} は ${p[0]*1000}/1000。約分して ${p[1]}/${p[2]}。`,`${p[0]} = ${p[0]*1000}/1000，约分得 ${p[1]}/${p[2]}。`,
+      `${p[0]} is ${p[0]*1000}/1000, which cancels down to ${p[1]}/${p[2]}.`)});},
+
+()=>{ const p=P([10,20,25,40,50,60,75,80]);
+  return QI({tag:G('割合','百分数','Percentages'),q:G(`円グラフで ${p}% を 表す おうぎ形の 中心角は 何度 ですか。`,
+      `在饼图中，${p}% 对应的扇形圆心角是多少度？`,
+      `On a pie chart, what is the central angle of the sector showing ${p}%?`),
+    unit:G('度','度','degrees'),val:p*3.6,sec:42,
+    exp:G(`全体（100%）が 360度。1%は 3.6度 なので ${p}×3.6=${p*3.6}度。`,`整圆 360 度对应 100%，1% 是 3.6 度，${p}×3.6=${p*3.6} 度。`,
+      `The whole circle, 100%, is 360°, so 1% is 3.6°: ${p}×3.6=${p*3.6}°.`)});},
+
+()=>{ let d1,h1,d2,h2; do{ h1=R(2,5); d1=h1*R(40,90); h2=R(2,5); d2=h2*R(40,90); }while(d1/h1===d2/h2);
+  const fast = (d1/h1 > d2/h2) ? 0 : 1;
+  return QC({tag:G('速さ','速度','Speed'),q:G(`A は ${d1}km を ${h1}時間で、B は ${d2}km を ${h2}時間で 進みました。\n速いのは どちらですか。`,
+      `A 用 ${h1} 小时走了 ${d1} 公里，B 用 ${h2} 小时走了 ${d2} 公里。谁更快？`,
+      `A covered ${d1}km in ${h1} hours; B covered ${d2}km in ${h2} hours.\nWho was faster?`),
+    opts:[G('A','A','A'),G('B','B','B'),G('同じ','一样快','The same'),G('くらべられない','无法比较','You cannot tell')],
+    ci:fast,sec:45,
+    exp:G(`1時間あたりに 直して くらべます。A は ${d1}÷${h1}=${d1/h1}km/時、B は ${d2}÷${h2}=${d2/h2}km/時。`,
+      `都化成每小时再比：A 是 ${d1/h1} km/h，B 是 ${d2/h2} km/h。`,
+      `Reduce both to “per hour”: A is ${d1/h1}km/h and B is ${d2/h2}km/h.`)});},
+
+()=>{ const k=R(2,9);
+  return QI({tag:G('体積','体积','Volume'),q:G(`${k}m³ は 何L ですか。1L は 1000cm³ です。`,`${k} 立方米等于多少升？（1 升 = 1000 立方厘米）`,
+      `How many litres is ${k}m³? One litre is 1000cm³.`),
+    unit:G('L','L','L'),val:k*1000,sec:45,
+    exp:G(`1m=100cm なので 1m³=100×100×100=1000000cm³。1L=1000cm³ だから 1m³=1000L。${k}m³=${k*1000}L。`,
+      `1m=100cm，故 1m³=1000000cm³；1L=1000cm³，所以 1m³=1000L，${k}m³=${k*1000}L。`,
+      `1m = 100cm, so 1m³ = 1,000,000cm³. Since 1L = 1000cm³, 1m³ = 1000L, giving ${k*1000}L.`)});},
+
+()=>{ const d=P([3,4,6,7,8,9,12]),lim=P([100,200,300]);
+  const c=Math.floor(lim/d);
+  return QI({tag:G('数の性質','数的性质','Number properties'),q:G(`1から ${lim}までの 整数の 中に、${d}の 倍数は 何個 ありますか。`,
+      `1 到 ${lim} 之间，${d} 的倍数有多少个？`,
+      `How many multiples of ${d} are there from 1 to ${lim}?`),
+    unit:G('個','个','multiples'),val:c,sec:45,
+    exp:G(`${lim}÷${d}=${c}あまり${lim%d}。わり切れた 回数が そのまま 倍数の 個数に なります。`,
+      `${lim}÷${d}=${c}余${lim%d}，商就是倍数的个数。`,
+      `${lim}÷${d} = ${c} remainder ${lim%d}; the quotient is the count.`)});},
+
+()=>{ const apex=R(20,140)*1;
+  const base=(180-apex)/2;
+  if(!Number.isInteger(base)) return QI({tag:G('角度','角度','Angles'),q:G('二等辺三角形の 頂角が 40度の とき、底角は 何度 ですか。','等腰三角形顶角 40 度，底角是多少度？','The apex angle of an isosceles triangle is 40°. What is each base angle?'),
+    unit:G('度','度','degrees'),val:70,sec:40,exp:G('(180−40)÷2=70度。','(180−40)÷2=70 度。','(180−40)÷2 = 70°.')});
+  return QI({tag:G('角度','角度','Angles'),q:G(`二等辺三角形の 頂角が ${apex}度 です。\n底角の 1つは 何度 ですか。`,
+      `等腰三角形的顶角是 ${apex} 度。一个底角是多少度？`,
+      `An isosceles triangle has an apex angle of ${apex}°.\nWhat is one of its base angles?`),
+    unit:G('度','度','degrees'),val:base,sec:40,
+    exp:G(`2つの 底角は 等しい ので、(180−${apex})÷2=${base}度。`,`两底角相等：(180−${apex})÷2=${base} 度。`,
+      `The two base angles are equal, so (180−${apex})÷2 = ${base}°.`)});},
+
+()=>{ let b,d,a,c; do{ b=R(2,6);d=R(2,6);a=R(1,b-1);c=R(1,d-1); }
+  while(b===d||lcm(b,d)>24||gcd(a,b)!==1||gcd(c,d)!==1);
+  const w1=R(1,2),w2=R(1,2),L2=lcm(b,d);
+  const n=(w1*b+a)*(L2/b)+(w2*d+c)*(L2/d);
+  return QI({tag:G('分数','分数','Fractions'),q:G(`つぎの 計算を しましょう。答えは 分数で 書きましょう。\n\n[[${w1} ${a}/${b} + ${w2} ${c}/${d}]]`,
+      `计算（分数作答）：\n\n[[${w1} ${a}/${b} + ${w2} ${c}/${d}]]`,
+      `Work this out. Give your answer as a fraction.\n\n[[${w1} ${a}/${b} + ${w2} ${c}/${d}]]`),
+    val:n/L2,disp:frMixed(n,L2),note:UI.fracN,sec:55,
+    exp:G(`分母を ${L2}に そろえてから 計算します。整数部分 ${w1}+${w2}=${w1+w2}、分数部分 ${a*(L2/b)}/${L2}+${c*(L2/d)}/${L2}。合わせて ${frMixed(n,L2)}。`,
+      `先通分到 ${L2}：整数部分 ${w1}+${w2}=${w1+w2}，分数部分 ${a*(L2/b)}/${L2}+${c*(L2/d)}/${L2}，合起来 ${frMixed(n,L2)}。`,
+      `Put both over ${L2}. Whole parts ${w1}+${w2}=${w1+w2}; fraction parts ${a*(L2/b)}/${L2}+${c*(L2/d)}/${L2}. Together: ${frMixed(n,L2)}.`)});}
 );
 
 /* ======================= 小学6年 ======================= */
@@ -1721,6 +2105,89 @@ BANK[6].push(
     exp:G(`進む 道のりは 鉄橋+電車の 長さ=${bl}+${len}=${bl+len}m。${bl+len}÷${v}=${num((len+bl)/v)}秒。`,
           `总路程 = 桥长 + 车长 = ${bl+len} 米，${bl+len}÷${v}=${num((len+bl)/v)} 秒。`,
           `The train travels bridge + train = ${bl}+${len}=${bl+len}m, so ${bl+len}÷${v}=${num((len+bl)/v)} seconds.`)});}
+);
+
+/* --- 小学6年 追加 --- */
+BANK[6].push(
+()=>{ let a,b,c,d; do{ b=R(2,9);a=R(1,b-1);d=R(2,9);c=R(1,d-1); }while(gcd(a,b)!==1||gcd(c,d)!==1);
+  const n=a*c,m=b*d;
+  return QI({tag:G('分数の計算','分数计算','Fraction calculation'),q:G(`${a}/${b} kg の さとうの、${c}/${d} を つかいました。\nつかったのは 何kg ですか。答えは 分数で 書きましょう。`,
+      `有 ${a}/${b} 千克糖，用掉了其中的 ${c}/${d}。用掉多少千克？（分数作答）`,
+      `You use ${c}/${d} of ${a}/${b} kg of sugar.\nHow many kg is that? Give your answer as a fraction.`),
+    val:n/m,disp:fr(n,m),note:UI.fracN,sec:50,
+    exp:G(`「〜の 〜」は かけ算。${a}/${b}×${c}/${d}=${fr(n,m)}kg。もとにする量が 分数でも 同じです。`,
+      `"……的……"用乘法：${a}/${b}×${c}/${d}=${fr(n,m)} 千克。基准量是分数时也一样。`,
+      `“Of” means multiply: ${a}/${b}×${c}/${d}=${fr(n,m)} kg. It works the same when the whole is itself a fraction.`)});},
+
+()=>{ const g=R(2,9),a=R(2,9),b=R(2,9);
+  if(a===b) return QI({tag:G('比','比','Ratio'),q:G('1.2 : 0.8 を いちばん 簡単な 整数の 比に すると、はじめの 数は いくつに なりますか。',
+      '把 1.2 : 0.8 化成最简整数比，前项是多少？','Simplify 1.2 : 0.8 to its simplest whole-number form. What is the first number?'),
+    val:3,sec:45,exp:G('両方を 10倍して 12:8、4で わって 3:2。','两边同乘 10 得 12:8，再同除 4 得 3:2。','Multiply both by 10 to get 12:8, then divide by 4: 3:2.')});
+  const x=a*g,y=b*g;
+  return QI({tag:G('比','比','Ratio'),q:G(`${x} : ${y} を いちばん 簡単な 整数の 比に します。\nはじめの 数は いくつに なりますか。`,
+      `把 ${x} : ${y} 化成最简整数比，前项是多少？`,
+      `Simplify ${x} : ${y} to its simplest whole-number form. What is the first number?`),
+    val:a/gcd(a,b),sec:45,
+    exp:G(`${x}と ${y}の 最大公約数は ${g*gcd(a,b)}。両方を それで わると ${a/gcd(a,b)} : ${b/gcd(a,b)}。`,
+      `${x} 与 ${y} 的最大公因数是 ${g*gcd(a,b)}，同除后得 ${a/gcd(a,b)} : ${b/gcd(a,b)}。`,
+      `The highest common factor of ${x} and ${y} is ${g*gcd(a,b)}; dividing both gives ${a/gcd(a,b)} : ${b/gcd(a,b)}.`)});},
+
+()=>{ const m1=R(2,6),cost=m1*R(40,120),m2=m1+R(1,6);
+  return QI({tag:G('比例','正比例','Proportion'),q:G(`${m1}m で ${cost}円の リボンが あります。\n同じ リボン ${m2}m では 何円 ですか。`,
+      `${m1} 米丝带卖 ${cost} 日元。同样的丝带 ${m2} 米要多少钱？`,
+      `${m1}m of ribbon costs ${cost} yen.\nWhat would ${m2}m of the same ribbon cost?`),
+    unit:G('円','日元','yen'),val:cost/m1*m2,sec:50,
+    exp:G(`1mあたり ${cost}÷${m1}=${cost/m1}円。${cost/m1}×${m2}=${cost/m1*m2}円。長さが ◯倍なら 代金も ◯倍。`,
+      `每米 ${cost}÷${m1}=${cost/m1} 日元，${cost/m1}×${m2}=${cost/m1*m2} 日元。长度成几倍，价钱也成几倍。`,
+      `Per metre: ${cost}÷${m1}=${cost/m1} yen, so ${m2}m costs ${cost/m1*m2}. Double the length, double the price.`)});},
+
+()=>{ const r=R(3,12),v=Math.round((r*2*3.14/2 + r*2)*100)/100;
+  return QI({tag:G('円の面積','圆','Circles'),q:G(`半径 ${r}cm の 半円が あります。\nまわりの 長さは 何cm ですか。円周率は 3.14 と します。`,
+      `一个半径 ${r}cm 的半圆。它的周长是多少 cm？（π 取 3.14）`,
+      `A semicircle has radius ${r}cm.\nWhat is its perimeter, in cm? Take π as 3.14.`),
+    unit:G('cm','cm','cm'),val:v,sec:55,
+    exp:G(`曲線は 円周の 半分で ${r*2}×3.14÷2=${num(r*2*3.14/2)}cm。まっすぐな 直径 ${r*2}cm を 忘れずに たして ${num(v)}cm。`,
+      `弧长是整圆周长的一半：${r*2}×3.14÷2=${num(r*2*3.14/2)}cm，别忘了加上直径 ${r*2}cm，共 ${num(v)}cm。`,
+      `The curve is half the circumference: ${r*2}×3.14÷2=${num(r*2*3.14/2)}cm. Don’t forget the straight diameter of ${r*2}cm, giving ${num(v)}cm.`)});},
+
+()=>{ const k=R(2,5);
+  return QI({tag:G('拡大図','放大与缩小','Enlargement'),q:G(`ある 図形を ${k}倍に 拡大しました。\n面積は もとの 何倍に なりますか。`,
+      `把一个图形放大到 ${k} 倍。面积变成原来的几倍？`,
+      `A shape is enlarged by a scale factor of ${k}.\nHow many times its original area is the new area?`),
+    unit:G('倍','倍','times'),val:k*k,sec:50,
+    exp:G(`たても よこも ${k}倍に なるので、面積は ${k}×${k}=${k*k}倍。長さは ${k}倍でも 面積は ${k*k}倍に なる ところが 大事。`,
+      `长和宽都变成 ${k} 倍，面积就是 ${k}×${k}=${k*k} 倍。长度 ${k} 倍、面积 ${k*k} 倍，这一点最关键。`,
+      `Both dimensions grow ${k} times, so the area grows ${k}×${k}=${k*k} times. Lengths scale by k but areas by k².`)});},
+
+()=>{ const t=R(2,12);
+  let c=0; for(let i=1;i<=6;i++) for(let j=1;j<=6;j++) if(i+j===t) c++;
+  return QI({tag:G('場合の数','计数','Counting'),q:G(`さいころを 2つ 同時に ふります。\n出た 目の 和が ${t}に なるのは 何通り ありますか。`,
+      `同时掷两颗骰子，点数之和为 ${t} 的情况有多少种？`,
+      `Two dice are rolled together.\nIn how many ways can the total be ${t}?`),
+    unit:G('通り','种','ways'),val:c,sec:55,
+    exp:G(`2つの さいころは 区別して 数えます。(1,${t-1})、(2,${t-2})… と 1から じゅんに しらべて ${c}通り。`,
+      `两颗骰子要区分先后，从 (1,${t-1}) 开始依次枚举，共 ${c} 种。`,
+      `Treat the two dice as distinguishable and list from (1,${t-1}) upwards: ${c} ways.`)});},
+
+()=>{ const p=P([10,20,25,40,50,75]),part=R(3,20)*p/5;
+  const whole=part*100/p;
+  return QI({tag:G('割合','百分数','Percentages'),q:G(`ある数の ${p}% が ${part} です。\nある数は いくつですか。`,
+      `某数的 ${p}% 是 ${part}。这个数是多少？`,
+      `${p}% of a number is ${part}.\nWhat is the number?`),
+    val:whole,sec:50,
+    exp:G(`もとにする量 ＝ くらべる量 ÷ 割合。${part}÷${p/100}=${whole}。かけ算では なく わり算に なる ところに 注意。`,
+      `标准量 = 比较量 ÷ 比例：${part}÷${p/100}=${whole}。注意这里是除不是乘。`,
+      `Whole = part ÷ rate: ${part}÷${p/100}=${whole}. Note it is a division, not a multiplication.`)});},
+
+()=>{ const n=R(3,8),t=P([0,1,2]);
+  const v = t===0 ? n*3 : t===1 ? n*2 : n+2;
+  return QI({tag:G('角柱','柱体','Prisms'),q:G(`正${n}角柱に ついて 答えます。\n${t===0?'辺':t===1?'頂点':'面'}は 何${t===2?'つ':'つ'} ありますか。`,
+      `关于正 ${n} 棱柱：它有多少${t===0?'条棱':t===1?'个顶点':'个面'}？`,
+      `A prism has a regular ${n}-sided base.\nHow many ${t===0?'edges':t===1?'vertices':'faces'} does it have?`),
+    val:v,sec:50,
+    exp:G(`底面が ${n}角形の 角柱は、辺が ${n}×3=${n*3}、頂点が ${n}×2=${n*2}、面が ${n}+2=${n+2}。上下の 底面と まわりの 側面で 考えます。`,
+      `底面为 ${n} 边形的棱柱：棱 ${n}×3=${n*3} 条，顶点 ${n}×2=${n*2} 个，面 ${n}+2=${n+2} 个（上下底面加侧面）。`,
+      `With an ${n}-sided base: edges ${n}×3=${n*3}, vertices ${n}×2=${n*2}, faces ${n}+2=${n+2} — two bases plus the sides.`)});}
 );
 
 /* ================= 応用問題（4年） ================= */
