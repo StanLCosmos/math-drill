@@ -1755,6 +1755,9 @@ function readCycle(){
   if(!Array.isArray(c.cleared)) c.cleared = [];
   c.cleared = c.cleared.filter(g => Number.isInteger(g) && g>=1 && g<=6);
   if(typeof c.lives !== 'number' || c.lives < 0 || c.lives > MAX_LIVES) c.lives = MAX_LIVES;
+  // best は このウィンドウで とどいた いちばん上の位。前の版の記録には ないので おぎなう
+  if(!c.best && c.cleared.length)
+    c.best = {tier:c.cleared.length, perfect:(MAX_LIVES - c.lives) === c.cleared.length};
   return c;
 }
 function writeCycle(c){ try { localStorage.setItem('md_cycle', JSON.stringify(c)); } catch(e){} }
@@ -1775,9 +1778,11 @@ function markCleared(grade){
   const c = readCycle();
   if(!c.cleared.includes(grade)) c.cleared.push(grade);
   c.clearedAt = Date.now();
+  // 位は クリアした瞬間だけ 結算する。あとで しくじっても、とどいた位は そのまま
+  const cand = {tier:c.cleared.length, perfect:(MAX_LIVES - c.lives) === c.cleared.length};
+  if(rankScore(cand) > rankScore(c.best || null)) c.best = cand;
   writeCycle(c);
-  const r = currentRank();
-  if(r && r.perfect) saveRetained(r.tier);   // 完全位なら、renew を またいで のこす
+  if(cand.perfect) saveRetained(cand.tier);   // 完全位なら、renew を またいで のこす
 }
 const clearedNames = () => readCycle().cleared.sort((a,b)=>a-b).map(g => L(UI.gradeN(g))).join('・');
 function untilRenew(){
@@ -1876,14 +1881,8 @@ function rankBadge(tier, perfect){
   }
   return s + '</svg>';
 }
-/* このウィンドウの位。挑戦中の1回は まだ失敗と きまっていないので数えない */
-function currentRank(){
-  const c = readCycle(), n = c.cleared.length;
-  if(!n) return null;
-  const inQuiz = !!(state && state.timer) && $('scQuiz') && !$('scQuiz').classList.contains('hidden');
-  const spent = MAX_LIVES - c.lives - (inQuiz ? 1 : 0);
-  return {tier:n, perfect: spent === n};
-}
+/* このウィンドウで とどいた いちばん上の位。クリアした時にだけ 上がり、下がることはない */
+function currentRank(){ return readCycle().best || null; }
 function readRetained(){
   let r = null;
   try { r = JSON.parse(localStorage.getItem('md_rank')||'null'); } catch(e){}
