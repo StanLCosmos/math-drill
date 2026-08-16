@@ -97,6 +97,43 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
 @keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 @keyframes fill{from{width:0}to{width:100%}}
 
+/* ---- 位（ランク）---- */
+.badge{display:block;width:100%;height:100%;overflow:visible}
+.badge .rays{transform-origin:50px 46px;animation:spin 26s linear infinite}
+.badge .shine{animation:sweep 4.2s cubic-bezier(.5,0,.5,1) infinite}
+.badge:not(.perfect) .shine{animation-duration:6.5s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes sweep{0%,55%{transform:translateX(0)}100%{transform:translateX(180px)}}
+
+.rankchip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--rule);border-radius:2px;
+  padding:3px 9px 3px 5px;background:var(--card)}
+.rankchip .bw{width:24px;height:24px;flex:none}
+.rankchip .rn{font-family:var(--disp);font-size:12.5px;font-weight:600;letter-spacing:.05em;color:var(--ink)}
+.rankchip.none{opacity:.55}
+.rankchip.none .rn{font-family:var(--data);font-size:10.5px;letter-spacing:.12em;color:var(--ink-faint)}
+.rankchip.pf{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-soft) inset,0 2px 10px -4px var(--gold)}
+:root{--gold:#C9971F;--gold-soft:#F2D479}
+
+.rankpanel{display:flex;align-items:center;gap:18px;border:1px solid var(--rule);border-radius:3px;
+  padding:16px 18px;margin-bottom:12px;background:var(--card)}
+.rankpanel.pf{border-color:var(--gold);background:linear-gradient(100deg,var(--card) 55%,rgba(201,151,31,.09))}
+.rankpanel .bw{width:74px;height:74px;flex:none}
+.rankpanel .txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rankpanel .lab{font-family:var(--data);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.rankpanel .nm{font-family:var(--disp);font-size:24px;font-weight:600;letter-spacing:.06em;line-height:1.2}
+.rankpanel.pf .nm{color:var(--gold)}
+.rankpanel .sub{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+.rankpanel .keep{font-family:var(--data);font-size:11.5px;color:var(--gold);letter-spacing:.03em}
+.rankpanel.none .nm{color:var(--ink-faint);font-size:19px}
+
+.cele-rank{display:flex;align-items:center;gap:12px;margin-top:20px;
+  animation:rise .6s cubic-bezier(.2,.7,.3,1) 1.25s both}
+.cele-rank .bw{width:52px;height:52px}
+.cele-rank .t{display:flex;flex-direction:column;gap:2px;text-align:left}
+.cele-rank .k{font-family:var(--data);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+.cele-rank .v{font-family:var(--disp);font-size:19px;font-weight:600;letter-spacing:.05em;color:var(--ink)}
+.cele-rank.pf .v{color:var(--gold)}
+
 /* ---- ライフと renew ---- */
 .gate{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;
   border:1px solid var(--rule);border-radius:3px;padding:13px 16px;margin-bottom:22px;
@@ -314,6 +351,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   <div class="topbar">
     <span class="brand">Stanのドリル<span class="en" id="brandEn">15 questions</span></span>
     <span class="spacer"></span>
+    <span class="rankchip" id="rankChip"><span class="bw" id="rankChipArt"></span><span class="rn" id="rankChipName"></span></span>
     <span class="langs" id="langsTop"></span>
   </div>
 
@@ -321,6 +359,15 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   <section id="scStart">
     <h1 class="lede" id="sTitle"></h1>
     <p class="sub" id="sSub"></p>
+    <div class="rankpanel" id="rankPanel">
+      <span class="bw" id="rankArt"></span>
+      <span class="txt">
+        <span class="lab" id="rankLab"></span>
+        <span class="nm" id="rankName"></span>
+        <span class="sub" id="rankSub"></span>
+        <span class="keep" id="rankKeep"></span>
+      </span>
+    </div>
     <div class="gate" id="gate">
       <span class="side"><span class="lab" id="gLives"></span><span class="hearts" id="gHearts"></span><span class="cnt" id="gCnt"></span></span>
       <span class="side"><span class="lab" id="gRenew"></span><span class="cd" id="gCd"></span></span>
@@ -369,6 +416,10 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
       <div class="cele-stats">
         <span class="cele-stat"><span class="k" id="celeK1"></span><span class="v" id="celeV1"></span></span>
         <span class="cele-stat"><span class="k" id="celeK2"></span><span class="v" id="celeV2"></span></span>
+      </div>
+      <div class="cele-rank hidden" id="celeRank">
+        <span class="bw" id="celeRankArt"></span>
+        <span class="t"><span class="k" id="celeRankK"></span><span class="v" id="celeRankV"></span></span>
       </div>
       <button class="btn" id="celeBtn" type="button"></button>
       <p class="cele-renew" id="celeRenew"></p>
@@ -449,6 +500,19 @@ const UI = {
                    `${g} 到此为止。距离可以再挑战还有`,
                    `${g} is done for now. You can take it on again in`),
   gateHint: G('1回 ちょうせんすると ライフを 1つ つかいます','每开始一局消耗 1 条命','Each attempt costs one life'),
+  rankLab:  G('いまの 位','当前等级','Rank'),
+  rankNone: G('まだ なし','尚未获得','None yet'),
+  rankNoneHint: G('1学年 クリアすると 位が つきます','通关 1 个年级即可获得等级','Clear one grade to earn a rank'),
+  rankName: (t,p) => {
+    const ja=['','銅','銀','金','白金','金剛','伝説'], zh=['','铜牌','银牌','金牌','白金','钻石','传奇'],
+          en=['','Bronze','Silver','Gold','Platinum','Diamond','Legend'];
+    return p ? G('完全'+ja[t], '完美'+zh[t], 'Perfect '+en[t]) : G(ja[t], zh[t], en[t]);
+  },
+  rankProg: n => G(`${n}学年 クリア`, `已通关 ${n} 个年级`, `${n} of 6 cleared`),
+  perfectNote: G('ライフを 1つも むだにせず 全問正解','每一局都满分，一条命都没浪费','Every attempt a perfect paper'),
+  keepFor: (d,h) => G(`のこり ${d}日 ${h}時間 表示されます`, `还会保留 ${d} 天 ${h} 小时`, `Shown for ${d}d ${h}h more`),
+  keepNone: G('この renew までの 位です','这个等级到下次刷新为止','This rank lasts until the renew'),
+  rankUp: G('位が あがりました','等级提升','New rank'),
   next:   G('つぎへ','下一题','Next'),
   last:   G('採点する','提交并评分','Finish and grade'),
   qhint:  G('Enter でつぎへ','按 Enter 进入下一题','Press Enter for the next question'),
@@ -1712,6 +1776,8 @@ function markCleared(grade){
   if(!c.cleared.includes(grade)) c.cleared.push(grade);
   c.clearedAt = Date.now();
   writeCycle(c);
+  const r = currentRank();
+  if(r && r.perfect) saveRetained(r.tier);   // 完全位なら、renew を またいで のこす
 }
 const clearedNames = () => readCycle().cleared.sort((a,b)=>a-b).map(g => L(UI.gradeN(g))).join('・');
 function untilRenew(){
@@ -1719,6 +1785,160 @@ function untilRenew(){
   return {h:Math.floor(ms/3600000), m:Math.floor(ms/60000)%60, ms:ms};
 }
 function renewText(){ const u = untilRenew(); return L(UI.hm(u.h,u.m)); }
+
+/* ---------- 位（ランク）----------
+   その回のウィンドウで クリアした学年の数が 位。つかったライフと クリア数が
+   同じなら「完全」── 一度も 取りこぼしていない、という意味。 */
+const TIERS = [null,
+  {days:0}, {days:0}, {days:3}, {days:5}, {days:6}, {days:7}];   // 完全位を 何日 のこすか
+const METAL = {
+  1:{a:'#F0B884',b:'#B87333',c:'#6E4118',ring:'#8A5626'},   // 銅
+  2:{a:'#F4F8FC',b:'#A9B4C0',c:'#69747F',ring:'#7D8894'},   // 銀
+  3:{a:'#FBE9A8',b:'#C9971F',c:'#7E5A0C',ring:'#A2770F'},   // 金
+  4:{a:'#FFFFFF',b:'#C6D2DC',c:'#7C8C9C',ring:'#94A3B1'},   // 白金
+  5:{a:'#EAFBFF',b:'#74CDE6',c:'#2A7690',ring:'#3F97B4'},   // 金剛
+  6:{a:'#FFD79A',b:'#C3402B',c:'#6E1A10',ring:'#C9971F'}    // 伝説
+};
+let badgeSeq = 0;
+function rankBadge(tier, perfect){
+  const m = METAL[tier], u = 'b'+(++badgeSeq), cx = 50, cy = perfect ? 46 : 44, R = perfect ? 26 : 30;
+  const kanji = '一二三四五六'[tier-1];
+  let s = `<svg viewBox="0 0 100 100" class="badge${perfect?' perfect':''}" aria-hidden="true">
+    <defs>
+      <linearGradient id="g${u}" x1=".2" y1="0" x2=".8" y2="1">
+        <stop offset="0" stop-color="${m.a}"/><stop offset=".45" stop-color="${m.b}"/><stop offset="1" stop-color="${m.c}"/>
+      </linearGradient>
+      <linearGradient id="h${u}" x1="0" y1="0" x2=".7" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="w${u}" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="c${u}"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath>
+    </defs>`;
+  // 完全位：うしろに光芒
+  if(perfect){
+    let rays = '';
+    for(let i=0;i<20;i++) rays += `<path d="M${cx} ${cy} L${cx-2.4} 1 L${cx+2.4} 1 Z" fill="${GOLD2}" transform="rotate(${i*18} ${cx} ${cy})"/>`;
+    s += `<g class="rays" opacity=".45">${rays}</g>`;
+  }
+  // リボン
+  s += `<path d="M${cx-16} ${cy+16} L${cx-27} 97 L${cx-11} 88 L${cx-2} 97 Z" fill="${m.c}"/>
+        <path d="M${cx+16} ${cy+16} L${cx+27} 97 L${cx+11} 88 L${cx+2} 97 Z" fill="${m.b}"/>`;
+  // 位ごとの わく
+  if(tier === 2){                                        // 銀：ふちに 珠
+    let beads=''; for(let i=0;i<16;i++){ const a=i*22.5*Math.PI/180;
+      beads += `<circle cx="${(cx+(R+3.4)*Math.cos(a)).toFixed(1)}" cy="${(cy+(R+3.4)*Math.sin(a)).toFixed(1)}" r="1.9" fill="${m.ring}"/>`; }
+    s += beads;
+  } else if(tier === 3){                                 // 金：ふちに 光芒
+    let sp=''; for(let i=0;i<16;i++){ const a=(i*22.5-90)*Math.PI/180, r0=R+1, r1=R+8;
+      const w=0.13;
+      sp += `<path d="M${(cx+r0*Math.cos(a-w)).toFixed(1)} ${(cy+r0*Math.sin(a-w)).toFixed(1)}
+             L${(cx+r1*Math.cos(a)).toFixed(1)} ${(cy+r1*Math.sin(a)).toFixed(1)}
+             L${(cx+r0*Math.cos(a+w)).toFixed(1)} ${(cy+r0*Math.sin(a+w)).toFixed(1)} Z" fill="${m.ring}"/>`; }
+    s += sp;
+  } else if(tier === 4){                                 // 白金：六角のたて
+    let hex=''; for(let i=0;i<6;i++){ const a=(i*60-90)*Math.PI/180;
+      hex += `${(cx+(R+6)*Math.cos(a)).toFixed(1)},${(cy+(R+6)*Math.sin(a)).toFixed(1)} `; }
+    s += `<polygon points="${hex}" fill="url(#g${u})" stroke="${m.ring}" stroke-width="1.6" opacity=".95"/>`;
+  } else if(tier === 5){                                 // 金剛：切子のかがやき
+    let oct=''; for(let i=0;i<8;i++){ const a=(i*45-90)*Math.PI/180;
+      oct += `${(cx+(R+7)*Math.cos(a)).toFixed(1)},${(cy+(R+7)*Math.sin(a)).toFixed(1)} `; }
+    s += `<polygon points="${oct}" fill="url(#g${u})" stroke="${m.ring}" stroke-width="1.6"/>`;
+    for(let i=0;i<8;i++){ const a=(i*45-90)*Math.PI/180;
+      s += `<line x1="${cx}" y1="${cy}" x2="${(cx+(R+7)*Math.cos(a)).toFixed(1)}" y2="${(cy+(R+7)*Math.sin(a)).toFixed(1)}"
+             stroke="#fff" stroke-width=".8" opacity=".45"/>`; }
+  } else if(tier === 6){                                 // 伝説：星芒と冠
+    let st=''; for(let i=0;i<12;i++){ const r=i%2?R+4:R+15, a=(i*30-90)*Math.PI/180;
+      st += `${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)} `; }
+    s += `<polygon points="${st}" fill="${GOLD}" opacity=".9"/>
+          <path d="M${cx-13} ${cy-R-6} L${cx-15} ${cy-R-19} L${cx-6} ${cy-R-12} L${cx} ${cy-R-23}
+                   L${cx+6} ${cy-R-12} L${cx+15} ${cy-R-19} L${cx+13} ${cy-R-6} Z"
+                fill="${GOLD2}" stroke="${GOLD}" stroke-width="1.6" stroke-linejoin="round"/>`;
+  }
+  // 本体
+  s += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#g${u})" stroke="${m.ring}" stroke-width="2"/>
+        <circle cx="${cx}" cy="${cy}" r="${R-4.5}" fill="none" stroke="${m.c}" stroke-width=".9" opacity=".55"/>
+        <path d="M${cx-R} ${cy} A${R} ${R} 0 0 1 ${cx+R} ${cy} Z" fill="url(#h${u})" opacity=".55"/>
+        <text x="${cx}" y="${cy+1}" text-anchor="middle" dominant-baseline="central" font-family="var(--disp)"
+          font-size="${(R*0.98).toFixed(0)}" font-weight="600" fill="${m.c}">${kanji}</text>
+        <rect class="shine" x="-40" y="${cy-R}" width="26" height="${R*2}" fill="url(#w${u})" clip-path="url(#c${u})"/>`;
+  // 完全位：月桂
+  if(perfect){
+    const lr = R + 13;
+    for(const side of [-1,1]) for(let i=0;i<6;i++){
+      const deg = 28 + i*23, a = (side<0 ? 180-deg : deg) * Math.PI/180;
+      const x = cx + lr*Math.cos(a), y = cy + lr*Math.sin(a);
+      s += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="5" ry="2.4" fill="${GOLD}" opacity=".92"
+             transform="rotate(${(a*180/Math.PI + side*62).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
+    }
+  }
+  return s + '</svg>';
+}
+/* このウィンドウの位。挑戦中の1回は まだ失敗と きまっていないので数えない */
+function currentRank(){
+  const c = readCycle(), n = c.cleared.length;
+  if(!n) return null;
+  const inQuiz = !!(state && state.timer) && $('scQuiz') && !$('scQuiz').classList.contains('hidden');
+  const spent = MAX_LIVES - c.lives - (inQuiz ? 1 : 0);
+  return {tier:n, perfect: spent === n};
+}
+function readRetained(){
+  let r = null;
+  try { r = JSON.parse(localStorage.getItem('md_rank')||'null'); } catch(e){}
+  if(!r || !r.tier || !r.until || Date.now() >= r.until) return null;
+  return {tier:r.tier, perfect:true, until:r.until};
+}
+function saveRetained(tier){
+  const days = TIERS[tier].days;
+  if(!days) return;                                  // 完全銅・完全銀は のこらない
+  const until = Date.now() + days*86400000, cur = readRetained();
+  if(cur && (cur.tier > tier || (cur.tier === tier && cur.until >= until))) return;   // 下げない
+  try { localStorage.setItem('md_rank', JSON.stringify({tier:tier, until:until})); } catch(e){}
+}
+const rankScore = r => r ? r.tier*2 + (r.perfect?1:0) : -1;
+function shownRank(){
+  const a = currentRank(), b = readRetained();
+  return rankScore(a) >= rankScore(b) ? a : b;
+}
+
+/* 位の表示。上のバー（どの画面でも見える）と、最初の画面の大きな札 */
+let rankShown = '';
+function drawRank(){
+  const r = shownRank(), c = readCycle();
+  const key = r ? r.tier+'/'+(r.perfect?1:0) : 'none';
+  const chip = $('rankChip'), panel = $('rankPanel');
+  if(key !== rankShown){                        // 絵は変わったときだけ描きなおす
+    rankShown = key;
+    $('rankChipArt').innerHTML = r ? rankBadge(r.tier, r.perfect) : '';
+    $('rankArt').innerHTML     = r ? rankBadge(r.tier, r.perfect) : '';
+  }
+  chip.classList.toggle('none', !r);
+  chip.classList.toggle('pf', !!(r && r.perfect));
+  panel.classList.toggle('none', !r);
+  panel.classList.toggle('pf', !!(r && r.perfect));
+  $('rankLab').textContent = L(UI.rankLab);
+  if(!r){
+    $('rankChipName').textContent = L(UI.rankNone);
+    $('rankName').textContent = L(UI.rankNone);
+    $('rankSub').textContent = L(UI.rankNoneHint);
+    $('rankKeep').textContent = '';
+    return;
+  }
+  const nm = L(UI.rankName(r.tier, r.perfect));
+  $('rankChipName').textContent = nm;
+  $('rankName').textContent = nm;
+  $('rankSub').textContent = r.perfect ? L(UI.perfectNote) : L(UI.rankProg(c.cleared.length));
+  const kept = readRetained();
+  if(kept && rankScore(kept) >= rankScore(currentRank())){
+    const ms = kept.until - Date.now();
+    $('rankKeep').textContent = L(UI.keepFor(Math.floor(ms/86400000), Math.floor(ms/3600000)%24));
+  } else {
+    $('rankKeep').textContent = r.perfect && TIERS[r.tier].days
+      ? L(UI.keepFor(TIERS[r.tier].days, 0)) : L(UI.keepNone);
+  }
+}
 
 let gateWs = null;
 function drawGate(){
@@ -1728,6 +1948,7 @@ function drawGate(){
   const rolled = gateWs !== null && gateWs !== c.ws;
   gateWs = c.ws;
   if(rolled && !$('scStart').classList.contains('hidden')) drawStart();
+  drawRank();
   $('gLives').textContent = L(UI.lives);
   $('gRenew').textContent = L(UI.renewIn);
   $('gCnt').textContent = c.lives + ' / ' + MAX_LIVES;
@@ -1908,6 +2129,14 @@ function celebrate(){
   $('celeWord').textContent = L(UI.celeWord());
   $('celeK1').textContent = L(UI.L2);   $('celeV1').textContent = fmtTime(ms);
   $('celeK2').textContent = L(UI.L1);   $('celeV2').textContent = '15/15';
+  const r = shownRank(), cr = $('celeRank');
+  cr.classList.toggle('hidden', !r);
+  cr.classList.toggle('pf', !!(r && r.perfect));
+  if(r){
+    $('celeRankArt').innerHTML = rankBadge(r.tier, r.perfect);
+    $('celeRankK').textContent = L(UI.rankUp);
+    $('celeRankV').textContent = L(UI.rankName(r.tier, r.perfect));
+  }
   $('celeBtn').textContent = L(UI.celeSee);
   $('celeRenew').textContent = L(UI.celeLock(L(UI.gradeN(state.grade))))+'\n'+renewText();
   $('cele').classList.remove('hidden');
