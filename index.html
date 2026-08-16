@@ -400,6 +400,27 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   display:flex;gap:16px;flex-wrap:wrap}
 .rv .ans b{color:var(--matcha);font-weight:600}
 .rv.bad .ans b{color:var(--shu)}
+/* ---- まちがえた問題から とぶ「考え方」ページ ---- */
+.why{flex:none;appearance:none;background:none;border:1px solid var(--shu);color:var(--shu);
+  border-radius:2px;cursor:pointer;font-family:var(--body);font-size:11.5px;letter-spacing:.04em;
+  padding:5px 9px;display:inline-flex;align-items:center;gap:5px;transition:.13s;white-space:nowrap}
+.why:hover{background:var(--shu);color:var(--card)}
+.why .arw{font-family:var(--data);font-size:13px;line-height:1}
+.back{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--data);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);padding:0;margin-bottom:18px}
+.back::before{content:"← "}
+.back:hover{color:var(--ai)}
+.why-block{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--ai);
+  border-radius:3px;padding:20px 22px;margin-top:16px;box-shadow:var(--shadow)}
+.why-block.case{border-left-color:var(--shu)}
+.why-h{font-family:var(--data);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);margin:0 0 10px;font-weight:400}
+.why-p{margin:0;font-size:15px;line-height:1.95;white-space:pre-wrap}
+.why-q{font-family:var(--disp);font-size:16px;line-height:1.85;margin:0;white-space:pre-wrap}
+.why-ans{font-family:var(--data);font-size:14px;color:var(--matcha);margin:12px 0 0;
+  padding:8px 12px;background:var(--matcha-wash);border-radius:2px;display:inline-block}
+.why-block.case .why-p{margin-top:14px;padding-top:12px;border-top:1px dashed var(--rule);
+  color:var(--ink-soft);font-size:14px}
 .rv .rvtag{display:inline-block;margin-bottom:7px}
 .rv .rvfig{font-size:12px;margin:8px 0 0;padding:8px 12px}
 .rv .exp{font-size:13px;color:var(--ink-soft);margin-top:7px;line-height:1.7;
@@ -515,6 +536,25 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
     </div>
   </div>
 
+  <!-- ===== 考え方の詳細ページ ===== -->
+  <section id="scWhy" class="hidden">
+    <button class="back" id="whyBack" type="button"></button>
+    <p class="eyebrow" id="whyKicker"></p>
+    <h1 class="lede" id="whyTitle"></h1>
+    <div class="why-block">
+      <h2 class="why-h" id="whyPrinH"></h2>
+      <p class="why-p" id="whyPrin"></p>
+    </div>
+    <div class="why-block case">
+      <h2 class="why-h" id="whyCaseH"></h2>
+      <p class="why-q" id="whyQ"></p>
+      <div id="whyFig"></div>
+      <p class="why-ans" id="whyAns"></p>
+      <p class="why-p" id="whySteps"></p>
+    </div>
+    <div class="cta"><button class="btn quiet" id="whyBack2" type="button"></button></div>
+  </section>
+
   <!-- ===== RESULT ===== -->
   <section id="scResult" class="hidden">
     <h1 class="lede" id="rTitle"></h1>
@@ -604,6 +644,13 @@ const UI = {
   achKeep:  d => G(`この位は ${d}日間 のこります`, `这个成就会保留 ${d} 天`, `This rank is kept for ${d} days`),
   achKeepNone: G('この位は つぎの renew までです','这个成就保留到下次刷新为止','This rank lasts until the next renew'),
   achOk:    G('OK','好的','OK'),
+  why:      G('考え方を 見る','看讲解','Learn how'),
+  whyTitle: G('考え方','解题原理','How this works'),
+  whyPrin:  G('どういう しくみか','原理','The principle'),
+  whyCase:  G('この問題で 考えると','用在这道题上','Applied to this question'),
+  whyBack:  G('採点にもどる','返回成绩页','Back to results'),
+  whyQ:     G('問題','题目','The question'),
+  whyAns:   G('答え','答案','Answer'),
   rankProg: n => G(`${n}学年 クリア`, `已通关 ${n} 个年级`, `${n} of 6 cleared`),
   perfectNote: G('ライフを 1つも むだにせず 全問正解','每一局都满分，一条命都没浪费','Every attempt a perfect paper'),
   keepFor: (d,h) => G(`のこり ${d}日 ${h}時間 表示されます`, `还会保留 ${d} 天 ${h} 小时`, `Shown for ${d}d ${h}h more`),
@@ -691,6 +738,188 @@ function parseNum(s){
   return null;
 }
 const same = (a,b) => a!=null && Math.abs(a-b) < 1e-6*Math.max(1,Math.abs(b));
+
+/* ============ 考え方の解説 ============
+   問題そのものではなく「題型」ごとに 原理を書いてある。tag から引く。 */
+const LESSON = {
+'計算': G('たし算だけの式は どこから計算しても 同じ答えに なります。10の まとまりを 先に つくると 速い。\nかけ算・わり算が まじる ときは、そちらを 先に。同じ強さの ものは 左から じゅんに。',
+  '只有加法时可以任意顺序，先凑十更快。\n混合运算要先乘除后加减；同级运算从左往右依次算。',
+  'Addition can be done in any order — pair numbers that make ten first.\nWhen × and ÷ appear, do them before + and −, and work left to right within the same level.'),
+'虫くい算': G('□をもとめる ときは、式を さかさまに たどります。\n□+a=b → □=b−a　　□−a=b → □=b+a　　a−□=b → □=a−b\n□×a=b → □=b÷a　　□÷a=b → □=b×a　　□÷a=商…余 → □=a×商+余',
+  '求 □ 就是把算式反过来推：\n□+a=b → □=b−a　□−a=b → □=b+a　a−□=b → □=a−b\n□×a=b → □=b÷a　□÷a=b → □=b×a　□÷a=商……余 → □=a×商+余',
+  'To find the missing number, run the operation backwards.\n□+a=b → □=b−a; □−a=b → □=b+a; a−□=b → □=a−b\n□×a=b → □=b÷a; □÷a=b → □=b×a; □÷a=q rem r → □=a×q+r'),
+'じゅんばん': G('前から◯番目と 後ろから△番目を たすと、その人を 2回 数えて しまいます。\n全体 ＝ 前 ＋ 後ろ − 1。\n2人の 間の人数 ＝ 全体 − 前までの人数 − 後ろまでの人数。',
+  '"从前数第 ◯ 个"加"从后数第 △ 个"，会把这个人重复数一次。\n总人数 = 前 + 后 − 1。\n两人之间的人数 = 总数 − 前面那段 − 后面那段。',
+  'Counting “nth from the front” plus “mth from the back” counts that person twice.\nTotal = front + back − 1.\nPeople between two children = total − one child’s front count − the other’s back count.'),
+'数のきまり': G('まず となりどうしの 差を しらべます。\n差が いつも 同じなら、n番目 ＝ はじめの数 ＋ 差×(n−1)。1番目からは (n−1)回 ふえる ことに 注意。\n差が 1ずつ ふえる ときは、1から nまでを たした数に なります。',
+  '先看相邻两项的差。\n差固定时：第 n 项 = 首项 + 差×(n−1)。注意从第 1 项起只增加了 (n−1) 次。\n若差本身每次加 1，则第 n 项 = 1+2+…+n。',
+  'First look at the gap between neighbours.\nIf the gap is constant: nth term = first term + gap × (n−1) — it grows n−1 times, not n.\nIf the gap itself grows by one each time, the nth term is 1+2+…+n.'),
+'とけい': G('時計は 60で くり上がります。\n「◯分後」は、まず つぎの ちょうどの時刻までの 分を つかい、のこりを その先に たします。\n時間の 引き算も 同じように 正時で 区切ると まちがえません。',
+  '时钟满 60 进 1。\n算"◯分钟后"，先用掉到下一个整点所需的分钟，剩下的再往后加。\n算时间差同理，在整点处断开最不容易错。',
+  'Clocks carry at 60, not 100.\nFor “in ◯ minutes”, first spend the minutes needed to reach the next whole hour, then add what is left on top.\nSplitting at the whole hour works for differences too.'),
+'ならべ方': G('同じ数の まとまりが いくつも あるときは かけ算です。\nたて◯れつ・よこ△れつ ＝ ◯×△。\n1つ分の 大きさ × いくつ分 ＝ 全体、が かけ算の 意味です。',
+  '若干个同样大小的组，用乘法。\n◯ 行 △ 列 = ◯×△。\n乘法的含义就是"每份的量 × 份数 = 总量"。',
+  'Equal-sized groups mean multiplication.\n◯ rows of △ makes ◯×△.\nThat is what multiplication means: size of one group × number of groups.'),
+'文しょうだい': G('出てくる 順に 式を つくります。ふえたら +、へったら −、同じ まとまりが いくつも あるなら ×。\n一度に 全部 やろうと せず、一段階ずつ 数を 出していくのが こつです。',
+  '按事情发生的顺序列式：增加用 +，减少用 −，若干等量的组用 ×。\n不要想一步到位，一步算一个数最稳。',
+  'Build the calculation in the order things happen: more is +, fewer is −, equal groups are ×.\nDon’t try to do it in one go — get one number at a time.'),
+'しらべ方': G('もれなく、重なりなく 数えるには、小さい ほうから 順に ならべて しらべます。\n2つ えらぶ 組み合わせでは、(1,2)と(2,1)は 同じ もの。順番は 考えません。',
+  '要不重不漏地数，就从小到大有序枚举。\n"选两个"时 (1,2) 和 (2,1) 是同一种，不计顺序。',
+  'To count without missing or repeating, list them in order from the smallest.\nWhen choosing two, (1,2) and (2,1) are the same choice — order does not count.'),
+'数のせいしつ': G('10が◯こと 1が△こ ＝ ◯△ という数です。\n大きさを くらべる ときは、言い方が ちがっても まず ふつうの数に 直してから くらべます。',
+  '◯ 个十和 △ 个一，就是 ◯△ 这个数。\n比大小时，先把各种说法都还原成普通的数，再比。',
+  '◯ tens and △ ones is the number ◯△.\nTo compare, first turn every description back into a plain number, then compare.'),
+'九九': G('□×a=b の □は、aの だんで bに なる 数です。\nかけ算は 入れかえても 答えが 同じ（a×b=b×a）なので、思い出しやすい だんで 考えて かまいません。',
+  '□×a=b 中的 □，就是 a 的乘法表里得 b 的那个数。\n乘法交换律 a×b=b×a，用你熟的那一行去想就行。',
+  'In □×a=b, □ is the number that makes b in the a times table.\nSince a×b=b×a, use whichever row you remember better.'),
+'たんい': G('単位は 10・100・1000で つながって います。\n1cm=10mm　1m=100cm　1km=1000m　1L=10dL=1000mL　1kg=1000g\n大きい単位 → 小さい単位は かける、小さい → 大きいは わる。',
+  '单位之间是 10、100、1000 的关系：\n1cm=10mm　1m=100cm　1km=1000m　1L=10dL=1000mL　1kg=1000g\n大单位换小单位用乘，小换大用除。',
+  'Units link by 10, 100 and 1000:\n1cm=10mm, 1m=100cm, 1km=1000m, 1L=10dL=1000mL, 1kg=1000g.\nBig unit to small: multiply. Small to big: divide.'),
+'時こくと時間': G('時刻と 時刻の あいだが 時間です。\nまたぐ ときは 正時で 区切って、「◯時までに 何分」＋「そこから 何分」と 足します。',
+  '两个时刻之间的长度叫时间。\n跨整点时在整点处断开：先算"到几点整还有几分"，再加上"从整点起又走了几分"。',
+  'The stretch between two clock times is a duration.\nWhen it crosses the hour, split there: minutes up to the hour, plus minutes after it.'),
+'きまり': G('くりかえしの 長さ（周期）で わります。\nn番目は n÷周期 の あまりで 決まります。あまりが 0の ときは、くりかえしの いちばん最後の もの。\n「n番目までに 何個」は、くりかえしの回数×1回分の個数 ＋ あまりの中の個数。',
+  '用一个循环的长度去除。\n第 n 个由 n÷周期 的余数决定；余 0 时是一个循环的最后一个。\n"前 n 个里有几个"= 完整循环数 × 每循环个数 + 余下部分里的个数。',
+  'Divide by the length of one repeat.\nThe nth item is fixed by the remainder of n ÷ period; a remainder of 0 means the last item of a repeat.\nFor “how many in the first n”, take full repeats × per repeat, then add those in the leftover.'),
+'植木算': G('木の数と、間の数は ちがいます。まず 間の数 ＝ 長さ ÷ 間かく を 出します。\n直線で 両はしにも 植える → 木 ＝ 間 ＋ 1\n直線で かた側だけ → 木 ＝ 間\n輪（池のまわり）→ 木 ＝ 間（同じ数）',
+  '树的棵数和间隔数不是一回事。先算 间隔数 = 全长 ÷ 间距。\n直线、两端都种 → 棵数 = 间隔数 + 1\n直线、只种一端 → 棵数 = 间隔数\n封闭一圈（池塘边）→ 棵数 = 间隔数',
+  'The number of trees is not the number of gaps. First find gaps = length ÷ spacing.\nStraight line, trees at both ends → trees = gaps + 1\nStraight line, one end only → trees = gaps\nRound a loop → trees = gaps'),
+'分数': G('分母が 同じなら、分母は そのままで 分子だけ たし引きします。\n分母が ちがう ときは 通分します（分母を 最小公倍数に そろえる）。\n帯分数は 整数どうし・分数どうしで 計算すると らくです。',
+  '同分母：分母不变，只加减分子。\n异分母：先通分（把分母化成最小公倍数）。\n带分数可以整数部分与分数部分分别计算。',
+  'Same denominator: keep it, add or subtract only the numerators.\nDifferent denominators: rewrite both over their lowest common multiple.\nWith mixed numbers, handle whole parts and fraction parts separately.'),
+'図形': G('三角形・四角形は、辺の数、角の大きさ、辺が 等しいか どうかで 見分けます。\n正方形は 長方形でも ひし形でも あります。「いつでも 正しい」かを 考えるのが こつ。',
+  '判别图形要看：边数、角的大小、边是否相等。\n正方形既是长方形也是菱形。做判断题时要问"是不是任何情况下都成立"。',
+  'Tell shapes apart by the number of sides, the size of the angles, and whether sides are equal.\nA square is both a rectangle and a rhombus. Ask whether a statement is true in every case.'),
+'わり算とあまり': G('a÷b＝商…あまり は、a ＝ b×商 ＋ あまり と 同じ ことです。あまりは かならず bより 小さい。\n「全員 乗るには」のように 余りも 1つと 数える 問題では、切り上げます。',
+  'a÷b=商……余，等价于 a = b×商 + 余；余数一定小于 b。\n遇到"全部装下需要几个"这类问题，余下的部分也要占一个，要向上取整。',
+  'a ÷ b = q remainder r means the same as a = b×q + r, and r is always smaller than b.\nWhen the leftover still needs a place — “how many cars for everyone” — round up.'),
+'大きな数': G('10倍・100倍で 位が 1つ・2つ 上がり、÷10・÷100で 下がります。\n万・億・兆は 4けたごとの 区切り。1万＝10⁴、1億＝10⁸、1兆＝10¹²。0の数の ちがいで 何倍かが わかります。',
+  '乘 10、100，数位升 1 位、2 位；除则下降。\n万、亿、兆每 4 位一档：1万=10⁴，1亿=10⁸，1兆=10¹²。数 0 的个数就能得出倍数。',
+  'Multiplying by 10 or 100 shifts every digit up one or two places; dividing shifts them down.\nJapanese units step every four digits: 万=10⁴, 億=10⁸, 兆=10¹². Count the zeros to get the ratio.'),
+'小数': G('たし引きは 小数点を そろえて 計算します。\nかけ算は 整数として 計算してから、小数点以下の けた数の 合計だけ 左に 動かします。\nわり算は、わる数が 整数に なるまで 両方を 10倍・100倍します。',
+  '加减：小数点对齐。\n乘法：先当整数算，再把小数点向左移动"两个因数小数位数之和"位。\n除法：把除数扩大 10 倍、100 倍变成整数，被除数同样扩大。',
+  'Add and subtract with the decimal points lined up.\nMultiply as whole numbers, then move the point left by the total number of decimal places.\nTo divide, multiply both numbers by 10 or 100 until the divisor is whole.'),
+'重さ': G('1kg＝1000g、1t＝1000kg。\n単位が まじって いる ときは、まず 小さい ほうに そろえてから 計算します。',
+  '1kg=1000g，1t=1000kg。\n单位混在一起时，先统一换成较小的单位再算。',
+  '1kg = 1000g and 1t = 1000kg.\nWhen units are mixed, convert everything to the smaller one before calculating.'),
+'円': G('直径 ＝ 半径 × 2。半径と 直径を とりちがえないのが いちばん 大事。\n円が ぴったり くっついて ならぶ とき、1個分の はばは 直径です。',
+  '直径 = 半径 × 2。最容易错的就是把半径当直径。\n若干个圆紧挨着排成一行时，每个圆占的宽度是直径。',
+  'Diameter = radius × 2 — mixing these up is the commonest slip.\nWhen circles sit touching in a row, each takes up one diameter of width.'),
+'和差算': G('2つの 数の 和と 差が わかれば、両方 わかります。\n大きい方 ＝ (和 ＋ 差) ÷ 2　　小さい方 ＝ (和 − 差) ÷ 2\n線分図を かくと、なぜ そうなるかが 見えます。',
+  '知道两数的和与差，就能求出这两个数。\n大数 = (和 + 差) ÷ 2　　小数 = (和 − 差) ÷ 2\n画线段图能看清道理。',
+  'Knowing the sum and the difference of two numbers gives you both.\nLarger = (sum + difference) ÷ 2, smaller = (sum − difference) ÷ 2.\nA bar diagram shows why.'),
+'計算のくふう': G('25×4＝100、125×8＝1000 のような「きりのいい 組」を つくります。\nかけ算は 順番を 入れかえて よいので、100や 1000を 先に つくると 暗算できます。',
+  '凑整：25×4=100、125×8=1000。\n乘法可以任意交换顺序，先凑出 100 或 1000，剩下的就能口算。',
+  'Look for pairs that make round numbers: 25×4=100, 125×8=1000.\nMultiplication can be reordered, so make the 100 or the 1000 first and the rest is mental arithmetic.'),
+'計算のきまり': G('分配の きまり：a×c ＋ b×c ＝ (a＋b)×c。\n共通の かける数で まとめると、(a+b)が 100などに なって 一気に 計算できます。',
+  '乘法分配律：a×c + b×c = (a+b)×c。\n提取公因数后，(a+b) 常常正好是 100，一步就能算完。',
+  'The distributive law: a×c + b×c = (a+b)×c.\nFactor out the common multiplier and the bracket often turns into 100, which finishes the sum at once.'),
+};
+Object.assign(LESSON, {
+'表の読み取り': G('表や グラフは、まず 何の 数かを たしかめます。\n合計・ちがい・いちばん 多い/少ない は、必要な 数だけ 拾って 計算します。ぜんぶ 使うとは かぎりません。',
+  '读表先确认这些数字代表什么。\n求总和、差、最多/最少时，只挑需要的数来算——题里给的数不一定都要用。',
+  'First check what the numbers in the table actually count.\nFor a total, a difference or the largest and smallest, pick out only the numbers you need — not every figure given is required.'),
+'グラフ': G('折れ線は 変化の ようすを 表します。ふえたか へったかは 前の月と くらべます。\n「ちがいは いくつ」なら 大きい方から 小さい方を 引きます。',
+  '折线图表示变化趋势，是增是减要和前一个月比。\n问"相差多少"就用大的减小的。',
+  'A line graph shows change, so compare each point with the one before it.\nFor “what is the difference”, subtract the smaller from the larger.'),
+'がい数': G('四捨五入は、求める けたの 1つ下の 数字を 見ます。0〜4は 切り捨て、5〜9は 切り上げ。\n「上から2けた」なら、上から3けためを 見て、そこから下を 0に します。',
+  '四舍五入看的是所求位数的下一位：0〜4 舍，5〜9 入。\n"保留最高两位"就看第三位，其后全部变 0。',
+  'To round, look at the digit one place below the one you are keeping: 0–4 down, 5–9 up.\nFor two significant figures, look at the third digit and zero out everything after it.'),
+'面積': G('長方形 ＝ たて × よこ。三角形 ＝ 底辺 × 高さ ÷ 2。\n台形 ＝ (上底＋下底) × 高さ ÷ 2。ひし形 ＝ 対角線 × 対角線 ÷ 2。\n複雑な形は「分ける・たす・引く・動かす」で 長方形に 直します。',
+  '长方形 = 长 × 宽；三角形 = 底 × 高 ÷ 2。\n梯形 = (上底 + 下底) × 高 ÷ 2；菱形 = 对角线 × 对角线 ÷ 2。\n复杂图形靠"分割、相加、相减、平移"化成长方形。',
+  'Rectangle = length × width. Triangle = base × height ÷ 2.\nTrapezium = (sum of parallel sides) × height ÷ 2. Rhombus = product of the diagonals ÷ 2.\nAwkward shapes: split, add, subtract or slide pieces until you have rectangles.'),
+'角度': G('三角形の 内角の 和は 180度、四角形は 360度、直線は 180度。\n平行四辺形は、となり合う 角の 和が 180度、向かい合う 角は 等しい。',
+  '三角形内角和 180°，四边形 360°，平角 180°。\n平行四边形邻角互补、对角相等。',
+  'Angles in a triangle add to 180°, in a quadrilateral 360°, on a straight line 180°.\nIn a parallelogram neighbouring angles add to 180° and opposite angles are equal.'),
+'平均': G('平均 ＝ 合計 ÷ 個数。ひっくり返すと 合計 ＝ 平均 × 個数。\n平均が 出てきたら、まず 合計に 直すと 考えやすく なります。\n人数が ちがう グループの 平均は、それぞれの 合計を 足してから 全体の人数で わります。',
+  '平均 = 总和 ÷ 个数，反过来 总和 = 平均 × 个数。\n看到平均先换成总和最好想。\n人数不同的两组求总平均，要各自求和后再除以总人数，不能把两个平均直接平均。',
+  'Mean = total ÷ count, and turned around, total = mean × count.\nWhenever a mean appears, convert it to a total first.\nFor two groups of different sizes, add the totals and divide by the combined count — never average the averages.'),
+'分配算': G('「◯倍より △多い」は、まず △を 取り除いて、きれいな 倍の関係に します。\nのこりを (◯＋1)で わると 1あたりが 出ます。線分図を かくと 見えます。',
+  '"比 ◯ 倍还多 △"，先把多出的 △ 减掉，化成整齐的倍数关系。\n剩下的除以 (◯+1) 就是 1 份。画线段图更直观。',
+  'For “△ more than ◯ times”, take the extra △ away first so you are left with a clean multiple.\nDivide what remains by (◯+1) to get one share. A bar diagram makes it visible.'),
+'公倍数': G('たて・よこの ちがう 長方形を ならべて 正方形に する とき、その 1辺は 2つの数の 最小公倍数です。\n逆に、大きい ものを 同じ大きさに 分けきる ときは 最大公約数を 使います。',
+  '用长宽不同的长方形拼成正方形，边长是两数的最小公倍数。\n反过来，把一个大的东西恰好分成相同的小块，用最大公因数。',
+  'Tiling rectangles into a square: the side is the lowest common multiple of the two lengths.\nThe other way round — cutting something large into equal pieces that fit exactly — uses the highest common factor.'),
+'割合': G('くらべる量 ＝ もとにする量 × 割合。割合 ＝ くらべる量 ÷ もとにする量。\n1割＝0.1＝10%。「◯割引き」は (10−◯)割 が のこる、という こと。\n何を「もとにする量」に して いるかを、いつも たしかめます。',
+  '比较量 = 标准量 × 比例；比例 = 比较量 ÷ 标准量。\n一成 = 0.1 = 10%。"打 ◯ 折扣"意味着还剩 (10−◯) 成。\n关键是每次都问清楚：以什么为标准量。',
+  'Part = whole × rate, and rate = part ÷ whole.\nOne 割 is 0.1 or 10%; “◯ off” means (10−◯) tenths remain.\nAlways check which quantity is being treated as the whole.'),
+'速さ': G('速さ × 時間 ＝ 道のり。3つの うち 2つが わかれば 残りが 出ます。\n単位を そろえるのが 何より 大事：分速と 時速、mと km を まぜない。\n時速◯km を 分速mに 直すには ×1000÷60。',
+  '速度 × 时间 = 路程，三者知二求一。\n最重要的是统一单位：不要把"每分"和"每小时"、米和公里混着算。\n时速 ◯ 公里换成每分钟多少米：×1000÷60。',
+  'Speed × time = distance; know two and you have the third.\nThe crucial step is matching units — never mix per-minute with per-hour, or metres with kilometres.\nkm/h to m/min: ×1000 then ÷60.'),
+'単位量あたり': G('1あたりの 大きさ ＝ 全体 ÷ 個数。\n人口密度 ＝ 人口 ÷ 面積、燃費 ＝ 道のり ÷ ガソリン。\n「1あたり」に そろえると、大きさの ちがう ものを くらべられます。',
+  '单位量 = 总量 ÷ 份数。\n人口密度 = 人口 ÷ 面积；油耗 = 路程 ÷ 油量。\n化成"每一份"之后，规模不同的东西才能比较。',
+  'A per-unit amount is total ÷ number of units.\nPopulation density = people ÷ area; fuel economy = distance ÷ fuel.\nReducing to “per one” is what lets you compare things of different sizes.'),
+'体積': G('直方体 ＝ たて × よこ × 高さ。角柱・円柱 ＝ 底面積 × 高さ。\n水の 体積は、入れ物の 深さでは なく、水が 入って いる ところの 高さで 計算します。',
+  '长方体 = 长 × 宽 × 高；柱体 = 底面积 × 高。\n算水的体积用水面的高度，不是容器的深度——那往往是干扰条件。',
+  'Cuboid = length × width × height. Any prism or cylinder = base area × height.\nFor water, use the depth of the water, not the depth of the tank — that figure is usually a distractor.'),
+'過不足算': G('1人あたりを ふやすと、必要な 数は「ふやした分 × 人数」だけ ふえます。\n人数 ＝ (あまり ＋ 不足) ÷ 1人あたりの ちがい。\n人数が 出たら、どちらかの 式に もどして 全体の 数を 出します。',
+  '每人多分一些，总需求就增加"多分的量 × 人数"。\n人数 = (剩余 + 不足) ÷ 每人相差的量。\n求出人数后，代回任一条件即可得总量。',
+  'Giving each person more raises the total needed by “extra each × number of people”.\nPeople = (surplus + shortfall) ÷ difference per person.\nOnce you have the people, put it back into either statement to get the total.'),
+'数の性質': G('偶数＋偶数＝偶数、奇数＋奇数＝偶数、偶数＋奇数＝奇数。\n3の倍数は 各位の 和が 3の倍数。4の倍数は 下2けたが 4の倍数。両方 なら 12の倍数。\n最大公約数は 共通の 素因数を かけた もの。',
+  '偶+偶=偶，奇+奇=偶，偶+奇=奇。\n3 的倍数：各位数字之和是 3 的倍数；4 的倍数：末两位是 4 的倍数；两者兼具即 12 的倍数。\n最大公因数 = 公共质因数的乘积。',
+  'even+even and odd+odd are both even; even+odd is odd.\nA multiple of 3 has digits summing to a multiple of 3; a multiple of 4 ends in two digits divisible by 4; both together means a multiple of 12.\nThe highest common factor is the product of the shared prime factors.'),
+'正多角形': G('n角形の 内角の 和 ＝ 180 × (n − 2)。三角形に n−2枚 分けられる からです。\n正n角形なら、1つの 角は それを nで わった 数。',
+  'n 边形内角和 = 180 × (n − 2)，因为它能分成 n−2 个三角形。\n正 n 边形的每个内角 = 内角和 ÷ n。',
+  'The interior angles of an n-sided polygon add to 180 × (n − 2), because it splits into n−2 triangles.\nIn a regular polygon, one angle is that total divided by n.'),
+'分数の計算': G('分数の かけ算は 分子どうし・分母どうし。\nわり算は、わる数を ひっくり返して かけます（逆数を かける）。\nかける前に 約分して おくと、数が 小さく なって 計算が らくです。',
+  '分数乘法：分子乘分子、分母乘分母。\n分数除法：除以一个分数 = 乘它的倒数。\n先约分再乘，数字小很多。',
+  'To multiply fractions, multiply numerators together and denominators together.\nTo divide, flip the divisor and multiply by its reciprocal.\nCancel before multiplying and the numbers stay small.'),
+'円の面積': G('円の 面積 ＝ 半径 × 半径 × 3.14。円周 ＝ 直径 × 3.14。\nおうぎ形は、円の 何分の いくつかを 考えて かけます。\n正方形に ぴったり 入る 円の 半径は、正方形の 1辺の 半分。',
+  '圆面积 = 半径 × 半径 × 3.14；周长 = 直径 × 3.14。\n扇形先看它占整圆的几分之几，再乘。\n正方形的内切圆，半径 = 边长的一半。',
+  'Area of a circle = radius × radius × 3.14; circumference = diameter × 3.14.\nFor a sector, work out what fraction of the whole circle it is.\nA circle inscribed in a square has radius equal to half the side.'),
+'比': G('a:b は「ぜんぶで a＋b 個分」と 考えます。1つ分 ＝ 全体 ÷ (a＋b)。\n比は 両方を 同じ数で わっても 同じ（6:4＝3:2）。\n同じ時間に 進む 道のりの比は、速さの比と 同じに なります。',
+  'a:b 就看成"总共 a+b 份"，每份 = 总量 ÷ (a+b)。\n比的前后项同除一个数，比值不变（6:4 = 3:2）。\n相同时间内路程之比 = 速度之比。',
+  'Read a:b as “a+b shares in all”, so one share = total ÷ (a+b).\nDividing both parts by the same number leaves the ratio unchanged (6:4 = 3:2).\nIn equal time, distances are in the same ratio as speeds.'),
+'反比例': G('かけ算の 答えが いつも 同じなら 反比例です。\n歯車は かみ合う 歯の 数が 等しいので、歯数 × 回転数 が 一定。\n片方が 2倍に なれば、もう片方は 半分に なります。',
+  '两个量的乘积恒定，就是反比例。\n齿轮啮合时通过的齿数相同，所以 齿数 × 转数 = 定值。\n一个变成 2 倍，另一个就变成一半。',
+  'Two quantities are inversely proportional when their product stays the same.\nMeshing gears pass the same number of teeth, so teeth × turns is constant.\nDouble one and the other halves.'),
+'場合の数': G('ならべ方（順番あり）は かけていきます：n × (n−1) × …\nえらび方（順番なし）は、ならべ方を ダブった回数で わります。2人 えらぶなら ÷2。\n「となり合う」条件は、その2人を 1つの かたまりと 見て、中の ならび方（2通り）を かけます。',
+  '排列（讲顺序）用连乘：n × (n−1) × …\n组合（不讲顺序）= 排列 ÷ 重复的倍数；选 2 个就 ÷2。\n"相邻"的条件：把这两人捆成一个整体来排，再乘上整体内部的 2 种顺序。',
+  'Arrangements, where order matters, multiply: n × (n−1) × …\nSelections, where order does not, divide by the number of repeats — choosing two means ÷2.\nFor “next to each other”, tie the pair into one block, arrange the blocks, then multiply by the 2 ways inside.'),
+'旅人算': G('向かい合って 進む とき、1分間に「2人の 速さの 和」だけ 近づきます。\n出会うまでの 時間 ＝ 道のり ÷ 速さの和。\n速さの比が わかって いる ときは、同じ時間に 進む 道のりも その比に なります。',
+  '相向而行时，每分钟两人共接近"速度之和"。\n相遇时间 = 路程 ÷ 速度和。\n已知速度比时，相同时间内两人的路程也成这个比。',
+  'Walking towards each other, the gap closes by the sum of the two speeds every minute.\nTime to meet = distance ÷ combined speed.\nIf the speeds are in a given ratio, the distances covered in the same time are in that ratio too.'),
+'仕事算': G('全体の 仕事を 1と おきます。\n1日に できる量 ＝ 1 ÷ かかる日数。2人 なら それを 足す。\nかかる日数 ＝ 1 ÷ 1日にできる量。1人分を 知りたい ときは、2人分から 引きます。',
+  '把整项工作看作 1。\n每天完成量 = 1 ÷ 所需天数；两人合作就相加。\n所需天数 = 1 ÷ 每天完成量。要求某一人的效率，就用合作效率减去另一人的。',
+  'Call the whole job 1.\nWork done per day = 1 ÷ days needed; for two people, add their rates.\nDays needed = 1 ÷ rate per day. To find one person’s rate, subtract the other’s from the joint rate.'),
+'食塩水': G('食塩 ＝ 食塩水 × 濃度。濃度 ＝ 食塩 ÷ 食塩水 × 100。\nまぜる ときは、食塩どうし・食塩水どうしを 足してから わります。濃度は 足せません。\n水を 加えても、とけて いる 食塩の 重さは 変わりません。',
+  '盐 = 盐水 × 浓度；浓度 = 盐 ÷ 盐水 × 100。\n混合时，把盐相加、盐水相加，再相除——浓度本身不能相加。\n加水时溶质的重量不变，只有总量变。',
+  'Salt = solution × concentration; concentration = salt ÷ solution × 100.\nWhen mixing, add the salts and add the solutions, then divide — you cannot add concentrations.\nAdding water leaves the weight of dissolved salt unchanged.'),
+'縮図': G('縮尺 1/n の 地図では、実際の 長さ ＝ 地図の 長さ × n。\n単位に 注意：cm を mに するには ÷100、kmに するには ÷100000。',
+  '比例尺 1:n 的地图上，实际长度 = 图上长度 × n。\n注意单位：厘米换米 ÷100，换公里 ÷100000。',
+  'On a map with scale 1:n, the real length is the map length × n.\nMind the units: centimetres to metres is ÷100, to kilometres ÷100000.'),
+'対称': G('線対称は 折ると ぴったり 重なる。点対称は 180度 回すと 重なる。\n両方の 性質を もつ 図形（長方形、正方形など）も あります。\n正三角形は 線対称ですが 点対称では ありません。',
+  '轴对称：对折后重合；中心对称：旋转 180° 后重合。\n有的图形两者兼具（长方形、正方形）。\n等边三角形只是轴对称，不是中心对称。',
+  'Line symmetry means the halves match when folded; point symmetry means the figure maps onto itself after a half turn.\nSome shapes have both — rectangles and squares.\nAn equilateral triangle has line symmetry but not point symmetry.'),
+'資料の調べ方': G('平均値 ＝ 合計 ÷ 個数。\n中央値は 小さい順に ならべた まん中の 値。個数が 奇数なら (個数＋1)÷2 番目。\n平均は はずれ値に 引っぱられますが、中央値は あまり 動きません。',
+  '平均数 = 总和 ÷ 个数。\n中位数是从小到大排序后正中间那个；个数为奇数时是第 (n+1)÷2 个。\n平均数容易被极端值拉偏，中位数则相对稳定。',
+  'The mean is the total divided by how many values there are.\nThe median is the middle value once they are sorted; with an odd count it is the ((n+1)÷2)th.\nAn outlier drags the mean but barely moves the median.'),
+'売買損益': G('定価 ＝ 原価 × (1 ＋ 利益の割合)。売値 ＝ 定価 × (1 − 割引)。利益 ＝ 売値 − 原価。\n「原価の◯%」なのか「定価の◯%」なのかを 読み分けるのが 大事です。',
+  '定价 = 成本 × (1 + 利润率)；售价 = 定价 × (1 − 折扣)；利润 = 售价 − 成本。\n关键是分清"占成本的百分之几"还是"占定价的百分之几"。',
+  'Marked price = cost × (1 + profit rate); selling price = marked price × (1 − discount); profit = selling price − cost.\nThe thing to read carefully is whether a percentage is of the cost or of the marked price.'),
+'通過算': G('電車が 渡りきる までに 進む 道のりは「橋の 長さ ＋ 電車の 長さ」です。\nトンネルも 同じ。電柱を 通り すぎる だけ なら 電車の 長さ だけ。\n時間 ＝ 道のり ÷ 速さ。',
+  '火车完全通过桥所走的路程 = 桥长 + 车长；隧道同理。\n若只是通过一根电线杆，则只走车长。\n时间 = 路程 ÷ 速度。',
+  'To clear a bridge completely, a train travels the length of the bridge plus its own length; a tunnel is the same.\nPassing a single pole takes only the train’s length.\nTime = distance ÷ speed.'),
+'やりとり': G('あげたり もらったり しても、2人の 合計は 変わりません。\n弟を ①、兄を ③ のように 1つ分を 決めて 式を 立てます。\nやりとりの あとの 関係を 式に すると、①が いくつか 求まります。',
+  '一方给另一方，两人的总数不变。\n设弟弟为 ①、哥哥为 ③，先定下"一份"。\n再把交换之后的关系列成等式，就能解出 ① 是多少。',
+  'Handing items from one person to another leaves their combined total unchanged.\nSet one share as a unit — younger brother ①, older ③ — and write the relationship after the exchange as an equation.\nSolving it gives the value of one share.'),
+'割合と面積': G('面積は たて × よこ なので、両方の 変化は「かけ算」に なります。\n2割増と 2割減は 打ち消し合いません：1.2 × 0.8 ＝ 0.96 で、4%減ります。\nもとを 10×10＝100 と おくと 見やすい。',
+  '面积 = 长 × 宽，所以两边的变化要相乘而不是相加。\n增加两成与减少两成不会抵消：1.2 × 0.8 = 0.96，实际减少 4%。\n把原来设为 10×10=100 最好算。',
+  'Area is length × width, so two changes multiply rather than cancel.\nUp 20% and down 20% is 1.2 × 0.8 = 0.96 — a 4% loss, not a wash.\nSetting the original at 10×10 = 100 makes it easy to see.'),
+'追いつき算': G('後から 追いかける ときは、先に 進んで いる 分の 差を ちぢめて いきます。\n1分間に ちぢまるのは「速さの ちがい」だけ。\n追いつく 時間 ＝ はじめの 差 ÷ 速さの差。はじめの差 ＝ 先に出た人の速さ × 先に出た時間。',
+  '追及问题：要把对方已经领先的距离一点点追回来。\n每分钟能追近的只是"速度差"。\n追及时间 = 初始差距 ÷ 速度差；初始差距 = 先出发者的速度 × 先走的时间。',
+  'When chasing, you are closing a head start.\nThe gap shrinks each minute by the difference in speeds only.\nTime to catch up = head start ÷ speed difference, where the head start is the first mover’s speed × the time they had.'),
+'平均と和差': G('平均が わかれば 合計が わかります（合計 ＝ 平均 × 人数）。\n1人を「もと」に して、ほかの人を 「もと＋◯」「もと−△」と 表すと、合計の 式が 1つの 文字だけに なります。',
+  '知道平均就知道总和（总和 = 平均 × 人数）。\n选一个人作基准，把其他人写成"基准+◯""基准−△"，总和的式子里就只剩一个未知量了。',
+  'A mean gives you the total: total = mean × count.\nTake one person as the baseline and write the others as “baseline + ◯” and “baseline − △”; the total then contains just one unknown.')
+});
+/* tag から 解説を 引く。「応用・◯◯」は ◯◯ として 扱い、似た題型は まとめる */
+const LESSON_ALIAS = {'小数の計算':'小数','円と面積':'円の面積','旅人算と比':'旅人算'};
+function lessonFor(tag){
+  let k = (tag && tag.ja || '').replace(/^応用・/, '');
+  if(LESSON_ALIAS[k]) k = LESSON_ALIAS[k];
+  return LESSON[k] || null;
+}
 
 const BANK = {1:[],2:[],3:[],4:[],5:[],6:[]};
 /* 応用問題（複数の考え方を組み合わせる多段の問題）。各回の後半に 3〜5問 まざる */
@@ -1828,13 +2057,19 @@ function paintResult(){
       + (q.hard?'<span class="tag hard rvtag"></span>':'')
       + '<div class="q"></div>'+(q.fig?'<pre class="fig rvfig"></pre>':'')
       + '<div class="ans"><span>'+L(UI.your)+'：<b class="m"></b></span>'
-      + (ok[i]?'':'<span>'+L(UI.correct)+'：<b class="r"></b></span>')+'</div>'
-      + '<div class="exp"></div></div>';
+      + (ok[i]?'':'<span>'+L(UI.correct)+'：<b class="r"></b></span>')
+      + (ok[i]?'':'<button type="button" class="why"><span class="arw">→</span><span class="wt"></span></button>')
+      + '</div><div class="exp"></div></div>';
     if(q.hard) d.querySelector('.rvtag').textContent = L(q.tag);
     d.querySelector('.q').textContent = (i+1)+'. '+L(q.q).replace(/\[\[|\]\]/g,'');
     if(q.fig) d.querySelector('.rvfig').textContent = L(q.fig);
     d.querySelector('.m').textContent = mine;
-    if(!ok[i]) d.querySelector('.r').textContent = right;
+    if(!ok[i]){
+      d.querySelector('.r').textContent = right;
+      const wb = d.querySelector('.why');
+      wb.querySelector('.wt').textContent = L(UI.why);
+      wb.onclick = () => openWhy(i);
+    }
     d.querySelector('.exp').textContent = L(q.exp);
     rv.appendChild(d);
   });
@@ -2331,9 +2566,37 @@ $('celeBtn').onclick = () => {
   if(state && state.rankEarned) showAchievement(state.rankEarned);
 };
 
+/* ---------- 考え方ページ ---------- */
+let whyFrom = null;
+function openWhy(i){
+  const q = state.qs[i], lesson = lessonFor(q.tag);
+  whyFrom = i;
+  $('whyKicker').textContent = L(q.tag).replace(/^応用・|^综合 · |^Applied · /, '');
+  $('whyTitle').textContent = L(UI.whyTitle);
+  $('whyPrinH').textContent = L(UI.whyPrin);
+  $('whyPrin').textContent = lesson ? L(lesson) : L(q.exp);
+  $('whyCaseH').textContent = L(UI.whyCase);
+  $('whyQ').textContent = L(q.q).replace(/\[\[|\]\]/g,'');
+  $('whyFig').innerHTML = q.fig ? '<pre class="fig">'+L(q.fig)+'</pre>' : '';
+  $('whyAns').textContent = L(UI.whyAns) + (LANG==='en' ? ': ' : '：')
+    + (q.kind==='choice' ? L(q.opts[q.ci]) : q.disp);
+  $('whySteps').textContent = L(q.exp);
+  $('whyBack').textContent = L(UI.whyBack);
+  $('whyBack2').textContent = L(UI.whyBack);
+  show('scWhy');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function closeWhy(){
+  show('scResult');
+  const card = document.querySelectorAll('#review .rv')[whyFrom];
+  if(card) card.scrollIntoView({block:'center'});
+}
+$('whyBack').onclick = closeWhy;
+$('whyBack2').onclick = closeWhy;
+
 /* ---------- screens ---------- */
 function show(id){
-  ['scStart','scQuiz','scResult'].forEach(s=>$(s).classList.toggle('hidden', s!==id));
+  ['scStart','scQuiz','scResult','scWhy'].forEach(s=>$(s).classList.toggle('hidden', s!==id));
 }
 let picked = null;
 function drawStart(){
@@ -2393,6 +2656,7 @@ function setLang(code){
   drawStart();
   if(state && !$('scQuiz').classList.contains('hidden')) renderQ();
   if(state && state.res && !$('scResult').classList.contains('hidden')) paintResult();
+  if(state && whyFrom !== null && !$('scWhy').classList.contains('hidden')) openWhy(whyFrom);
   if(state && state.res && !$('cele').classList.contains('hidden')) celebrate();
   if(state && state.rankEarned && !$('ach').classList.contains('hidden')) showAchievement(state.rankEarned);
   drawGate();
